@@ -2,12 +2,14 @@ import React from 'react'
 import './EtatCard.css';
 import Rapportimg from '../Assets/images/Etats/Rapport.png'
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 const EtatCard = ({etat, key}) => {
   const dispatch = useDispatch();
   const handleShowModal = (object) => {
     dispatch({type: 'MODAL_SHOW', payload: {show: object.value}});
     dispatch({type: 'CURRENT_ETAT', payload: {current_etat: object.etat}});
   }
+  
   return (
     <div className="box" key={key}>
     <img src={Rapportimg} alt="rapport" className='rapport-image'/>

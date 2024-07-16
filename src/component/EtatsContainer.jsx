@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import EtatCard from './EtatCard';
 import './EtatCard.css';
 import './EtatsContainer.css';
@@ -16,7 +16,7 @@ import gestionimprevusimg from "../Assets/images/Modules/gestionImprevue.png";
 import postimg from "../Assets/images/Modules/postconcretisation.png";
 
 
-const EtatsContainer = ({ filtredEtats, isShow, setIsShow, handleShow }) => {
+const EtatsContainer = ({ filtredEtats, getReservations, getEncaissements }) => {
   const renderimages = (module) => {
     switch (module) {
       case 'Pilotage':
@@ -47,6 +47,19 @@ const EtatsContainer = ({ filtredEtats, isShow, setIsShow, handleShow }) => {
         return null;
     }
   };
+  const determineAction = (etat) => {
+    switch (etat.Nom_Etat) {
+        case 'Etat des réservations':
+            return getReservations;
+        case 'Etat des encaissements':
+            return getEncaissements;
+        default:
+            return null;
+    }
+};
+useEffect(()=> {
+  console.log('Filtered Etats: ', filtredEtats);
+}, [filtredEtats]);
   return (
     <div>
       {Object.keys(filtredEtats).map((Module) => {
@@ -62,7 +75,7 @@ const EtatsContainer = ({ filtredEtats, isShow, setIsShow, handleShow }) => {
 
             <div className="box-container">
               {etatsArray.map((etat) => (
-                <EtatCard key={etat.id} etat={etat} isShow={isShow} setIsShow={setIsShow} handleShow={handleShow} />
+                <EtatCard key={etat.id} etat={etat} />
               ))}
             </div>
           </div>

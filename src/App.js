@@ -15,6 +15,8 @@ function App() {
   const [etats, setEtats] = useState([]);
   const [groupedEtats, setGroupedEtats] = useState([]);
   const [filtredEtats,setFiltredEtats] = useState([]);
+  const [reservations,setReservations] = useState([]);
+  const [encaissements,setEncaissements] = useState([]);
 
   const getEtats = async () => {
     try {
@@ -28,16 +30,26 @@ function App() {
     }
   }
 
-//   const groupBy = (array, key) => {
-//     return array.reduce((result, currentValue) => {
-//         const groupKey = currentValue[key];
-//         if (!result[groupKey]) {
-//             result[groupKey] = [];
-//         }
-//         result[groupKey].push(currentValue);
-//         return result;
-//     }, {});
-// };
+  const getReservations = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations');
+      setReservations(response.data);
+
+    } catch (error) {
+      console.error("There was an error fetching the data!", error);
+    }
+  }
+
+  const getEncaissements = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/etats/encaissements');
+      setEncaissements(response.data);
+
+    } catch (error) {
+      console.error("There was an error fetching the data!", error);
+    }
+  }
+
 const groupBy = (array, key) => {
   return array.reduce((result, currentValue) => {
      
@@ -86,7 +98,7 @@ const groupBy = (array, key) => {
       <Routes>
         <Route
           path="/"
-          element={<EtatsContainer filtredEtats={filtredEtats}/>
+          element={<EtatsContainer filtredEtats={filtredEtats} getEncaissements={getEncaissements} getReservations={getReservations} />
           }
         />
       </Routes>
