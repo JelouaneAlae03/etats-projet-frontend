@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import './App.css';
 import axios from 'axios';
@@ -5,7 +6,8 @@ import { useEffect, useState } from 'react';
 import EtatsContainer from './component/EtatsContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './component/NavBar';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import MainModal from './component/modal/MainModal';
 
 
 
@@ -13,12 +15,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 function App() {
   const [etats, setEtats] = useState([]);
   const [groupedEtats, setGroupedEtats] = useState([]);
-  const [isShow, setIsShow] = useState(false)
   const [filtredEtats,setFiltredEtats] = useState([]);
-
-  const handleShow = (show) => {
-      setIsShow(show);
-  }
 
   const getEtats = async () => {
     try {
@@ -80,20 +77,23 @@ const groupBy = (array, key) => {
   useEffect(() => {
     getEtats();
   }, []);
+
   useEffect(() => {
     setGroupedEtats(groupBy(etats, 'Module'));
     setFiltredEtats(groupedEtats);
-  }, [etats]);
+  }, []);
 
 
   return (
     <Router>
       <NavBar handleSearch={handleSearch}/>
+      <MainModal />
 
       <Routes>
         <Route
           path="/"
-          element={<EtatsContainer filtredEtats={filtredEtats} isShow={isShow} setIsShow={setIsShow} handleShow={handleShow}/>}
+          element={<EtatsContainer filtredEtats={filtredEtats}/>
+          }
         />
         
       </Routes>
