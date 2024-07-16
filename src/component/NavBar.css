@@ -1,0 +1,82 @@
+.GC-logo{
+    padding: 0.5rem;
+    width: 9.5rem;
+    height: 4rem;
+    margin-left: 1rem;
+}
+.nv-bar{
+    background-color: #001D3D;
+}
+.h1-Etats{
+    color: white;
+    
+  }
+.user-btn{
+    background-color:   transparent;
+}
+.user-logo{
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+/* drop down menu  */
+
+.custom-btn-group {
+    position: relative;
+    display: inline-block;
+    
+  }
+  
+  .custom-dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .custom-dropdown-image {
+    width: 30px; 
+    height: 30px; 
+    object-fit: cover; 
+  }
+  
+
+  .custom-dropdown-menu {
+    display: block;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    z-index: 1;
+    top: 110%; 
+    right: 30%; 
+    border: solid 1px #e5e5e5;
+  }
+  
+  .custom-dropdown-item {
+    color: #6c757d;
+    padding: 5px 16px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+    
+  }
+  
+  .custom-dropdown-item:hover {
+    background-color: #ddd;
+  }
+  
+  .custom-dropdown-divider {
+    height: 1px;
+    background-color: #e5e5e5;
+    margin: 8px 0;
+  }
+  
+
+  
+  
+ 

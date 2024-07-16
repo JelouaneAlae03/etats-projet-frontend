@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'Nunito';
+    src: url('../../Assets/fonts/Nunito-VariableFont_wght.ttf');
+}
+
+.custom-modal-dialog .modal-content{
+    border-radius: 18px !important;
+    border: 0px;
+}
+.custom-backdrop{
+    background-color: rgba(0, 0, 0, 1) !important;
+}
+.body{
+    display: flex;
+    min-height: 100px;
+    padding: 10px;
+    background-color: #d4d4d409;
+    border-radius: 18px !important;
+}
+
+.header{
+    border-color: transparent;
+    background-color: transparent;
+    /*height: 150px;*/
+}
+.main-header-title{
+    margin-left: 10px;
+    color: var(--body_color);
+    font-family: 'Nunito';
+    font-size: 22px;
+}
+.header-right-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.button-div{
+    margin-left: auto;
+    margin-right: 5px;
+}
+.button-close{
+    font-size: 20px;
+    color: black;
+}
+.custom-modal-content {
+    max-width: 100% !important; /* Ensure the content does not exceed the modal width */
+ /* Prevent horizontal overflow */
+}
+.modal-body-content{
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+}
