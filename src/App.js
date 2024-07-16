@@ -11,7 +11,6 @@ import MainModal from './component/modal/MainModal';
 
 
 
-
 function App() {
   const [etats, setEtats] = useState([]);
   const [groupedEtats, setGroupedEtats] = useState([]);
@@ -21,7 +20,9 @@ function App() {
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/etats');
       setEtats(response.data);
-
+      const data = groupBy(response.data, 'Module');
+      setGroupedEtats(data);
+      setFiltredEtats(data);
     } catch (error) {
       console.error("There was an error fetching the data!", error);
     }
@@ -78,25 +79,18 @@ const groupBy = (array, key) => {
     getEtats();
   }, []);
 
-  useEffect(() => {
-    setGroupedEtats(groupBy(etats, 'Module'));
-    setFiltredEtats(groupedEtats);
-  }, []);
-
-
   return (
     <Router>
       <NavBar handleSearch={handleSearch}/>
       <MainModal />
-
       <Routes>
         <Route
           path="/"
           element={<EtatsContainer filtredEtats={filtredEtats}/>
           }
         />
-        
       </Routes>
+
     </Router>
 
   );

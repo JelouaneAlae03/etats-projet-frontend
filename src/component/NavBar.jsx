@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React ,{useState}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GCLogo from '../Assets/images/GC-full-logo.png';
@@ -36,10 +37,7 @@ const NavBar = ({handleSearch}) => {
         </div>
       )}
     </div>
-      
     </div>
-
-
   </nav>
     
   )

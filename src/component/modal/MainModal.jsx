@@ -28,14 +28,14 @@ export default function MainModal(){
                     <Modal.Body className='body'>
                         <div className='modal-body-content'>
                             {data.map((d) => (
-                                <>
+                                <div key={d.id}>
                                 <label htmlFor={`x-${d.name}`}>{d.name}</label>
                                 <select id={`x-${d.name}`} className='form-select filtrage-select'>
                                     {d.options.map((dt)=>(
-                                        <option value={dt.id}>{dt.name}</option>
+                                        <option key={dt.id} value={dt.id}>{dt.name}</option>
                                     ))}
                                 </select>
-                            </>
+                            </div>
                             ))}
                             <div className='btn-parent'>
                                 <button className='modal-submit-btn'>Aperçu</button>
