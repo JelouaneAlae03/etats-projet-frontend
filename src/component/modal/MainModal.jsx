@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Loading from '../Loading';
 
 export default function MainModal(){
     const dispatch = useDispatch();
@@ -16,12 +17,27 @@ export default function MainModal(){
     const [distinctValues,setDistinctValues] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState({});
     const [finalData,setFinalData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    
     const handleCloseModal = (value) => {
         dispatch({type: 'MODAL_SHOW', payload: {value: value}});
     }
     const getReservations = async () => {
         try {
+            setIsLoading(true);
           const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations');
+          dispatch({type: 'ADD_DATA', payload: {data: response.data}});
+           setIsLoading(false);
+    
+        } catch (error) {
+          console.error("There was an error fetching the data!", error);
+        }
+      }
+      const PostReservations = async (conditions) => {
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/api/etats/getreservationsdata', {conditions});
+          setFinalData(response.data);
           dispatch({type: 'ADD_DATA', payload: {data: response.data}});
           console.log(response.data);
     
@@ -46,28 +62,6 @@ export default function MainModal(){
         return distinctValues;
       };
 
-      function convertConditions(condition) {
-        return Object.keys(condition).map(key => {
-            return { key, value: condition[key] };
-        });
-    }
-    
-    function filterData(jsonData, condition) {
-        if (!jsonData || !condition || typeof condition !== 'object' || Array.isArray(condition)) {
-            return [];
-        }
-    
-        const convertedConditions = convertConditions(condition);
-        
-    
-        return jsonData.filter(item => {
-            return convertedConditions.every(cond => {
-                const { key, value } = cond;
-                return item.hasOwnProperty(key) && item[key] === value;
-            });
-        });
-    }
-    
     
       const handleSelectChange = (event, selectName) => {
         const value = event.target.value;
@@ -76,12 +70,10 @@ export default function MainModal(){
           [selectName]: value
         }));
       };
-      const handleApercu = (array,choices) =>{
-
-        const filteredData = filterData(array, choices);
+      const handleApercu = () =>{
+        PostReservations(selectedOptions);
         dispatch({type: 'ADD_SELECTED', payload: {data: selectedOptions}});
         dispatch({type: 'MODAL_SHOW', payload: {show: false}});
-        setFinalData(filteredData);
       }
 
     
@@ -99,20 +91,17 @@ export default function MainModal(){
     },[FiltreData])
 
 
-    // useEffect(()=>{
-    //     const distinctSociete = getDistinctValues(FiltreData, 'Societe');
-    //     setSociete(distinctSociete);
-    // },[FiltreData])
 
     useEffect(()=>{
-        console.log(finalData);
-    },[finalData])
+        console.log(selectedOptions);
+    },[selectedOptions])
 
 
 
     return(
         <>
-            <Modal onHide={() => handleCloseModal(false)} dialogClassName="custom-modal-dialog" show={isShow} size='m' className='the-main-modal' animation={true} backdropClassName="custom-backdrop" centered>
+        
+            <Modal onHide={() => handleCloseModal(false)} dialogClassName="custom-modal-dialog" show={isShow} size='lg' className='the-main-modal' animation={true} backdropClassName="custom-backdrop" centered>
                 <div className='modal-content custom-modal-content'>
                     <Modal.Header className='header'>
                         <Modal.Title className='main-header-title'>{currentEtat}</Modal.Title>
@@ -120,189 +109,245 @@ export default function MainModal(){
                             <button className='header-right-button' onClick={() => handleCloseModal(false)}><i className="bi bi-x-lg button-close"></i></button>
                         </div>
                     </Modal.Header>
+                    {isLoading ? (
+        <Loading />
+      ) : (
                     <Modal.Body className='body'>
                         <div className='modal-body-content'>
-                            <label htmlFor='select-societe'>Societe</label>
-                            <select id='select-societe' className='form-select filtrage-select'             
-                                onChange={event => handleSelectChange(event, "Societe")}
-                                
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
+                            <div className='select-container'>
+                                <label htmlFor='select-societe'>Societe</label>
+                                <select id='select-societe' className='form-select filtrage-select'             
+                                    onChange={event => handleSelectChange(event, "Societe")}
+                                    
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                        {distinctValues.Societe && distinctValues.Societe.length > 0 ? (
+                                            distinctValues.Societe.map((data, index) => (
+                                            <option key={index} value={data.Societe}>{data.Societe}</option>
+                                            ))
+                                        ) : (
+                                            <option>Aucune donnée disponible</option>
+                                        )}
+                                </select>
+                            </div>
 
-                                    {distinctValues.Societe && distinctValues.Societe.length > 0 ? (
-                                        distinctValues.Societe.map((data, index) => (
-                                        <option key={index} value={data.Societe}>{data.Societe}</option>
+                            <div className='select-container'>
+                                <label htmlFor='select-programme'>Programme</label>
+                                <select id='select-programme' className='form-select filtrage-select'
+                                    onChange={event => handleSelectChange(event, "Projet")}
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                {distinctValues.Projet && distinctValues.Projet.length > 0 ? (
+                                    distinctValues.Projet.map((data, index) => (
+                                    <option key={index} value={data.Projet}>{data.Projet}</option>
+                                    ))
+                                ) : (
+                                    <option>Aucune donnée disponible</option>
+                                )}
+                                </select>
+                            </div>
+                            <div className='select-container'>
+                                <label htmlFor='select-tranche'>Tranche</label>
+                                    <select id='select-tranche' className='form-select filtrage-select'
+                                        onChange={event => handleSelectChange(event, "Tranche")}
+
+                                    >
+                                        <option value=""  hidden>
+                                            choisir une option
+                                        </option>
+                                        <option value=""  >
+                                            
+                                        </option>
+                                    {distinctValues.Tranche && distinctValues.Tranche.length > 0 ? (
+                                        distinctValues.Tranche.map((data, index) => (
+                                        <option key={index} value={data.Tranche}>{data.Tranche}</option>
                                         ))
                                     ) : (
                                         <option>Aucune donnée disponible</option>
                                     )}
-                            </select>
+                                    </select>
+                            </div>
+                                                        
+                            <div className='select-container'>
 
-                            <label htmlFor='select-programme'>Programme</label>
-                            <select id='select-programme' className='form-select filtrage-select'
-                                onChange={event => handleSelectChange(event, "Projet")}
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                            {distinctValues.Projet && distinctValues.Projet.length > 0 ? (
-                                distinctValues.Projet.map((data, index) => (
-                                <option key={index} value={data.Projet}>{data.Projet}</option>
-                                ))
-                            ) : (
-                                <option>Aucune donnée disponible</option>
-                            )}
-                            </select>
+        
+                                <label htmlFor='select-groupement'>Groupement</label>
+                                <select id='select-groupement' className='form-select filtrage-select'
+                                    onChange={event => handleSelectChange(event, "GH")}
 
-                            <label htmlFor='select-tranche'>Tranche</label>
-                            <select id='select-tranche' className='form-select filtrage-select'
-                                 onChange={event => handleSelectChange(event, "Tranche")}
-
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                            {distinctValues.Tranche && distinctValues.Tranche.length > 0 ? (
-                                distinctValues.Tranche.map((data, index) => (
-                                <option key={index} value={data.Tranche}>{data.Tranche}</option>
-                                ))
-                            ) : (
-                                <option>Aucune donnée disponible</option>
-                            )}
-                            </select>
-
-                            <label htmlFor='select-groupement'>Groupement</label>
-                            <select id='select-groupement' className='form-select filtrage-select'
-                                 onChange={event => handleSelectChange(event, "GH")}
-
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                            {distinctValues.GH && distinctValues.GH.length > 0 ? (
-                                distinctValues.GH.map((data, index) => (
-                                <option key={index} value={data.GH}>{data.GH}</option>
-                                ))
-                            ) : (
-                                <option>Aucune donnée disponible</option>
-                            )}
-                            </select>
-
-                            <label htmlFor='select-immeuble'>Immeuble</label>
-                            <select id='select-immeuble' className='form-select filtrage-select'
-                                onChange={event => handleSelectChange(event, "Immeuble")}
-
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                                {distinctValues.Immeuble && distinctValues.Immeuble.length > 0 ? (
-                                    distinctValues.Immeuble.map((data, index) => (
-                                    <option key={index} value={data.Immeuble}>{data.Immeuble}</option>
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                {distinctValues.GH && distinctValues.GH.length > 0 ? (
+                                    distinctValues.GH.map((data, index) => (
+                                    <option key={index} value={data.GH}>{data.GH}</option>
                                     ))
                                 ) : (
                                     <option>Aucune donnée disponible</option>
                                 )}
-                            </select>
+                                </select>
 
-                            <label htmlFor='select-etage'>Etage</label>
-                            <select id='select-etage' className='form-select filtrage-select'
-                                onChange={event => handleSelectChange(event, "Etage")}
+                            </div>
+                            <div className='select-container'>
+                                <label htmlFor='select-immeuble'>Immeuble</label>
+                                <select id='select-immeuble' className='form-select filtrage-select'
+                                    onChange={event => handleSelectChange(event, "Immeuble")}
 
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                                {distinctValues.Etage && distinctValues.Etage.length > 0 ? (
-                                    distinctValues.Etage.map((data, index) => (
-                                    <option key={index} value={data.Etage}>{data.Etage}</option>
-                                    ))
-                                ) : (
-                                    <option>Aucune donnée disponible</option>
-                                )}
-                            </select>
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                    {distinctValues.Immeuble && distinctValues.Immeuble.length > 0 ? (
+                                        distinctValues.Immeuble.map((data, index) => (
+                                        <option key={index} value={data.Immeuble}>{data.Immeuble}</option>
+                                        ))
+                                    ) : (
+                                        <option>Aucune donnée disponible</option>
+                                    )}
+                                </select>
+                            </div>
+                            
+                            <div className='select-container'>
+                                <label htmlFor='select-etage'>Etage</label>
+                                <select id='select-etage' className='form-select filtrage-select'
+                                    onChange={event => handleSelectChange(event, "Etage")}
 
-                            <label htmlFor='select-nature'>Nature de Bien</label>
-                            <select id='select-nature' className='form-select filtrage-select'
-                                onChange={event => handleSelectChange(event, "Nature")}
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                    {distinctValues.Etage && distinctValues.Etage.length > 0 ? (
+                                        distinctValues.Etage.map((data, index) => (
+                                        <option key={index} value={data.Etage}>{data.Etage}</option>
+                                        ))
+                                    ) : (
+                                        <option>Aucune donnée disponible</option>
+                                    )}
+                                </select>
 
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                                {distinctValues.Nature && distinctValues.Nature.length > 0 ? (
-                                    distinctValues.Nature.map((data, index) => (
-                                    <option key={index} value={data.Nature}>{data.Nature}</option>
-                                    ))
-                                ) : (
-                                    <option>Aucune donnée disponible</option>
-                                )}
-                            </select>
+                            </div>
+                            <div className='select-container'>
+                                <label htmlFor='select-nature'>Nature de Bien</label>
+                                <select id='select-nature' className='form-select filtrage-select'
+                                    onChange={event => handleSelectChange(event, "Nature")}
 
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                    {distinctValues.Nature && distinctValues.Nature.length > 0 ? (
+                                        distinctValues.Nature.map((data, index) => (
+                                        <option key={index} value={data.Nature}>{data.Nature}</option>
+                                        ))
+                                    ) : (
+                                        <option>Aucune donnée disponible</option>
+                                    )}
+                                </select>
+
+                            </div>
+                           <div className='select-container'>
                             <label htmlFor='select-standing'>Standing</label>
-                            <select id='select-standing' className='form-select filtrage-select'
-                                onChange={event => handleSelectChange(event, "Standing")}
+                                <select id='select-standing' className='form-select filtrage-select'
+                                    onChange={event => handleSelectChange(event, "Standing")}
 
-                            >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                                {distinctValues.Standing && distinctValues.Standing.length > 0 ? (
-                                    distinctValues.Standing.map((data, index) => (
-                                    <option key={index} value={data.Standing}>{data.Standing}</option>
-                                    ))
-                                ) : (
-                                    <option>Aucune donnée disponible</option>
-                                )}
-                            </select>
+                                >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                    {distinctValues.Standing && distinctValues.Standing.length > 0 ? (
+                                        distinctValues.Standing.map((data, index) => (
+                                        <option key={index} value={data.Standing}>{data.Standing}</option>
+                                        ))
+                                    ) : (
+                                        <option>Aucune donnée disponible</option>
+                                    )}
+                                </select>
+
+                           </div>
+                            
 
                             {currentEtat === 'Etat des réservations' 
                             ?
                                 <>
-                                <label htmlFor='select-commercial'>Commercial</label>
-                                <select id='select-commercial' className='form-select filtrage-select'
-                                    onChange={event => handleSelectChange(event, "Commercial")}
+                                <div className='select-container'>
+                                    <label htmlFor='select-commercial'>Commercial</label>
+                                    <select id='select-commercial' className='form-select filtrage-select'
+                                        onChange={event => handleSelectChange(event, "Commercial")}
 
-                                >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                                {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
-                                    distinctValues.Commercial.map((data, index) => (
-                                    <option key={index} value={data.Commercial}>{data.Commercial}</option>
-                                    ))
-                                ) : (
-                                    <option>Aucune donnée disponible</option>
-                                )}
-                                </select>
-
-                                <label htmlFor='select-ville'>Ville</label>
-                                <select id='select-ville' className='form-select filtrage-select'
-                                    onChange={event => handleSelectChange(event, "Ville_Adresse")}
-
-                                >
-                                <option value=""  hidden>
-                                    choisir une option
-                                </option>
-                                    {distinctValues.Ville_Adresse && distinctValues.Ville_Adresse.length > 0 ? (
-                                        distinctValues.Ville_Adresse.map((data, index) => (
-                                        <option key={index} value={data.Ville_Adresse}>{data.Ville_Adresse}</option>
+                                    >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                    {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
+                                        distinctValues.Commercial.map((data, index) => (
+                                        <option key={index} value={data.Commercial}>{data.Commercial}</option>
                                         ))
                                     ) : (
                                         <option>Aucune donnée disponible</option>
                                     )}
-                                </select>
+                                    </select>
+                                </div>
+                               
+                                <div className='select-container'>
+                                    <label htmlFor='select-ville'>Ville</label>
+                                    <select id='select-ville' className='form-select filtrage-select'
+                                        onChange={event => handleSelectChange(event, "Ville_Adresse")}
+
+                                    >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                        {distinctValues.Ville_Adresse && distinctValues.Ville_Adresse.length > 0 ? (
+                                            distinctValues.Ville_Adresse.map((data, index) => (
+                                            <option key={index} value={data.Ville_Adresse}>{data.Ville_Adresse}</option>
+                                            ))
+                                        ) : (
+                                            <option>Aucune donnée disponible</option>
+                                        )}
+                                    </select>
+                                </div>
+                               
                                 </>
                             :
                             null
                             }
                             <div className='btn-parent'>
-                                <Link to="/datatable" className='modal-submit-btn'onClick={()=>{handleApercu(FiltreData,selectedOptions)}}>Aperçu</Link>
+                                <Link to="/datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
                             </div>
                         </div>
-                    </Modal.Body>
+                    </Modal.Body>)}
                 </div>
             </Modal>
         </>

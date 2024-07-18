@@ -3,75 +3,81 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import './Datatable.css';
+
 
 export default function Datatable() {
-    const [dataFiltred, setDataFiltred] = useState([]);
-    const [selected, setSelected] = useState({});
-    const s = useSelector((state) => state.selected);
-    const d = useSelector((state) => state.dataFiltre)
+    const dataFiltred = useSelector((state) => state.dataFiltre)
+    const selected = useSelector((state) => state.selected);
     const [showData, setShowData] = useState(false);
+    const [headers,setHeaders] = useState([]);
+    
 
-    useEffect(() => {
-        setDataFiltred(d);
-        setSelected(s);
-        console.log(dataFiltred);
-        console.log(selected);
-      }, [s, d]);
+      
+
+      
+
+
+
       
       useEffect(()=> {
-        setShowData(true);
-        console.log('true');
-        console.log(dataFiltred);
-        console.log(selected);
-      }, [selected, dataFiltred]);
+        setHeaders([
+            "Bien",
+            "Nature",
+            "Etage",
+            "Standing",
+            "client",
+            "num_dossier",
+            "Prix_Vente",
+            "Reliquat",
+            "Commercial"])
+      }, [selected]);
     return(
-        <table>
-            <thead>
-                <th>Societe</th>
-                <th>Projet</th>
-                <th>Tranche</th>
-                <th>Groupement</th>
-                <th>Immeuble</th>
-                <th>Etage</th>
-                <th>Nature de Bien</th>
-                <th>Standing</th>
-                <th>Commercial</th>
-                <th>Ville</th>
-            </thead>
-            <tbody>
-                {dataFiltred && selected ? dataFiltred.map((data, index) => {
-                    if((!selected.Societe === true || data.Societe === selected.Societe) &&
-                    (!selected.Projet === true || data.Projet === selected.Projet) &&
-                    (!selected.GH === true || data.GH === selected.GH) &&
-                    (!selected.Immeuble === true || data.Immeuble === selected.Immeuble) &&
-                    (!selected.Etage === true || data.Etage === selected.Etage) &&
-                    (!selected.Nature === true || data.Nature === selected.Nature) &&
-                    (!selected.Standing === true || data.Standing === selected.Standing) &&
-                    (!selected.Commercial === true || data.Commercial === selected.Commercial) &&
-                    (!selected.Ville_Adresse === true || data.Ville_Adresse === selected.Ville_Adresse) &&
-                    (!selected.Tranche === true || data.Tranche === selected.Tranche)){
-                        return(
-                            <tr key={index}>
-                                <td>{data.Societe}</td>
-                                <td>{data.Projet}</td>
-                                <td>{data.GH}</td>
-                                <td>{data.Immeuble}</td>
-                                <td>{data.Etage}</td>
-                                <td>{data.Nature}</td>
-                                <td>{data.Standing}</td>
-                                <td>{data.Commercial}</td>
-                                <td>{data.Ville_Adresse}</td>
-                                <td>{data.Tranche}</td>
-                            </tr>
-                        )
-                    }
-                    return null
-                }
-                )
-                :
-                null
-                }
-            </tbody>
-        </table>
+        <div>
+            <div>
+
+            </div>
+            <div className='datatable'>
+                <table>
+                    <thead>
+                        <th>Bien</th>
+                        <th>Nature</th>
+                        <th>Etage</th>
+                        <th>Standing</th>
+                        <th>client</th>
+                        <th>Dossier</th>
+                        <th>Dt.Résa</th>
+                        <th>Dt.Conc</th>
+                        <th>Vente</th>
+                        <th>Prix de vente</th>
+                        <th>Encaiss</th>
+                        <th>Reliquat</th>
+                        <th>Commercial</th>
+                    </thead>
+                    <tbody>
+                        {dataFiltred.map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{data.Bien}</td>
+                                        <td>{data.Nature}</td>
+                                        <td>{data.Etage}</td>
+                                        <td>{data.Standing}</td>
+                                        <td>{data.client}</td>
+                                        <td>{data.num_dossier}</td>
+                                        <td>{data.date_reservation}</td>
+                                        <td>{data.Date_concretisation}</td>
+                                        <td>{data.Date_Validation}</td>
+                                        <td>{data.Prix_Vente}</td>
+                                        <td>{data.total}</td>
+                                        <td>{data.Reliquat}</td>
+                                        <td>{data.Commercial}</td>
+                                    </tr>
+                                    )
+                                )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+       
     )
 }

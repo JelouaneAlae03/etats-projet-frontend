@@ -60,11 +60,33 @@
 .custom-modal-content {
     max-width: 100% !important; /* Ensure the content does not exceed the modal width */
  /* Prevent horizontal overflow */
+
 }
+.select-container{
+    width: 45%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.select-container>label{
+    width: 100%;
+    margin: 5px;
+    padding-left: 15%;
+
+    align-self: flex-start;
+    
+}
+
 .modal-body-content{
     width: 100%;
     word-wrap: break-word !important;
     word-break: break-all !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
 }
 .select-parent{
     margin-bottom: 10px;
