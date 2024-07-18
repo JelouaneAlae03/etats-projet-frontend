@@ -1,7 +1,8 @@
 const INITIAL_STATE = {
     isShow: false,
     currentEtat: null,
-    dataFiltre: []
+    dataFiltre: [],
+    selected: {}
 }
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -12,6 +13,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
             return{...state, currentEtat: action.payload.current_etat};
         case 'ADD_DATA':
             return{...state, dataFiltre: action.payload.data};
+        case 'ADD_SELECTED':
+            return{...state, selected: action.payload.data};
         default:
             return state;
     }

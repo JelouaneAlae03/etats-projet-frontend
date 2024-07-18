@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './component/NavBar';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MainModal from './component/modal/MainModal';
+import Datatable from './component/Datatable';
 
 
 
@@ -99,6 +100,11 @@ const groupBy = (array, key) => {
         <Route
           path="/"
           element={<EtatsContainer filtredEtats={filtredEtats} getEncaissements={getEncaissements} getReservations={getReservations} />
+          }
+        />
+        <Route
+          path="/datatable"
+          element={<Datatable />
           }
         />
       </Routes>

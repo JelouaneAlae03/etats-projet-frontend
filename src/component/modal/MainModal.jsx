@@ -6,6 +6,7 @@ import './index.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function MainModal(){
     const dispatch = useDispatch();
@@ -78,7 +79,8 @@ export default function MainModal(){
       const handleApercu = (array,choices) =>{
 
         const filteredData = filterData(array, choices);
-
+        dispatch({type: 'ADD_SELECTED', payload: {data: selectedOptions}});
+        dispatch({type: 'MODAL_SHOW', payload: {show: false}});
         setFinalData(filteredData);
       }
 
@@ -297,7 +299,7 @@ export default function MainModal(){
                             null
                             }
                             <div className='btn-parent'>
-                                <button className='modal-submit-btn'onClick={()=>{handleApercu(FiltreData,selectedOptions)}}>Aperçu</button>
+                                <Link to="/datatable" className='modal-submit-btn'onClick={()=>{handleApercu(FiltreData,selectedOptions)}}>Aperçu</Link>
                             </div>
                         </div>
                     </Modal.Body>
