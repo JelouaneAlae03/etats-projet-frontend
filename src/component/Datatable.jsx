@@ -2,36 +2,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import './Datatable.css';
 
 
 export default function Datatable() {
     const dataFiltred = useSelector((state) => state.dataFiltre)
-    const selected = useSelector((state) => state.selected);
-    const [showData, setShowData] = useState(false);
-    const [headers,setHeaders] = useState([]);
     
-
-      
-
-      
-
-
-
-      
-      useEffect(()=> {
-        setHeaders([
-            "Bien",
-            "Nature",
-            "Etage",
-            "Standing",
-            "client",
-            "num_dossier",
-            "Prix_Vente",
-            "Reliquat",
-            "Commercial"])
-      }, [selected]);
     return(
         <div>
             <div>

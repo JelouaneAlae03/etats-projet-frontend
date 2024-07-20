@@ -11,7 +11,6 @@
     background-color: rgba(0, 0, 0, 1) !important;
 }
 .body{
-    display: flex;
     min-height: 100px;
     padding-left: 26px;
     padding-right: 26px;
@@ -73,13 +72,14 @@
 .select-container>label{
     width: 100%;
     margin: 5px;
-    padding-left: 15%;
-
     align-self: flex-start;
-    
+}
+.select-container>select{
+    width: 100%;
 }
 
-.modal-body-content{
+
+.modal-body-content-flex{
     width: 100%;
     word-wrap: break-word !important;
     word-break: break-all !important;
@@ -131,4 +131,19 @@
     -webkit-transition: all 0.25s;
     box-shadow: none;
     transform: scale(1.02);
+}
+
+.modal-body-content-bottom{
+    display: flex;
+}
+.div-select-entre{
+    width: 33%;
+    margin: 10px;
+}
+.div-select-entre>select{
+    height: 100%;
+}
+.form-floating{
+    width: 33%;
+    margin: 10px;
 }
