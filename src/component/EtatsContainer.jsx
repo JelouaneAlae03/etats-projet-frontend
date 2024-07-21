@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import EtatCard from './EtatCard';
 import './EtatCard.css';
 import './EtatsContainer.css';
@@ -16,7 +16,7 @@ import gestionimprevusimg from "../Assets/images/Modules/gestionImprevue.png";
 import postimg from "../Assets/images/Modules/postconcretisation.png";
 
 
-const EtatsContainer = ({ filtredEtats, getReservations, getEncaissements }) => {
+const EtatsContainer = ({ filtredEtats }) => {
   const renderimages = (module) => {
     switch (module) {
       case 'Pilotage':
@@ -47,19 +47,7 @@ const EtatsContainer = ({ filtredEtats, getReservations, getEncaissements }) => 
         return null;
     }
   };
-  const determineAction = (etat) => {
-    switch (etat.Nom_Etat) {
-        case 'Etat des réservations':
-            return getReservations;
-        case 'Etat des encaissements':
-            return getEncaissements;
-        default:
-            return null;
-    }
-};
-useEffect(()=> {
-  console.log('Filtered Etats: ', filtredEtats);
-}, [filtredEtats]);
+
   return (
     <div>
       {Object.keys(filtredEtats).map((Module) => {

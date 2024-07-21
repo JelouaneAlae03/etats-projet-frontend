@@ -8,44 +8,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './component/NavBar';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MainModal from './component/modal/MainModal';
-import Datatable from './component/Datatable';
+import RESERVATION_DATATABLE from './component/Datatable/Reserv-Datatable/reservationDatatable.jsx';
+import ENCAISSEMENT_DATATABLE from './component/Datatable/Encaiss-Datatable/encaissemenetDatatable.jsx';
 
 
 
 function App() {
-  const [etats, setEtats] = useState([]);
   const [groupedEtats, setGroupedEtats] = useState([]);
   const [filtredEtats,setFiltredEtats] = useState([]);
-  const [reservations,setReservations] = useState([]);
-  const [encaissements,setEncaissements] = useState([]);
 
   const getEtats = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/etats');
-      setEtats(response.data);
       const data = groupBy(response.data, 'Module');
+      console.log("etats", response.data);
       setGroupedEtats(data);
       setFiltredEtats(data);
-    } catch (error) {
-      console.error("There was an error fetching the data!", error);
-    }
-  }
-
-  const getReservations = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations');
-      setReservations(response.data);
-
-    } catch (error) {
-      console.error("There was an error fetching the data!", error);
-    }
-  }
-
-  const getEncaissements = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/etats/encaissements');
-      setEncaissements(response.data);
-
     } catch (error) {
       console.error("There was an error fetching the data!", error);
     }
@@ -99,12 +77,17 @@ const groupBy = (array, key) => {
       <Routes>
         <Route
           path="/"
-          element={<EtatsContainer filtredEtats={filtredEtats} getEncaissements={getEncaissements} getReservations={getReservations} />
+          element={<EtatsContainer filtredEtats={filtredEtats} />
           }
         />
         <Route
-          path="/datatable"
-          element={<Datatable />
+          path="/reservation_datatable"
+          element={<RESERVATION_DATATABLE />
+          }
+        />
+        <Route
+          path="/encaissement_datatable"
+          element={<ENCAISSEMENT_DATATABLE />
           }
         />
       </Routes>

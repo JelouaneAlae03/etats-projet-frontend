@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,128 +9,30 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading';
+import Reservation from './Reservation/Reservation';
+import Encaissement from './Encaissement/Encaissement';
 
 export default function MainModal(){
     const dispatch = useDispatch();
     const isShow = useSelector(state=>state.isShow);
     const currentEtat = useSelector(state=>state.currentEtat);
-    const FiltreData = useSelector((state) => state.dataFiltre);
+    const data = useSelector((state) => state.data);
+    const selectedOptions = useSelector((state) => state.selectedOptions);
 
-    const [distinctValues,setDistinctValues] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const distinctValues = useSelector((state) => state.distinctValues);
+    const isLoading = useSelector((state) => state.isLoading);
 
-    
-    const getReservations = async () => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations');
-            dispatch({type: 'ADD_DATA', payload: {data: response.data}});
-            setIsLoading(false);
-    
-        } catch (error) {
-            console.error("There was an error fetching the data!", error);
-        }
-    }
-
-    const getEncaissements = async () => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get('http://127.0.0.1:8000/api/etats/encaissements');
-            dispatch({type: 'ADD_DATA', payload: {data: response.data}});
-            setIsLoading(false);
-    
-        } catch (error) {
-            console.error("There was an error fetching the data!", error);
-        }
-    }
-
-    const PostReservations = async (conditions) => {
-        try {
-            const response = await axios.post('http://127.0.0.1:8000/api/etats/getreservationsdata', {conditions});
-            dispatch({type: 'ADD_DATA', payload: {data: response.data}});
-            console.log(response.data);
-            setSelectedOptions({});
-        } catch (error) {
-            console.error("There was an error fetching the data!", error);
-        }
-    }
-
-    const getDistinctValues = (array, keys) => {
-        const distinctValues = keys.reduce((acc, key) => {
-            const seen = new Set();
-            const distinctObjects = array.filter(item => {
-            const value = item[key];
-            if (seen.has(value)) {
-                return false;
-            }
-            seen.add(value);
-            return true;
-            });
-            acc[key] = distinctObjects;
-            return acc;
-        }, {});
-        return distinctValues;
-    };
-
-    /* --------------- HANDLE FUNCTIONS ----------------------------- */
+    /* ----------------- HANDLE FUNCTIONS ----------------------------- */
 
     const handleCloseModal = (value) => {
         dispatch({type: 'MODAL_SHOW', payload: {value: value}});
-        setSelectedOptions({});
+        dispatch({type: 'EMPTY_SELECTED'});
     }
 
     const handleSelectChange = (event, selectName) => {
         const value = event.target.value;
-        setSelectedOptions(prevOptions => ({
-            ...prevOptions,
-            [selectName]: value
-        }));
+        dispatch({type: 'ADD_SELECTED', payload: {key: selectName, value: value}});
     };
-
-    const handleApercu = () =>{
-        if(currentEtat === 'Etat des réservations'){
-            PostReservations(selectedOptions);
-        }
-        dispatch({type: 'MODAL_SHOW', payload: {show: false}});
-    }
-
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
-        setSelectedOptions(prevOptions => {return {...prevOptions, [id]: value}})
-    }
-
-    const handleSEntreChange = (e) => {
-        const { id, value } = e.target;
-        setSelectedOptions(prevOptions => {return {...prevOptions, [id]: value}})
-    }
-
-    /* ---------------- Use Effects ----------------------- */
-
-    useEffect(()=>{
-        if(currentEtat === 'Etat des réservations'){
-            getReservations();
-            setSelectedOptions({fSelectEntre: "Prix_Vente"});
-        }
-        if(currentEtat === 'Etat des encaissements'){
-            getEncaissements();
-            setSelectedOptions();
-        }
-        console.log(currentEtat);
-    }, [currentEtat])
-
-    useEffect(()=>{
-        const distinctValues = getDistinctValues(FiltreData, ['Societe','Projet','Tranche','GH','Immeuble','Etage','Nature','Standing','Commercial','Ville_Adresse']);
-        setDistinctValues(distinctValues);
-    },[FiltreData])
-
-
-
-    useEffect(()=>{
-        console.log(selectedOptions);
-    },[selectedOptions]);
-
-    /* ---------------------------------------------------------- */
 
 
     return(
@@ -301,8 +204,8 @@ export default function MainModal(){
                                     </select>
 
                                 </div>
-                            <div className='select-container'>
-                                <label htmlFor='select-standing'>Standing</label>
+                                <div className='select-container'>
+                                    <label htmlFor='select-standing'>Standing</label>
                                     <select id='select-standing' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Standing")}
 
@@ -322,142 +225,44 @@ export default function MainModal(){
                                         )}
                                     </select>
 
-                            </div>
+                                </div>
                                 
-                            <div className='select-container'>
-                                        <label htmlFor='select-commercial'>Commercial</label>
-                                        <select id='select-commercial' className='form-select filtrage-select'
-                                            onChange={event => handleSelectChange(event, "Commercial")}
+                                <div className='select-container'>
+                                    <label htmlFor='select-commercial'>Commercial</label>
+                                    <select id='select-commercial' className='form-select filtrage-select'
+                                        onChange={event => handleSelectChange(event, "Commercial")}
 
-                                        >
-                                        <option value=""  hidden>
-                                            choisir une option
-                                        </option>
-                                        <option value=""  >
-                                            
-                                        </option>
-                                        {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
-                                            distinctValues.Commercial.map((data, index) => (
-                                            <option key={index} value={data.Commercial}>{data.Commercial}</option>
-                                            ))
-                                        ) : (
-                                            <option>Aucune donnée disponible</option>
-                                        )}
-                                        </select>
-                                    </div>
+                                    >
+                                    <option value=""  hidden>
+                                        choisir une option
+                                    </option>
+                                    <option value=""  >
+                                        
+                                    </option>
+                                    {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
+                                        distinctValues.Commercial.map((data, index) => (
+                                        <option key={index} value={data.Commercial}>{data.Commercial}</option>
+                                        ))
+                                    ) : (
+                                        <option>Aucune donnée disponible</option>
+                                    )}
+                                    </select>
+                                </div>
 
                                 {currentEtat === 'Etat des réservations' 
                                 ?
-                                    <>                               
-                                        <div className='select-container'>
-                                            <label htmlFor='select-ville'>Ville</label>
-                                            <select id='select-ville' className='form-select filtrage-select'
-                                                onChange={event => handleSelectChange(event, "Ville_Adresse")}
-
-                                            >
-                                            <option value=""  hidden>
-                                                choisir une option
-                                            </option>
-                                            <option value=""  >
-                                                
-                                            </option>
-                                                {distinctValues.Ville_Adresse && distinctValues.Ville_Adresse.length > 0 ? (
-                                                    distinctValues.Ville_Adresse.map((data, index) => (
-                                                    <option key={index} value={data.Ville_Adresse}>{data.Ville_Adresse}</option>
-                                                    ))
-                                                ) : (
-                                                    <option>Aucune donnée disponible</option>
-                                                )}
-                                            </select>
-                                        </div>
-                                        <div className="modal-body-content-bottom">
-                                            <div className="div-select-entre">
-                                                <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleSEntreChange(e)} >
-                                                    <option value="Prix_Vente">Prix de vente</option>
-                                                    <option value="Reliquat">Reliquat</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
-                                                <label htmlFor="fEntre">Entre</label>
-                                            </div>
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                                                <label htmlFor="fEt">Et</label>
-                                            </div>
-                                        </div>
-                                    </>
+                                    <Reservation />
                                 :
-                                null
+                                    null
                                 }
-
-                                {currentEtat === 'Etat des encaissements'
+                                {currentEtat === "Etat des encaissements"
                                 ?
-                                    <>                               
-                                        <div className='select-container'>
-                                            <label htmlFor='select-ville'>Ville</label>
-                                            <select id='select-ville' className='form-select filtrage-select'
-                                                onChange={event => handleSelectChange(event, "Lieu_Encaissement")}
-
-                                            >
-                                            <option value=""  hidden>
-                                                choisir une option
-                                            </option>
-                                            <option value=""  >
-                                                
-                                            </option>
-                                                {distinctValues.Lieu_Encaissement && distinctValues.Lieu_Encaissement.length > 0 ? (
-                                                    distinctValues.Lieu_Encaissement.map((data, index) => (
-                                                    <option key={index} value={data.Lieu_Encaissement}>{data.Lieu_Encaissement}</option>
-                                                    ))
-                                                ) : (
-                                                    <option>Aucune donnée disponible</option>
-                                                )}
-                                            </select>
-                                        </div>
-
-                                        <div className="modal-body-content-bottom">
-                                            <div className="div-select-entre">
-                                                <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleSEntreChange(e)} >
-                                                    <option value="date_encaissement">Date Encaissement</option>
-                                                    <option value="Date_Sort">Date Sort</option>
-                                                    {/* <option value="">Date Création</option> */}
-                                                    <option value="Date_Prev_Enc">Date Prévu Encaissement</option>
-                                                    <option value="Date_Remise">Date Remise</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div className="form-floating">
-                                                <input type="date" className="form-control" id="DateEntre" onChange={(e) => handleInputChange(e)}/>
-                                                <label htmlFor="fEntre">Entre</label>
-                                            </div>
-                                            <div className="form-floating">
-                                                <input type="date" className="form-control" id="DateEt" onChange={(e) => handleInputChange(e)} />
-                                                <label htmlFor="fEt">Et</label>
-                                            </div>
-                                        </div>
-
-                                        <div className="modal-body-content-bottom">
-                                            <label htmlFor="">Montant</label>
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
-                                                <label htmlFor="fEntre">Entre</label>
-                                            </div>
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                                                <label htmlFor="fEt">Et</label>
-                                            </div>
-                                        </div>
-                                    </>
+                                    <Encaissement />
                                 :
-                                null
+                                    null
                                 }
                             </div>
-                            
-                            <div className='btn-parent'>
-                                <Link to="/datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
-                            </div>
+
                         </Modal.Body>
                     }
                 </div>
