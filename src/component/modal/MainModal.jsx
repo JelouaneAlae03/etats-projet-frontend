@@ -43,16 +43,13 @@ export default function MainModal(){
                     <Modal.Header className='header'>
                         <Modal.Title className='main-header-title'>{currentEtat}</Modal.Title>
                         <div className='button-div'>
-                            <button className='header-right-button' onClick={() => handleCloseModal(false)}><i className="bi bi-x-lg button-close"></i></button>
+                            <button className='header-right-button' onClick={() => handleCloseModal(false)}><i className="ph-bold ph-x-circle button-close"></i></button>
                         </div>
                     </Modal.Header>
-                    {isLoading ? 
-                        <Loading />
-                    :
                         <Modal.Body className='body'>
                             <div className='modal-body-content-flex'>
                                 <div className='select-container'>
-                                    <label htmlFor='select-societe'>Societe</label>
+                                    <label htmlFor='select-societe' className='lbl'>Societe</label>
                                     <select id='select-societe' className='form-select filtrage-select'             
                                         onChange={event => handleSelectChange(event, "Societe")}
                                         
@@ -74,7 +71,7 @@ export default function MainModal(){
                                 </div>
 
                                 <div className='select-container'>
-                                    <label htmlFor='select-programme'>Programme</label>
+                                    <label htmlFor='select-programme' className='lbl'>Programme</label>
                                     <select id='select-programme' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Projet")}
                                     >
@@ -94,7 +91,7 @@ export default function MainModal(){
                                     </select>
                                 </div>
                                 <div className='select-container'>
-                                    <label htmlFor='select-tranche'>Tranche</label>
+                                    <label htmlFor='select-tranche' className='lbl'>Tranche</label>
                                         <select id='select-tranche' className='form-select filtrage-select'
                                             onChange={event => handleSelectChange(event, "Tranche")}
 
@@ -118,7 +115,7 @@ export default function MainModal(){
                                 <div className='select-container'>
 
             
-                                    <label htmlFor='select-groupement'>Groupement</label>
+                                    <label htmlFor='select-groupement' className='lbl'>Groupement</label>
                                     <select id='select-groupement' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "GH")}
 
@@ -140,7 +137,7 @@ export default function MainModal(){
 
                                 </div>
                                 <div className='select-container'>
-                                    <label htmlFor='select-immeuble'>Immeuble</label>
+                                    <label htmlFor='select-immeuble' className='lbl'>Immeuble</label>
                                     <select id='select-immeuble' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Immeuble")}
 
@@ -162,7 +159,7 @@ export default function MainModal(){
                                 </div>
                                 
                                 <div className='select-container'>
-                                    <label htmlFor='select-etage'>Etage</label>
+                                    <label htmlFor='select-etage' className='lbl'>Etage</label>
                                     <select id='select-etage' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Etage")}
 
@@ -184,7 +181,7 @@ export default function MainModal(){
 
                                 </div>
                                 <div className='select-container'>
-                                    <label htmlFor='select-nature'>Nature de Bien</label>
+                                    <label htmlFor='select-nature' className='lbl'>Nature de Bien</label>
                                     <select id='select-nature' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Nature")}
 
@@ -206,7 +203,7 @@ export default function MainModal(){
 
                                 </div>
                                 <div className='select-container'>
-                                    <label htmlFor='select-standing'>Standing</label>
+                                    <label htmlFor='select-standing' className='lbl'>Standing</label>
                                     <select id='select-standing' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Standing")}
 
@@ -250,7 +247,6 @@ export default function MainModal(){
                             </div>
 
                         </Modal.Body>
-                    }
                 </div>
             </Modal>
         </>

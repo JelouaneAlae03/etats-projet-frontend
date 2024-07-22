@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -35,7 +35,7 @@ export default function Encaissement(){
                 });
                 return keys;
               }, []);
-              console.log("keys: ", keys);
+              console.log("Encaissement keys: ", keys);
     
         } catch (error) {
             console.error("There was an error fetching the data!", error);
@@ -91,23 +91,23 @@ export default function Encaissement(){
                 
                 <div className="form-floating">
                     <input type="date" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="fEntre">Entre</label>
+                    <label htmlFor="fEntre" className='lbl'>Entre</label>
                 </div>
                 <div className="form-floating">
                     <input type="date" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="fEt">Et</label>
+                    <label htmlFor="fEt" className='lbl'>Et</label>
                 </div>
             </div>
 
             <div className="modal-body-content-bottom">
-                <label htmlFor="sEntre">Montant</label>
+                <label htmlFor="sEntre" className='lbl'>Montant</label>
                 <div className="form-floating">
                     <input type="text" className="form-control" id="sEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="sEntre">Entre</label>
+                    <label htmlFor="sEntre" className='lbl'>Entre</label>
                 </div>
                 <div className="form-floating">
                     <input type="text" className="form-control" id="sEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="sEt">Et</label>
+                    <label htmlFor="sEt" className='lbl'>Et</label>
                 </div>
             </div>
 

@@ -14,7 +14,16 @@ export default function Reservation(){
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations');
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
-
+            dispatch({type: 'LOADING', payload: {value: false}});
+            const keys = response.data.reduce((keys, obj) => {
+                Object.keys(obj).forEach(key => {
+                  if (!keys.includes(key)) {
+                    keys.push(key);
+                  }
+                });
+                return keys;
+              }, []);
+              console.log("Reservation keys: ", keys);
         } catch (error) {
             console.error("There was an error fetching the data!", error);
         }
@@ -58,7 +67,7 @@ export default function Reservation(){
     return(
         <>
             <div className='select-container'>
-                <label htmlFor='select-commercial'>Commercial</label>
+                <label htmlFor='select-commercial' className='lbl'>Commercial</label>
                 <select id='select-commercial' className='form-select filtrage-select'
                     onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Commercial", value: event.target.value}})}
 
@@ -79,7 +88,7 @@ export default function Reservation(){
                 </select>
             </div>
             <div className='select-container'>
-                <label htmlFor='select-ville'>Ville</label>
+                <label htmlFor='select-ville' className='lbl'>Ville</label>
                 <select id='select-ville' className='form-select filtrage-select'
                     onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Ville_Adresse", value: event.target.value}})}
                 >
@@ -107,13 +116,20 @@ export default function Reservation(){
                     </select>
                 </div>
                 
-                <div className="form-floating">
-                    <input type="text" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="fEntre">Entre</label>
-                </div>
+                <div class="input-field">
+                                    <input
+                                        required=""
+                                        autocomplete="off"
+                                        type="date"
+                                        name="email"
+                                        id="email"
+                                    />
+                                    <label for="email">Email</label>
+                                </div>
+                
                 <div className="form-floating">
                     <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="fEt">Et</label>
+                    <label htmlFor="fEt" className='lbl'>Et</label>
                 </div>
             </div>
 
@@ -130,11 +146,11 @@ export default function Reservation(){
                 
                 <div className="form-floating">
                     <input type="date" className="form-control" id="sEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="sEntre">Entre</label>
+                    <label htmlFor="sEntre" className='lbl'>Entre</label>
                 </div>
                 <div className="form-floating">
                     <input type="date" className="form-control" id="sEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="sEt">Et</label>
+                    <label htmlFor="sEt" className='lbl'>Et</label>
                 </div>
             </div>
 

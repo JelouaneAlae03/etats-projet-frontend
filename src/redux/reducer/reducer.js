@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     data: [],
     selectedOptions: {},
     distinctValues: [],
-    isLoading: false,
+    isLoading: true,
     selectedFields: {}
 }
 

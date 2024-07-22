@@ -26,12 +26,11 @@ const OptionAffichage = () => {
     const dropdownRef = useRef(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-
     useOutsideClick(dropdownRef, () => setIsDropdownOpen(false));
 
-    const toggleAttributeVisibility = (e) => {
-        dispatch({type: 'CHANGE_SELECTED_FIELDS', payload: {key: e.target.name}});
-        console.log("target name", e.target.name);
+    const toggleAttributeVisibility = (f) => {
+        dispatch({type: 'CHANGE_SELECTED_FIELDS', payload: {key: f}});
+        console.log("target name", f);
     }
 
     const Masquertout = () => {
@@ -44,6 +43,10 @@ const OptionAffichage = () => {
     const handlePreventDefault = (e) => {
         e.preventDefault();
     };
+
+    useEffect(()=> {
+        console.log("selected Fields Affichage: ", selectedFields);
+    }, []);
 
     return (
         <div className='Option_DDM_Container' ref={dropdownRef}>
@@ -64,7 +67,7 @@ const OptionAffichage = () => {
                     <div className='main_options'>
                         {Object.keys(selectedFields).map((field) => 
                             selectedFields[field] ? (
-                                <button key={field} name={field} className='dropdown-item option_button' onClick={(e) => {toggleAttributeVisibility(e); console.log("event", e)}}>
+                                <button key={field} name={field} className='dropdown-item option_button' onClick={() => toggleAttributeVisibility(field)}>
                                     <span>{field}</span><img src={eye} alt="eye" />
                                 </button>
                             ) : null
@@ -78,7 +81,7 @@ const OptionAffichage = () => {
                     <div className='main_options'>
                         {Object.keys(selectedFields).map((field) => 
                             !selectedFields[field] ? (
-                                <button key={field} name={field} className='dropdown-item option_button' onClick={(e) => toggleAttributeVisibility(e)}>
+                                <button key={field} name={field} className='dropdown-item option_button' onClick={() => toggleAttributeVisibility(field)}>
                                     <span>{field}</span><img src={eyeslash} alt="eyeslash" />
                                 </button>
                             ) : null

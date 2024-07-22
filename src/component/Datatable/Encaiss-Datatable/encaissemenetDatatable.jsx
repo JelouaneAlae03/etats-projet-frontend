@@ -30,6 +30,7 @@ export default function EncaissementDatatable() {
             "Lib de Ville": true,
             "Date du Création": true,
         }}});
+        console.log("selected Fields: ", selectedFields);
     }, [])
 
     const handleFieldChange = (e) => {
