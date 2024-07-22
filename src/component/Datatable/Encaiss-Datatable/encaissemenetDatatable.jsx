@@ -4,15 +4,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import '../Datatable.css';
+import exportToExcel from '../../Exportation/Excel';
 
 
 export default function EncaissementDatatable() {
     const dataFiltred = useSelector((state) => state.data)
-    
+    const Headers = ["Bien","Nom & Prénom","P.Vente","Encaiss","Reliquat"];
+    const Keys = ["Bien","client","Prix_Vente","montant",];
     return(
         <div>
             <div>
-
+                <button onClick={() => exportToExcel(dataFiltred, Headers, Keys, 'Encaissement-table')}>Export to Excel</button>
             </div>
             <div className='datatable'>
                 <table>

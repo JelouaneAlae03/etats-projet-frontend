@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MainModal from './component/modal/MainModal';
 import RESERVATION_DATATABLE from './component/Datatable/Reserv-Datatable/reservationDatatable.jsx';
 import ENCAISSEMENT_DATATABLE from './component/Datatable/Encaiss-Datatable/encaissemenetDatatable.jsx';
+import StockDataTable from './component/Datatable/Stock-Datatable/StockDataTable.jsx';
 
 
 
@@ -88,6 +89,11 @@ const groupBy = (array, key) => {
         <Route
           path="/encaissement_datatable"
           element={<ENCAISSEMENT_DATATABLE />
+          }
+        />
+                <Route
+          path="/stock_datatable"
+          element={<StockDataTable />
           }
         />
       </Routes>

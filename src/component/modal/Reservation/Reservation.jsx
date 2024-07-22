@@ -58,6 +58,27 @@ export default function Reservation(){
     return(
         <>
             <div className='select-container'>
+                <label htmlFor='select-commercial'>Commercial</label>
+                <select id='select-commercial' className='form-select filtrage-select'
+                    onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Commercial", value: event.target.value}})}
+
+                >
+                <option value=""  hidden>
+                    choisir une option
+                </option>
+                <option value=""  >
+                    
+                </option>
+                {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
+                    distinctValues.Commercial.map((data, index) => (
+                    <option key={index} value={data.Commercial}>{data.Commercial}</option>
+                    ))
+                ) : (
+                    <option>Aucune donnée disponible</option>
+                )}
+                </select>
+            </div>
+            <div className='select-container'>
                 <label htmlFor='select-ville'>Ville</label>
                 <select id='select-ville' className='form-select filtrage-select'
                     onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Ville_Adresse", value: event.target.value}})}

@@ -12,11 +12,11 @@ const EtatCard = ({etat, key}) => {
   
   return (
     <div className="boxe" key={key}>
-    <img src={Rapportimg} alt="rapport" className='rapport-imagesa'/>
-    <h3>{etat.Nom_Etat}</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, commodi?</p>
-    <button onClick={()=>{handleShowModal({value: true, etat: etat.Nom_Etat})}} className="btn">Select</button>
-</div>
+      <img src={Rapportimg} alt="rapport" className='rapport-imagesa'/>
+      <h3>{etat.Nom_Etat}</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, commodi?</p>
+      <button onClick={()=>{handleShowModal({value: true, etat: etat.Nom_Etat})}} className="btn">Select</button>
+    </div>
   )
 }
 

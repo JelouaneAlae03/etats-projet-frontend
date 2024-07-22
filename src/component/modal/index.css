@@ -135,6 +135,7 @@
 
 .modal-body-content-bottom{
     display: flex;
+    width: 95%;
 }
 .div-select-entre{
     width: 33%;
@@ -145,5 +146,20 @@
 }
 .form-floating{
     width: 33%;
+    margin: 10px;
+}
+.div-label{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin: auto;
+}
+.select-container2{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.div-select-entre2{
+    width: 94%;
     margin: 10px;
 }

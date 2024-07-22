@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 import Reservation from './Reservation/Reservation';
 import Encaissement from './Encaissement/Encaissement';
+import Stock from './Stock/Stock';
 
 export default function MainModal(){
     const dispatch = useDispatch();
@@ -227,27 +228,6 @@ export default function MainModal(){
 
                                 </div>
                                 
-                                <div className='select-container'>
-                                    <label htmlFor='select-commercial'>Commercial</label>
-                                    <select id='select-commercial' className='form-select filtrage-select'
-                                        onChange={event => handleSelectChange(event, "Commercial")}
-
-                                    >
-                                    <option value=""  hidden>
-                                        choisir une option
-                                    </option>
-                                    <option value=""  >
-                                        
-                                    </option>
-                                    {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
-                                        distinctValues.Commercial.map((data, index) => (
-                                        <option key={index} value={data.Commercial}>{data.Commercial}</option>
-                                        ))
-                                    ) : (
-                                        <option>Aucune donnée disponible</option>
-                                    )}
-                                    </select>
-                                </div>
 
                                 {currentEtat === 'Etat des réservations' 
                                 ?
@@ -258,6 +238,12 @@ export default function MainModal(){
                                 {currentEtat === "Etat des encaissements"
                                 ?
                                     <Encaissement />
+                                :
+                                    null
+                                }
+                                {currentEtat === "Etat de stock"
+                                ?
+                                    <Stock />
                                 :
                                     null
                                 }
