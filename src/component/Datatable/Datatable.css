@@ -34,10 +34,12 @@
     font-weight: bold;
     color: white;
     border-bottom: 2px solid #dddddd;
+    text-align: center;
   }
   
   .datatable td {
     border-bottom: 1px solid #dddddd;
+    text-align: center;
   }
   
   .datatable tbody tr:nth-child(even) {

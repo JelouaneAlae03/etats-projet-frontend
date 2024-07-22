@@ -1,0 +1,50 @@
+.Option_DDM_Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.option_h2{
+    margin: 19px 19px 0 19px;
+    color:  var(--f_page-header_color) !important ;
+}
+.default_view{
+    margin: 10px 19px 10px 19px;
+    font-weight: 500;
+    background-color: #E4EBFA;
+    color: black;
+    border-radius: 3px;
+    padding: 4px 10px 4px 30px;
+}
+.options_header{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 19px 2px 19px;
+    
+}
+.options_header>span{
+    color: #848080;
+}
+.main_options{
+    margin: 0 19px 5px 19px;
+}
+.option_button{
+    display: flex;
+    justify-content: space-between;
+}
+.option_button>span{
+    color: var(--f_page-header_color) !important;
+    font-weight:500;
+    font-size: 12px;
+}
+.options_HL{
+    border: none;
+    width:  26rem;
+    border-top: 0.1rem solid #B9B7B7;
+    margin: 5px 19px 5px 19px;
+
+}
+.dropdown-menu{
+    background-color: var(--table_header_bg_color) !important;
+}
+

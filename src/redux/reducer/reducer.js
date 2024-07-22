@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     data: [],
     selectedOptions: {},
     distinctValues: [],
-    isLoading: false
+    isLoading: false,
+    selectedFields: {}
 }
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -39,6 +40,37 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 return acc;
             }, {});
             return{...state, distinctValues: distinctValues};
+        case 'ADD_SELECTED_FIELDS':
+            const initialVisibilityState = {};
+            const fields = action.payload.fields;
+
+            // Check if fields is an object
+            if (typeof fields === 'object' && fields !== null) {
+                Object.keys(fields).forEach((attribute, x) => {
+                    if (x > 9) {
+                        initialVisibilityState[attribute] = false;
+                    } else {
+                        initialVisibilityState[attribute] = true;
+                    }
+                });
+            } else {
+                console.error("action.payload.fields is not an object:", fields);
+            }
+            return{...state, selectedFields: initialVisibilityState};
+        case 'CHANGE_SELECTED_FIELDS':
+            return{...state, selectedFields: {...state.selectedFields, [action.payload.key]: !state.selectedFields[action.payload.key]}};
+        case 'FALSE_SELECTED_FIELDS':
+            const resetSelectedFields = Object.keys(state.selectedFields).reduce((acc, key) => {
+                acc[key] = false;
+                return acc;
+            }, {});
+            return{...state, selectedFields: resetSelectedFields};
+        case 'TRUE_SELECTED_FIELDS':
+            const trueSelectedFields = Object.keys(state.selectedFields).reduce((acc, key) => {
+                acc[key] = true;
+                return acc;
+            }, {});
+            return{...state, selectedFields: trueSelectedFields};
         default:
             return state;
     }
