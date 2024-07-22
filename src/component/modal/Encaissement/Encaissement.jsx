@@ -1,14 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Loading from '../../Loading';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css'; 
 
 export default function Encaissement(){
     const dispatch = useDispatch();
     const distinctValues = useSelector((state) => state.distinctValues);
     const selectedOptions = useSelector((state) => state.selectedOptions);
     const data = useSelector((state) => state.data);
+    const isLoading = useSelector((state) => state.isLoading);
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -23,6 +27,15 @@ export default function Encaissement(){
             console.log("encaissement", response.data)
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'LOADING', payload: {value: false}});
+            const keys = response.data.reduce((keys, obj) => {
+                Object.keys(obj).forEach(key => {
+                  if (!keys.includes(key)) {
+                    keys.push(key);
+                  }
+                });
+                return keys;
+              }, []);
+              console.log("keys: ", keys);
     
         } catch (error) {
             console.error("There was an error fetching the data!", error);
@@ -60,8 +73,12 @@ export default function Encaissement(){
     },[data]);
 
     return(
-        <>                               
-            <div className="modal-body-content-bottom">
+        <>
+            {isLoading ?
+                <Loading />
+            :
+            <>
+                <div className="modal-body-content-bottom">
                 <div className="div-select-entre">
                     <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
                         <option value="date_encaissement">Date Encaissement</option>
@@ -97,6 +114,8 @@ export default function Encaissement(){
             <div className='btn-parent'>
                 <Link to="/encaissement_datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
             </div>
+            </>
+            }                  
         </>
     )
 }
