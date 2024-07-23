@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './component/NavBar';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MainModal from './component/modal/MainModal';
+import { useDispatch } from 'react-redux';
 import RESERVATION_DATATABLE from './component/Datatable/Reserv-Datatable/reservationDatatable.jsx';
 import ENCAISSEMENT_DATATABLE from './component/Datatable/Encaiss-Datatable/encaissemenetDatatable.jsx';
 import StockDataTable from './component/Datatable/Stock-Datatable/StockDataTable.jsx';
@@ -15,16 +16,19 @@ import StockDataTable from './component/Datatable/Stock-Datatable/StockDataTable
 
 
 function App() {
+  const dispatch = useDispatch()
   const [groupedEtats, setGroupedEtats] = useState([]);
   const [filtredEtats,setFiltredEtats] = useState([]);
 
   const getEtats = async () => {
     try {
+      dispatch({type: 'LOADING', payload: {value: true}});
       const response = await axios.get('http://127.0.0.1:8000/api/etats');
       const data = groupBy(response.data, 'Module');
       console.log("etats", response.data);
       setGroupedEtats(data);
       setFiltredEtats(data);
+      dispatch({type: 'LOADING', payload: {value: false}});
     } catch (error) {
       console.error("There was an error fetching the data!", error);
     }

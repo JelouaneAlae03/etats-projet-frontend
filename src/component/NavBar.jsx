@@ -5,9 +5,13 @@ import GCLogo from '../Assets/images/GC-full-logo.png';
 import userLogo from '../Assets/images/user.png'
 import './NavBar.css';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 
 const NavBar = ({handleSearch}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -17,7 +21,9 @@ const NavBar = ({handleSearch}) => {
   <nav className="navbar navbar-light nv-bar">
     <Link to='/'><img src={GCLogo} alt="Gecimmo logo" className='GC-logo'/></Link>
     <div className="d-flex">
-    <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
+    {location.pathname === '/' && (
+        <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
+    )}
 
     { /* <button className="btn btn-outline-primary" type="submit">Search</button> */}
       <div className="custom-btn-group">

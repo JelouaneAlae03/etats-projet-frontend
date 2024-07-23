@@ -22,7 +22,6 @@ export default function Encaissement(){
 
     const getEncaissements = async () => {
         try {
-            dispatch({type: 'LOADING', payload: {value: true}});
             const response = await axios.get('http://127.0.0.1:8000/api/etats/encaissements');
             console.log("encaissement", response.data)
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});

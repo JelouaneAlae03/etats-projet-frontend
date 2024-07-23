@@ -4,8 +4,9 @@ const INITIAL_STATE = {
     data: [],
     selectedOptions: {},
     distinctValues: [],
-    isLoading: true,
-    selectedFields: {}
+    isLoading: false,
+    selectedFields: {},
+    searchTerm: ''
 }
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -71,6 +72,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 return acc;
             }, {});
             return{...state, selectedFields: trueSelectedFields};
+        case 'CHANGE_SEARCH_TERM':
+            return{...state, searchTerm: action.payload.value};
         default:
             return state;
     }

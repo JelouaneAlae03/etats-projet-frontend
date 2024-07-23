@@ -12,8 +12,8 @@
 }
 .body{
     min-height: 100px;
-    padding-left: 26px;
-    padding-right: 26px;
+    padding-left: 16px;
+    padding-right: 16px;
     border-bottom-left-radius: 18px !important;
     border-bottom-right-radius: 18px !important;
 }
@@ -28,7 +28,7 @@
     font-weight: 900;
     color: var(--body_color);
     font-family: 'Nunito';
-    font-size: 22px;
+    font-size: 25px;
 }
 .header-right-button {
     display: flex;
@@ -63,7 +63,7 @@
 }
 .select-container{
     width: 45%;
-    margin: 10px;
+    margin: 0px 10px 10px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,11 +71,13 @@
 }
 .lbl{
     margin: 5px;
-    font-weight: 600;
+    font-weight: 900;
+    color: #a8acaf;
     align-self: flex-start;
 }
 .select-container>select{
     width: 100%;
+    font-weight: 600;
 }
 
 
@@ -107,6 +109,7 @@
     justify-content: flex-end;
 }
 .modal-submit-btn {
+    text-decoration: none;
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 8px;
@@ -142,7 +145,8 @@
     flex: 33%;
     margin: 10px;
 }
-.div-select-entre>select{
+.modal-body{
+    padding-top: 0;
 }
 .form-floating{
     width: 33%;

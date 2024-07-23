@@ -51,13 +51,13 @@ const OptionAffichage = () => {
     return (
         <div className='Option_DDM_Container' ref={dropdownRef}>
             <button
-                className="btn btn-outline-primary border border-secondary button_icon_hover btn-lg m-2"
+                className="btn btn-outline-primary border border-success button_icon_hover btn-lg m-2"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-                <i className="bi bi-three-dots-vertical icon text-primary"></i>
+                <i className="bi bi-three-dots-vertical icon text-success"></i>
             </button>
             {isDropdownOpen && (
-                <div className='dropdown-menu show' style={{ position: 'absolute', left: 6, top: '70%', zIndex: 2 }}>
+                <div className='dropdown-menu show' style={{ position: 'absolute', left: '59%', top: '30%', zIndex: 2 }}>
                     <h3 className='option_h2'>Options d'affichage</h3>
                     <div className='default_view'>Default view</div>
                     <div className='options_header'>

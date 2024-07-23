@@ -14,9 +14,12 @@ import opportuniteimg from "../Assets/images/Modules/Opportunité.png";
 import suivireservationimg from "../Assets/images/Modules/suivireservation.png";
 import gestionimprevusimg from "../Assets/images/Modules/gestionImprevue.png";
 import postimg from "../Assets/images/Modules/postconcretisation.png";
+import { useSelector } from 'react-redux';
+import Loading from './Loading';
 
 
 const EtatsContainer = ({ filtredEtats }) => {
+  const isLoading = useSelector((state)=>state.isLoading);
   const renderimages = (module) => {
     switch (module) {
       case 'Pilotage':
@@ -49,27 +52,34 @@ const EtatsContainer = ({ filtredEtats }) => {
   };
 
   return (
-    <div>
-      {Object.keys(filtredEtats).map((Module) => {
-        const etatsArray = filtredEtats[Module];
-        if (etatsArray.length === 0) return null; 
-
-        return (
-          <div key={Module} className='container'>
-            <div className='d-flex'>
-              {renderimages(Module)}
-              <h2 className='h2-moduleName'>{Module}</h2>
-            </div>
-
-            <div className="box-container">
-              {etatsArray.map((etat) => (
-                <EtatCard key={etat.id} etat={etat} />
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      {
+        isLoading ?
+          <Loading />
+          :
+          <div>
+          {Object.keys(filtredEtats).map((Module) => {
+            const etatsArray = filtredEtats[Module];
+            if (etatsArray.length === 0) return null; 
+    
+            return (
+              <div key={Module} className='container'>
+                <div className='d-flex'>
+                  {renderimages(Module)}
+                  <h2 className='h2-moduleName'>{Module}</h2>
+                </div>
+    
+                <div className="box-container">
+                  {etatsArray.map((etat) => (
+                    <EtatCard key={etat.id} etat={etat} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      }
+    </>
   );
 };
 
