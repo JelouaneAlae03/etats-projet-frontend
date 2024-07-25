@@ -16,35 +16,43 @@ const NavBar = ({handleSearch}) => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  return (
-    
-  <nav className="navbar navbar-light nv-bar">
-    <Link to='/'><img src={GCLogo} alt="Gecimmo logo" className='GC-logo'/></Link>
-    <div className="d-flex">
-    {location.pathname === '/' && (
-        <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
-    )}
+  return (<>
+      {location.pathname !== '/login' && (
 
-    { /* <button className="btn btn-outline-primary" type="submit">Search</button> */}
-      <div className="custom-btn-group">
-      <button
-        type="button"
-        className="custom-dropdown-toggle"
-        onClick={toggleDropdown}
-      >
-        <img src={userLogo} alt="user" className='user-logo'/>
-      </button>
-      {isOpen && (
-        <div className="custom-dropdown-menu">
-          <a className="custom-dropdown-item" href="#">Liste d'utilisateur</a>
-          <a className="custom-dropdown-item" href="#">Action</a>
-          <div className="custom-dropdown-divider"></div>
-          <a className="custom-dropdown-item" href="#">Déconnexion</a>
-        </div>
+      <nav className="navbar navbar-light nv-bar">
+      <Link to='/'><img src={GCLogo} alt="Gecimmo logo" className='GC-logo'/></Link>
+      <div className="d-flex">
+      {location.pathname === '/' && (
+          <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
       )}
-    </div>
-    </div>
-  </nav>
+
+      { /* <button className="btn btn-outline-primary" type="submit">Search</button> */}
+          <div className="custom-btn-group">
+            <button
+              type="button"
+              className="custom-dropdown-toggle"
+              onClick={toggleDropdown}
+            >
+              <img src={userLogo} alt="user" className='user-logo'/>
+            </button>
+            {isOpen && (
+              <div className="custom-dropdown-menu">
+                <a className="custom-dropdown-item" href="#">Liste d'utilisateur</a>
+                <a className="custom-dropdown-item" href="#">Action</a>
+                <div className="custom-dropdown-divider"></div>
+                <a className="custom-dropdown-item" href="#">Déconnexion</a>
+              </div>
+            )}
+          </div>
+        </div>
+      </nav>
+
+  )}
+    
+  
+  </>
+
+
     
   )
 }

@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import RESERVATION_DATATABLE from './component/Datatable/Reserv-Datatable/reservationDatatable.jsx';
 import ENCAISSEMENT_DATATABLE from './component/Datatable/Encaiss-Datatable/encaissemenetDatatable.jsx';
 import StockDataTable from './component/Datatable/Stock-Datatable/StockDataTable.jsx';
+import { Login } from './component/Login/Login.jsx';
 
 
 
@@ -80,6 +81,11 @@ const groupBy = (array, key) => {
       <NavBar handleSearch={handleSearch}/>
       <MainModal />
       <Routes>
+      <Route
+          path="/login"
+          element={<Login />
+          }
+        />
         <Route
           path="/"
           element={<EtatsContainer filtredEtats={filtredEtats} />
