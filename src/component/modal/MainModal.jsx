@@ -15,6 +15,8 @@ import Encaissement from './Encaissement/Encaissement';
 import Stock from './Stock/Stock';
 import './header.css';
 import { FunnelSimple, X } from '@phosphor-icons/react';
+import { X } from '@phosphor-icons/react';
+import Consignations from './Consignations/Consignations';
 
 export default function MainModal(){
     const dispatch = useDispatch();
@@ -255,6 +257,12 @@ export default function MainModal(){
                             {currentEtat === "Etat de stock"
                             ?
                                 <Stock />
+                            :
+                                null
+                            }
+                            {currentEtat === "Etat des consignations"
+                            ?
+                                <Consignations />
                             :
                                 null
                             }
