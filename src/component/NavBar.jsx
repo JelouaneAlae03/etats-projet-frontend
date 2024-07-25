@@ -36,7 +36,7 @@ const NavBar = ({handleSearch}) => {
       </button>
       {isOpen && (
         <div className="custom-dropdown-menu">
-          <a className="custom-dropdown-item" href="#">Calendrier</a>
+          <a className="custom-dropdown-item" href="#">Liste d'utilisateur</a>
           <a className="custom-dropdown-item" href="#">Action</a>
           <div className="custom-dropdown-divider"></div>
           <a className="custom-dropdown-item" href="#">Déconnexion</a>
