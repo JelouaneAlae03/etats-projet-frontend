@@ -132,7 +132,7 @@ export default function Encaissement(){
                     
                 </div>
                 <div className='btn-parent'>
-                    <Link to="/encaissement_datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
+                    <Link to="/datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
                 </div>
             </>
             }                  

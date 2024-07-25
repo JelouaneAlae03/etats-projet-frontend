@@ -3,6 +3,29 @@
     justify-content: center;
     align-items: center;
 }
+.Option_DDM_Container>button{
+    color: white;
+    max-width: fit-content;
+}
+.compact-btn {
+    padding: 5px;
+    margin: 0;
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none; /* If you want a transparent background */
+    border: none; /* If you want no border */
+    cursor: pointer;
+  }
+  
+  .compact-btn .icon {
+    font-size: 16px; /* Adjust the icon size as needed */
+  }
+.three-points{
+    padding: 12px 5px 12px 5px !important;
+}
 .option_h2{
     margin: 19px 19px 0 19px;
     font-size: 16px;

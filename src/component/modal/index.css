@@ -67,15 +67,15 @@
     
 }
 .lbl{
-    font-family: "Manrope", sans-serif;
+    font-family: "Lexend", sans-serif;
     margin: 5px;
     align-items: flex-end !important;
-    font-weight: 700;
+    font-weight: 600;
     color: black;
 }
 .select-container>select{
     width: 100%;
-    font-weight: 400;
+    font-weight: 500;
     border-radius: 8px;
 }
 
@@ -147,7 +147,7 @@
 }
 .encaissement-container{
     padding: 10px;
-    border: 1.5px #dee2e6 solid;
+    border: 2px #dee2e6 solid;
     width: 100%;
     margin: 10px;
     border-radius: 10px;
@@ -190,7 +190,7 @@
     flex: 50%;
 }
 .select-container2-child-label>label{
-    font-weight: 600;
+    font-weight: 700;
 }
 .div-select-entre{
     flex: 33%;
@@ -202,8 +202,8 @@
 .div-select-entre>select{
     padding-top: 10px;
     padding-bottom: 10px;
-    font-family: "Manrope", sans-serif;
-    font-weight: 700;
+    font-family: "Lexend", sans-serif;
+    font-weight: 600;
 
 }
 .modal-body{
@@ -220,7 +220,7 @@
     margin: auto;
 }
 .div-label>label{
-    font-weight: 600;
+    font-weight: 700;
 }
 .select-container2{
     display: flex;
@@ -228,7 +228,7 @@
     width: 100%;
 }
 .select-container2-child>label{
-    font-weight: 600;
+    font-weight: 700;
     min-width: fit-content;
 }
 .select-container2-child{

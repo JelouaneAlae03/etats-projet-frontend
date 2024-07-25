@@ -102,7 +102,7 @@ export default function Stock(){
                 </div>
             </div>
             <div className='btn-parent'>
-                <Link to="/stock_datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
+                <Link to="/datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
             </div>
         </>
     )
