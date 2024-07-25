@@ -15,7 +15,6 @@ import Encaissement from './Encaissement/Encaissement';
 import Stock from './Stock/Stock';
 import './header.css';
 import { FunnelSimple, X } from '@phosphor-icons/react';
-import { X } from '@phosphor-icons/react';
 import Consignations from './Consignations/Consignations';
 
 export default function MainModal(){
