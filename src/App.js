@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MainModal from './component/modal/MainModal';
 import { useDispatch } from 'react-redux';
 import Datatable from './component/Datatable/DataTable.jsx';
+import { Login } from './component/Login/Login.jsx';
 
 
 
@@ -78,6 +79,11 @@ const groupBy = (array, key) => {
       <NavBar handleSearch={handleSearch}/>
       <MainModal />
       <Routes>
+      <Route
+          path="/login"
+          element={<Login />
+          }
+        />
         <Route
           path="/"
           element={<EtatsContainer filtredEtats={filtredEtats} />

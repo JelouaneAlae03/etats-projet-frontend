@@ -33,7 +33,7 @@
   /* display: flex; */
   justify-content: space-between;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 550px));
   gap: 15px;
   border-top: 2px solid #343a40;
   padding-top: 1.5rem;
