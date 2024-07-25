@@ -77,42 +77,63 @@ export default function Encaissement(){
                 <Loading />
             :
             <>
-                <div className="modal-body-content-bottom">
-                <div className="div-select-entre">
-                    <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
-                        <option value="date_encaissement">Date Encaissement</option>
-                        <option value="Date_Sort">Date Sort</option>
-                        {/* <option value="">Date Création</option> */}
-                        <option value="Date_Prev_Enc">Date Prévu Encaissement</option>
-                        <option value="Date_Remise">Date Remise</option>
-                    </select>
-                </div>
-                
-                <div className="form-floating">
-                    <input type="date" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="fEntre" className='lbl'>Entre</label>
-                </div>
-                <div className="form-floating">
-                    <input type="date" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="fEt" className='lbl'>Et</label>
-                </div>
-            </div>
+                <div className="encaissement-container">
+                    <div className="modal-body-content-bottom">
+                        <div className="div-select-entre">
+                            <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
+                                <option value="date_encaissement">Date Encaissement</option>
+                                <option value="Date_Sort">Date Sort</option>
+                                {/* <option value="">Date Création</option> */}
+                                <option value="Date_Prev_Enc">Date Prévu Encaissement</option>
+                                <option value="Date_Remise">Date Remise</option>
+                            </select>
+                        </div>
 
-            <div className="modal-body-content-bottom">
-                <label htmlFor="sEntre" className='lbl'>Montant</label>
-                <div className="form-floating">
-                    <input type="text" className="form-control" id="sEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="sEntre" className='lbl'>Entre</label>
-                </div>
-                <div className="form-floating">
-                    <input type="text" className="form-control" id="sEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="sEt" className='lbl'>Et</label>
-                </div>
-            </div>
+                        <div className="input-field">
+                            <input
+                                type="date"
+                                id="fEntre"
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label htmlFor="fEntre" className='lbl'>Entre</label>
+                        </div>
+                        <div className="input-field">
+                            <input
+                                type="date"
+                                id="fEt"
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label htmlFor="fEt" className='lbl'>Et</label>
+                        </div>
+                    </div>
 
-            <div className='btn-parent'>
-                <Link to="/encaissement_datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
-            </div>
+                    <div className="modal-body-content-bottom">
+                        <div className='modal-body-content-bottom-container-lbl'>
+                            <label htmlFor="sEntre" className='lbl'>Montant: </label>
+                        </div>
+                        <div className="input-field">
+                            <input
+                                type="text"
+                                id="sEntre"
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label htmlFor="sEntre" className='lbl'>Entre</label>
+                        </div>
+                        <div className="input-field">
+                            <input
+                                type="text"
+                                id="sEt"
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <label htmlFor="sEt" className='lbl'>Et</label>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div className='btn-parent'>
+                    <Link to="/encaissement_datatable" className='modal-submit-btn'onClick={()=>{handleApercu()}}>Aperçu</Link>
+                </div>
             </>
             }                  
         </>

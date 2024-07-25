@@ -66,91 +66,103 @@ export default function Reservation(){
 
     return(
         <>
-            <div className='select-container'>
-                <label htmlFor='select-commercial' className='lbl'>Commercial</label>
-                <select id='select-commercial' className='form-select filtrage-select'
-                    onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Commercial", value: event.target.value}})}
+            <div className='reservation-container'>
+                <div className='reservation-container-scon'>
+                    <div className='select-container'>
+                        <label htmlFor='select-commercial' className='lbl'>Commercial</label>
+                        <select id='select-commercial' className='form-select filtrage-select'
+                            onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Commercial", value: event.target.value}})}
 
-                >
-                <option value=""  hidden>
-                    choisir une option
-                </option>
-                <option value=""  >
-                    
-                </option>
-                {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
-                    distinctValues.Commercial.map((data, index) => (
-                    <option key={index} value={data.Commercial}>{data.Commercial}</option>
-                    ))
-                ) : (
-                    <option>Aucune donnée disponible</option>
-                )}
-                </select>
-            </div>
-            <div className='select-container'>
-                <label htmlFor='select-ville' className='lbl'>Ville</label>
-                <select id='select-ville' className='form-select filtrage-select'
-                    onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Ville_Adresse", value: event.target.value}})}
-                >
-                <option value=""  hidden>
-                    choisir une option
-                </option>
-                <option value=""  >
-                    
-                </option>
-                    {distinctValues.Ville_Adresse && distinctValues.Ville_Adresse.length > 0 ? (
-                        distinctValues.Ville_Adresse.map((data, index) => (
-                        <option key={index} value={data.Ville_Adresse}>{data.Ville_Adresse}</option>
-                        ))
-                    ) : (
-                        <option>Aucune donnée disponible</option>
-                    )}
-                </select>
-            </div>
-
-            <div className="modal-body-content-bottom">
-                <div className="div-select-entre">
-                    <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
-                        <option value="Prix_Vente">Prix de vente</option>
-                        <option value="Reliquat">Reliquat</option>
-                    </select>
+                        >
+                        <option value=""  hidden>
+                            choisir une option
+                        </option>
+                        <option value=""  >
+                            
+                        </option>
+                        {distinctValues.Commercial && distinctValues.Commercial.length > 0 ? (
+                            distinctValues.Commercial.map((data, index) => (
+                            <option key={index} value={data.Commercial}>{data.Commercial}</option>
+                            ))
+                        ) : (
+                            <option>Aucune donnée disponible</option>
+                        )}
+                        </select>
+                    </div>
+                    <div className='select-container'>
+                        <label htmlFor='select-ville' className='lbl'>Ville</label>
+                        <select id='select-ville' className='form-select filtrage-select'
+                            onChange={event => dispatch({type: 'ADD_SELECTED', payload: {key: "Ville_Adresse", value: event.target.value}})}
+                        >
+                        <option value=""  hidden>
+                            choisir une option
+                        </option>
+                        <option value=""  >
+                            
+                        </option>
+                            {distinctValues.Ville_Adresse && distinctValues.Ville_Adresse.length > 0 ? (
+                                distinctValues.Ville_Adresse.map((data, index) => (
+                                <option key={index} value={data.Ville_Adresse}>{data.Ville_Adresse}</option>
+                                ))
+                            ) : (
+                                <option>Aucune donnée disponible</option>
+                            )}
+                        </select>
+                    </div>
                 </div>
                 
-                <div class="input-field">
-                                    <input
-                                        required=""
-                                        autocomplete="off"
-                                        type="date"
-                                        name="email"
-                                        id="email"
-                                    />
-                                    <label for="email">Email</label>
-                                </div>
-                
-                <div className="form-floating">
-                    <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="fEt" className='lbl'>Et</label>
-                </div>
-            </div>
 
-            <div className="modal-body-content-bottom">
-                <div className="div-select-entre">
-                    <select id='sSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
-                        <option value="date_reservation">Date de Réservation</option>
-                        <option value="Date_fin_reservation">Date fin de Réservation</option>
-                        <option value="Date_concretisation">Date de Concrétisation</option>
-                        {/* <option value="Date_concretisation">Date de Vente</option> */}
-                        <option value="Date_Creation">Date Creation</option>
-                    </select>
+                <div className="modal-body-content-bottom">
+                    <div className="div-select-entre">
+                        <select id='fSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
+                            <option value="Prix_Vente">Prix de vente</option>
+                            <option value="Reliquat">Reliquat</option>
+                        </select>
+                    </div>
+                    <div className="input-field">
+                        <input
+                            type="text"
+                            id="fEntre"
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <label htmlFor="fEntre" className='lbl'>Entre</label>
+                    </div>
+                    <div className="input-field">
+                        <input
+                            type="text"
+                            id="fEt"
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <label htmlFor="fEt" className='lbl'>Et</label>
+                    </div>
                 </div>
-                
-                <div className="form-floating">
-                    <input type="date" className="form-control" id="sEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="sEntre" className='lbl'>Entre</label>
-                </div>
-                <div className="form-floating">
-                    <input type="date" className="form-control" id="sEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="sEt" className='lbl'>Et</label>
+
+                <div className="modal-body-content-bottom">
+                    <div className="div-select-entre">
+                        <select id='sSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
+                            <option value="date_reservation">Date de Réservation</option>
+                            <option value="Date_fin_reservation">Date fin de Réservation</option>
+                            <option value="Date_concretisation">Date de Concrétisation</option>
+                            {/* <option value="Date_concretisation">Date de Vente</option> */}
+                            <option value="Date_Creation">Date Creation</option>
+                        </select>
+                    </div>
+                    <div className="input-field">
+                        <input
+                            type="date"
+                            id="sEntre"
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <label htmlFor="sEntre" className='lbl'>Entre</label>
+                    </div>
+                    <div className="input-field">
+                        <input
+                            type="date"
+                            id="sEt"
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <label htmlFor="sEt" className='lbl'>Et</label>
+                    </div>
                 </div>
             </div>
 

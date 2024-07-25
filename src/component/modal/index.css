@@ -24,10 +24,9 @@
     /*height: 150px;*/
 }
 .main-header-title{
-    margin-left: 10px;
+    font-family: "Lexend", sans-serif;
     font-weight: 900;
     color: var(--body_color);
-    font-family: 'Nunito';
     font-size: 25px;
 }
 .header-right-button {
@@ -47,10 +46,7 @@
     -webkit-transition: all 0.25s;
     transform: scale(1.2) !important;
 }
-.button-div{
-    margin-left: auto;
-    margin-right: 5px;
-}
+
 .button-close{
     font-size: 22px;
     font-weight: bold !important;
@@ -62,22 +58,25 @@
 
 }
 .select-container{
+    font-family: "Manrope", sans-serif;
     width: 45%;
     margin: 0px 10px 10px 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     
 }
 .lbl{
+    font-family: "Manrope", sans-serif;
     margin: 5px;
-    font-weight: 900;
-    color: #a8acaf;
-    align-self: flex-start;
+    align-items: flex-end !important;
+    font-weight: 700;
+    color: black;
 }
 .select-container>select{
     width: 100%;
-    font-weight: 600;
+    font-weight: 400;
+    border-radius: 8px;
 }
 
 
@@ -88,7 +87,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    
+    justify-content: space-between;
+    padding: 0px 10px 0px 10px;
 }
 .select-parent{
     margin-bottom: 10px;
@@ -109,9 +109,11 @@
     justify-content: flex-end;
 }
 .modal-submit-btn {
+    font-size: 18px;
+    font-weight: 600;
     text-decoration: none;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 70px;
+    padding-right: 70px;
     padding-top: 8px;
     padding-bottom: 8px;
     border: 0;
@@ -139,11 +141,70 @@
 
 .modal-body-content-bottom{
     display: flex;
-    width: 95%;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+}
+.encaissement-container{
+    padding: 10px;
+    border: 1.5px #dee2e6 solid;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+}
+.reservation-container{
+    padding: 10px;
+    border: 1.5px #dee2e6 solid;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+}
+.stock-container{
+    padding: 10px;
+    border: 1.5px #dee2e6 solid;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+}
+.reservation-container-scon{
+    width: 100%;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.modal-body-content-bottom-container-lbl{
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.select-container2-child-label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 50%;
+}
+.select-container2-child-label>label{
+    font-weight: 600;
 }
 .div-select-entre{
     flex: 33%;
-    margin: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0px 10px 0px 10px;
+}
+.div-select-entre>select{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-family: "Manrope", sans-serif;
+    font-weight: 700;
+
 }
 .modal-body{
     padding-top: 0;
@@ -158,14 +219,30 @@
     align-items: center; 
     margin: auto;
 }
+.div-label>label{
+    font-weight: 600;
+}
 .select-container2{
     display: flex;
     flex-direction: row;
     width: 100%;
 }
-.div-select-entre2{
-    width: 94%;
+.select-container2-child>label{
+    font-weight: 600;
+    min-width: fit-content;
+}
+.select-container2-child{
+    display: flex;
+    align-items: center;
     margin: 10px;
+}
+.select-container2-child>select{
+    flex: 50%;
+    height: 80%;
+}
+.div-select-entre2{
+    width: 100%;
+    margin: 10px 0px 10px 0px;
 }
 
 
@@ -173,16 +250,18 @@
 .input-field {
     position: relative;
     bottom: 0;
-    flex: 33%;
     margin-top: 10px;
+    width: 33%;
+    margin: 10px;
   }
   
   .input-field label {
     position: absolute;
-    color: #8d8d8d;
+    color: #dee2e6;
     pointer-events: none;
     background-color: transparent;
     left: 15px;
+    top: -5px;
     transform: translateY(0.6rem);
     transition: all 0.3s ease;
   }
@@ -191,7 +270,7 @@
     padding: 10px 15px;
     font-size: 1rem;
     border-radius: 8px;
-    border: solid 1px #8d8d8d;
+    border: solid 1px #dee2e6;
     letter-spacing: 1px;
     width: 100%;
   }
@@ -199,7 +278,7 @@
   .input-field input:focus,
   .input-field input:valid {
     outline: none;
-    border: solid 1px #8d8d8d;
+    border: solid 1px #dee2e6;
   }
   
   .input-field input:focus ~ label,
