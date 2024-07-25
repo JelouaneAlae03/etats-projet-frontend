@@ -7,12 +7,14 @@ import './index.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Rapportimg from '../../Assets/images/Etats/Rapport.png'
 import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 import Reservation from './Reservation/Reservation';
 import Encaissement from './Encaissement/Encaissement';
 import Stock from './Stock/Stock';
-import { X } from '@phosphor-icons/react';
+import './header.css';
+import { FunnelSimple, X } from '@phosphor-icons/react';
 import Consignations from './Consignations/Consignations';
 
 export default function MainModal(){
@@ -43,16 +45,26 @@ export default function MainModal(){
             <Modal onHide={() => handleCloseModal(false)} dialogClassName="custom-modal-dialog" show={isShow} size='lg' className='the-main-modal' animation={true} backdropClassName="custom-backdrop" centered>
                 <div className='modal-content custom-modal-content'>
                     <Modal.Header className='header'>
-                        <Modal.Title className='main-header-title'>{currentEtat}</Modal.Title>
-                        <div className='button-div'>
-                            <button className='header-right-button' onClick={() => handleCloseModal(false)}><X size={30} weight="bold" /></button>
+                        <div className='upper-header'>
+                            <div>
+                                <div className='upper-header-left'>
+                                    <FunnelSimple size={32} weight="bold" />
+                                </div>
+                                <div className='bottom-header'>
+                                    <Modal.Title className='main-header-title'>{currentEtat}</Modal.Title>
+                                    <p>Choisissez les filtres que vous souhaitez appliquer</p>
+                                </div>
+                            </div>
+                            <div className='button-div'>
+                                <button className='header-right-button' onClick={() => handleCloseModal(false)}><X size={30} weight="bold" /></button>
+                            </div>
                         </div>
                     </Modal.Header>
                     
                     <Modal.Body className='body'>
                         <div className='modal-body-content-flex'>
                             <div className='select-container'>
-                                <label htmlFor='select-societe' className='lbl'>Societe</label>
+                                <label htmlFor='select-societe' className='lbl'>Societe:</label>
                                 <select id='select-societe' className='form-select filtrage-select'             
                                     onChange={event => handleSelectChange(event, "Societe")}
                                     
@@ -74,7 +86,7 @@ export default function MainModal(){
                             </div>
 
                             <div className='select-container'>
-                                <label htmlFor='select-programme' className='lbl'>Programme</label>
+                                <label htmlFor='select-programme' className='lbl'>Programme:</label>
                                 <select id='select-programme' className='form-select filtrage-select'
                                     onChange={event => handleSelectChange(event, "Projet")}
                                 >
@@ -94,7 +106,7 @@ export default function MainModal(){
                                 </select>
                             </div>
                             <div className='select-container'>
-                                <label htmlFor='select-tranche' className='lbl'>Tranche</label>
+                                <label htmlFor='select-tranche' className='lbl'>Tranche:</label>
                                     <select id='select-tranche' className='form-select filtrage-select'
                                         onChange={event => handleSelectChange(event, "Tranche")}
 
@@ -118,7 +130,7 @@ export default function MainModal(){
                             <div className='select-container'>
 
         
-                                <label htmlFor='select-groupement' className='lbl'>Groupement</label>
+                                <label htmlFor='select-groupement' className='lbl'>Groupement:</label>
                                 <select id='select-groupement' className='form-select filtrage-select'
                                     onChange={event => handleSelectChange(event, "GH")}
 
@@ -140,7 +152,7 @@ export default function MainModal(){
 
                             </div>
                             <div className='select-container'>
-                                <label htmlFor='select-immeuble' className='lbl'>Immeuble</label>
+                                <label htmlFor='select-immeuble' className='lbl'>Immeuble:</label>
                                 <select id='select-immeuble' className='form-select filtrage-select'
                                     onChange={event => handleSelectChange(event, "Immeuble")}
 
@@ -162,7 +174,7 @@ export default function MainModal(){
                             </div>
                             
                             <div className='select-container'>
-                                <label htmlFor='select-etage' className='lbl'>Etage</label>
+                                <label htmlFor='select-etage' className='lbl'>Etage:</label>
                                 <select id='select-etage' className='form-select filtrage-select'
                                     onChange={event => handleSelectChange(event, "Etage")}
 
@@ -184,7 +196,7 @@ export default function MainModal(){
 
                             </div>
                             <div className='select-container'>
-                                <label htmlFor='select-nature' className='lbl'>Nature de Bien</label>
+                                <label htmlFor='select-nature' className='lbl'>Nature de Bien:</label>
                                 <select id='select-nature' className='form-select filtrage-select'
                                     onChange={event => handleSelectChange(event, "Nature")}
 
@@ -206,7 +218,7 @@ export default function MainModal(){
 
                             </div>
                             <div className='select-container'>
-                                <label htmlFor='select-standing' className='lbl'>Standing</label>
+                                <label htmlFor='select-standing' className='lbl'>Standing:</label>
                                 <select id='select-standing' className='form-select filtrage-select'
                                     onChange={event => handleSelectChange(event, "Standing")}
 

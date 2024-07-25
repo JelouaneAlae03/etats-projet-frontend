@@ -57,48 +57,48 @@ export default function Stock(){
 
     return(
         <>
-            <div className="div-select-entre2">
-
-            <div className='select-container2'>
-                <div >
-                    <label htmlFor="sSelectEntre">Superficie</label>
-                    <select id='sSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
-                            <option value="SupTotale">Totale</option>
-                            <option value="SupConstruite">Construite</option>
-                            <option value="SupJardin">Jardin</option>
-                            <option value="SupTitre">Titré</option>
-                            <option value="SupTerCouverte">Terrasse couverte</option>
-                            <option value="SupTerNonCouverte">Terrasse non couverte</option>
-                            <option value="SupMezzanine">Mezzanine</option>
-                    </select> 
-                </div>       
-                <div className="form-floating">
+            <div className='stock-container'>
+                <div className="div-select-entre2">
+                    <div className='select-container2'>
+                        <div className='select-container2-child'>
+                            <div className='select-container2-child-label'>
+                                <label htmlFor="sSelectEntre">Superficie: </label>
+                            </div>
+                            <select id='sSelectEntre' className='form-select entre-select' onChange={(e) => handleInputChange(e)} >
+                                    <option value="SupTotale">Totale</option>
+                                    <option value="SupConstruite">Construite</option>
+                                    <option value="SupJardin">Jardin</option>
+                                    <option value="SupTitre">Titré</option>
+                                    <option value="SupTerCouverte">Terrasse couverte</option>
+                                    <option value="SupTerNonCouverte">Terrasse non couverte</option>
+                                    <option value="SupMezzanine">Mezzanine</option>
+                            </select> 
+                        </div>       
+                        <div className="form-floating">
+                            
+                            <input type="text" className="form-control" id="sEntre" onChange={(e) => handleInputChange(e)}/>
+                            <label htmlFor="fEntre">Entre</label>
+                        </div>
+                        <div className="form-floating">
+                            <input type="text" className="form-control" id="sEt" onChange={(e) => handleInputChange(e)} />
+                            <label htmlFor="fEt">Et</label>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal-body-content-bottom">
                     
-                    <input type="text" className="form-control" id="sEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="fEntre">Entre</label>
-                </div>
-                <div className="form-floating">
-                    <input type="text" className="form-control" id="sEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="fEt">Et</label>
-                </div>
-            </div>
+                    <div className="div-label">
+                        <label htmlFor="">Prix: </label>
+                    </div>
 
-
-            </div>
-            <div className="modal-body-content-bottom">
-                
-                <div className="div-label">
-                    <label htmlFor="">prix</label>
-                </div>
-
-                <div className="form-floating">
-                    
-                    <input type="text" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
-                    <label htmlFor="fEntre">Entre</label>
-                </div>
-                <div className="form-floating">
-                    <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
-                    <label htmlFor="fEt">Et</label>
+                    <div className="form-floating">
+                        <input type="text" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
+                        <label htmlFor="fEntre">Entre</label>
+                    </div>
+                    <div className="form-floating">
+                        <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
+                        <label htmlFor="fEt">Et</label>
+                    </div>
                 </div>
             </div>
             <div className='btn-parent'>
