@@ -76,7 +76,14 @@
     margin: 8px 0;
   }
   
-
+.dt-nav-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dt-nav-container>input{
+  margin-right: 10px;
+}
   
   
  

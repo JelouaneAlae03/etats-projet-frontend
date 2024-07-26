@@ -43,7 +43,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    margin: 0 19px 2px 19px;
+    margin: 5px 19px 2px 19px;
     
 }
 .options_header>span{
@@ -65,10 +65,11 @@
     border: none;
     width:  26rem;
     border-top: 0.1rem solid #B9B7B7;
-    margin: 5px 19px 5px 19px;
+    
 
 }
 .dropdown-menu{
     background-color: white;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
 }
 

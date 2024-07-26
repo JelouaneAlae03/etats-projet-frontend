@@ -89,7 +89,7 @@ const NavBar = ({handleSearch}) => {
           <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
       )}
       {location.pathname === '/datatable' && (
-        <>
+        <div className='dt-nav-container'>
             <input
                 type="text"
                 placeholder="Rechercher..."
@@ -97,11 +97,13 @@ const NavBar = ({handleSearch}) => {
                 value={searchTerm}
                 onChange={(e) => dispatch({type: 'CHANGE_SEARCH_TERM', payload: {value: e.target.value}})}
             />
-          <button class="container-btn-file" onClick={exportToExcel}>
-            <ExcelExportSVG />
-            Export
-          </button>
-        </>
+            <div>
+              <button class="container-btn-file" onClick={exportToExcel}>
+              <ExcelExportSVG />
+              Export
+              </button>
+            </div>
+        </div>
       )}
       
 
