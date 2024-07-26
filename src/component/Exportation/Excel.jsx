@@ -15,6 +15,16 @@ const useExportToExcel = () => {
       setHeaders(['Bien', 'Nom & Prénom', 'P.Vente', 'Encaiss', 'Reliquat', '%', 'Date', 'Reçu', 'N°', 'Nature', 'Banque', 'Agence', 'Ville', 'Création']);
       setFileName('encaissement-table');
     }
+    else if (currentEtat ===  "Etat des réservations"){
+      setKeys(['Bien', 'Nature', 'Etage', 'Standing', 'client', 'num_dossier', 'date_reservation', 'Date_concretisation', 'Date_Validation', 'Prix_Vente', 'total', 'Reliquat', 'Commercial']);
+      setHeaders(['Bien', 'Nature', 'Etage', 'Standing', 'Client', 'Dossier', 'Dt.Résa', 'Dt.Conc', 'Vente', 'Prix de vente', 'Encaiss', 'Reliquat', 'Commercial']);
+      setFileName('reservation-table');
+    }
+    else if (currentEtat ===  "Etat de stock"){
+      setKeys(['Bien', 'Etage', 'Nature', 'etat', '-', 'Standing', '-', 'prix_vente']);
+      setHeaders(['Bien', 'Etage', 'Nature', 'Status', 'Surface', 'Standing', 'N° TF', 'Prix de vente']);
+      setFileName('stock-table');
+    }
   }, [currentEtat]);
 
   const exportToExcel = () => {
