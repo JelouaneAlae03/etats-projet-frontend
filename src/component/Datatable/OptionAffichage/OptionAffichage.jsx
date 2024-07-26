@@ -6,7 +6,6 @@ import './OptionAffichage.css';
 import eye from '../../../Assets/images/eye.png';
 import eyeslash from '../../../Assets/images/eye-slash.png';
 
-// Custom hook for detecting clicks outside of passed ref
 function useOutsideClick(ref, callback) {
     useEffect(() => {
         function handleClickOutside(event) {
@@ -57,7 +56,7 @@ const OptionAffichage = () => {
                 <i className="bi bi-three-dots-vertical icon"></i>
             </button>
             {isDropdownOpen && (
-                <div className='dropdown-menu show' style={{ position: 'absolute', left: '61%', top: '18%', zIndex: 2 }}>
+                <div className='dropdown-menu show' style={{ position: 'absolute', left: '62%', top: '29%', zIndex: 2 }}>
                     <h3 className='option_h2'>Options d'affichage</h3>
                     <div className='default_view'>Default view</div>
                     <div className='options_header'>
