@@ -81,7 +81,8 @@ const NavBar = ({handleSearch}) => {
 }, [searchTerm, processedData]);
 
   return (
-    
+    <>
+       {location.pathname !== '/login' && (
   <nav className="navbar navbar-light nv-bar">
     <Link to='/'><img src={GCLogo} alt="Gecimmo logo" className='GC-logo'/></Link>
     <div className="d-flex">
@@ -126,7 +127,9 @@ const NavBar = ({handleSearch}) => {
       )}
     </div>
     </div>
-  </nav>
+  </nav>)}
+    </>
+   
     
   )
 }
