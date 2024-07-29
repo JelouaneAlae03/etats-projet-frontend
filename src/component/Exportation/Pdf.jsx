@@ -1,4 +1,3 @@
-// src/Exportation/PDF.js
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -13,18 +12,14 @@ const exportToPDF = (filteredData, columns, visibleColumns) => {
         return;
     }
 
-    // Filter the columns based on visibility
     const filteredColumns = columns.filter(col => visibleColumns.includes(col));
 
-    // Prepare data for the table
     const tableData = filteredData.map(item =>
         filteredColumns.map(col => item[col] !== undefined ? item[col] : '-')
     );
 
-    // Create a new jsPDF instance
     const doc = new jsPDF();
 
-    // Add table to PDF
     doc.autoTable({
         head: [filteredColumns],
         body: tableData,
@@ -32,6 +27,13 @@ const exportToPDF = (filteredData, columns, visibleColumns) => {
         styles: { fontSize: 8 },
         headStyles: { fillColor: '#343a40' },
         columnStyles: { text: { cellWidth: 'wrap' } },
+        didDrawPage: (data) => {
+            const pageNumber = doc.internal.getNumberOfPages();
+            const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
+
+            doc.setFontSize(10);
+            doc.text(`Page ${pageCurrent} of ${pageNumber}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
+        }
     });
 
     doc.save('data.pdf');
