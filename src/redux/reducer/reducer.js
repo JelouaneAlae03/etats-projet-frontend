@@ -8,7 +8,9 @@ const INITIAL_STATE = {
     selectedFields: {},
     searchTerm: '',
     filteredData: [],
-    processedData: []
+    processedData: [],
+    columns: [],
+    visibleColumns: []
 }
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -80,6 +82,10 @@ export const reducer = (state = INITIAL_STATE, action) => {
             return{...state, filteredData: action.payload.value};
         case 'ADD_PROCESSED_DATA':
             return{...state, processedData: action.payload.data};
+        case 'ADD_COLUMNS':
+            return{...state, columns: action.payload.data};
+        case 'ADD_VISIBLE_COLUMNS':
+            return{...state, visibleColumns: action.payload.data};
         default:
             return state;
     }
