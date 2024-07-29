@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Datatable.css';
 import exportToExcel from '../Exportation/Excel'; 
 import exportToPDF from '../Exportation/Pdf';
-
 import ExcelExportSVG from '../../Assets/svg/excelExportSVG';
 import OptionAffichage from '../Datatable/OptionAffichage/OptionAffichage'; 
 import ReactPaginate from 'react-paginate'; 
@@ -18,6 +17,8 @@ export default function Datatable() {
     const [itemsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const [sortColumn, setSortColumn] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
 
     const getColumns = (data) => {
         if (data.length > 0) {
@@ -44,6 +45,22 @@ export default function Datatable() {
         }
     }, [data, searchTerm]);
 
+    useEffect(() => {
+        // Apply sorting whenever filteredData or sort criteria changes
+        if (sortColumn) {
+            const sortedData = [...filteredData].sort((a, b) => {
+                const aValue = a[sortColumn] || '';
+                const bValue = b[sortColumn] || '';
+                if (sortOrder === 'asc') {
+                    return aValue > bValue ? 1 : (aValue < bValue ? -1 : 0);
+                } else {
+                    return aValue < bValue ? 1 : (aValue > bValue ? -1 : 0);
+                }
+            });
+            setFilteredData(sortedData);
+        }
+    }, [sortColumn, sortOrder]);
+
     const handleVisibilityChange = (updatedFields) => {
         setVisibleColumns(Object.keys(updatedFields).filter(col => updatedFields[col]));
     };
@@ -53,22 +70,28 @@ export default function Datatable() {
         setCurrentPage(selectedPage);
     };
 
+    const handleSort = (column) => {
+        if (sortColumn === column) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortColumn(column);
+            setSortOrder('asc');
+        }
+    };
+
     const handleExportToExcel = () => {
-        const filteredData = filterData(data, searchTerm);
         exportToExcel(filteredData, columns, visibleColumns);
     };
+
     const handleExportToPDF = () => {
-        const filteredData = filterData(data, searchTerm);
         exportToPDF(filteredData, columns, visibleColumns);
     };
-    
 
     const pageCount = Math.ceil(filteredData.length / itemsPerPage);
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentData = filteredData.slice(startIndex, endIndex);
-
 
     return (
         <div>
@@ -83,10 +106,9 @@ export default function Datatable() {
                     />
                     <button className="btn btn-success" onClick={handleExportToExcel}>
                         <ExcelExportSVG />
-                        Export
+                        Export to Excel
                     </button>
                     <button className="btn btn-danger" onClick={handleExportToPDF}>
-                        
                         Export to PDF
                     </button>
                 </div>
@@ -94,7 +116,10 @@ export default function Datatable() {
                     <thead>
                         <tr>
                             {visibleColumns.map((col) => (
-                                <th key={col}>{col}</th>
+                                <th key={col} onClick={() => handleSort(col)}>
+                                    {col}
+                                    {sortColumn === col && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
+                                </th>
                             ))}
                             <th>
                                 <OptionAffichage columns={columns} onVisibilityChange={handleVisibilityChange} />

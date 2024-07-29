@@ -24,6 +24,7 @@
     padding: 12px 15px;
     text-align: left;
     font-size: 10px;
+    
   }
   
   .datatable th {
@@ -32,6 +33,7 @@
     color: white;
     border-bottom: 2px solid #dddddd;
     text-align: center;
+    cursor: pointer;
   }
   
   .datatable td {
