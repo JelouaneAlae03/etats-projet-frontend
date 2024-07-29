@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { login } from '../../Auth';
 import './Login.css'
 import GCLOGO from '../../Assets/images/GC-logo.png'
-import GCFULLLOGO from '../../Assets/images/GC-full-logo.png';
+import GCFULLLOGO from '../../Assets/images/fullLogo.jpg';
 
 export const Login = ({onLogin}) => {
     const [username, setUsername] = useState('');

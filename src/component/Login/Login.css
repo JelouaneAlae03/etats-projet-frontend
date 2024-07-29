@@ -32,7 +32,12 @@
   .left-login {
     width: 50%;
     height: 100%;
-    
+    background-color: white;
+  }
+
+  .left-login>div>img {
+    width: 50%;
+    height: 100%;
     background-color: white;
   }
   

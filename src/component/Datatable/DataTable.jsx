@@ -1,8 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Datatable.css';
-import exportToExcel from '../Exportation/Excel'; 
-import exportToPDF from '../Exportation/Pdf';
 import ExcelExportSVG from '../../Assets/svg/excelExportSVG';
 import OptionAffichage from '../Datatable/OptionAffichage/OptionAffichage'; 
 import ReactPaginate from 'react-paginate'; 
@@ -11,15 +10,14 @@ import './Pagination.css'
 export default function Datatable() {
     const dispatch = useDispatch();
     const data = useSelector((state) => state.data);
-    const [columns, setColumns] = useState([]);
-    const [visibleColumns, setVisibleColumns] = useState([]);
+    const columns = useSelector((state) => state.columns);
+    const visibleColumns = useSelector((state) => state.visibleColumns);
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage] = useState(10);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredData, setFilteredData] = useState([]);
+    const searchTerm = useSelector((state) => state.searchTerm);
+    const filteredData = useSelector((state) => state.filteredData);
     const [sortColumn, setSortColumn] = useState(null);
-    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
-
+    const [sortOrder, setSortOrder] = useState('asc');
     const getColumns = (data) => {
         if (data.length > 0) {
             return Object.keys(data[0]);
@@ -39,14 +37,14 @@ export default function Datatable() {
     useEffect(() => {
         if (data.length > 0) {
             const newColumns = getColumns(data);
-            setColumns(newColumns);
-            setVisibleColumns(newColumns.slice(0, 8));
-            setFilteredData(filterData(data, searchTerm));
+            dispatch({type: 'ADD_COLUMNS', payload: {data: newColumns}});
+            dispatch({type: 'ADD_VISIBLE_COLUMNS', payload: {data: newColumns.slice(0, 8)}});
+            const temp = filterData(data, searchTerm);
+            dispatch({type: 'ADD_FILTERED_DATA', payload: {value: temp}});
         }
     }, [data, searchTerm]);
 
     useEffect(() => {
-        // Apply sorting whenever filteredData or sort criteria changes
         if (sortColumn) {
             const sortedData = [...filteredData].sort((a, b) => {
                 const aValue = a[sortColumn] || '';
@@ -57,12 +55,13 @@ export default function Datatable() {
                     return aValue < bValue ? 1 : (aValue > bValue ? -1 : 0);
                 }
             });
-            setFilteredData(sortedData);
+            dispatch({type: 'ADD_FILTERED_DATA', payload: {value: sortedData}});
         }
     }, [sortColumn, sortOrder]);
 
     const handleVisibilityChange = (updatedFields) => {
-        setVisibleColumns(Object.keys(updatedFields).filter(col => updatedFields[col]));
+        const temp = Object.keys(updatedFields).filter(col => updatedFields[col]);
+        dispatch({type: 'ADD_VISIBLE_COLUMNS', payload: {data: temp}});
     };
 
     const handlePageClick = (event) => {
@@ -79,13 +78,7 @@ export default function Datatable() {
         }
     };
 
-    const handleExportToExcel = () => {
-        exportToExcel(filteredData, columns, visibleColumns);
-    };
-
-    const handleExportToPDF = () => {
-        exportToPDF(filteredData, columns, visibleColumns);
-    };
+    
 
     const pageCount = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -96,22 +89,6 @@ export default function Datatable() {
     return (
         <div>
             <div className='datatable'>
-                <div className="datatable-controls">
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className='form-control mb-3'
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button className="btn btn-success" onClick={handleExportToExcel}>
-                        <ExcelExportSVG />
-                        Export to Excel
-                    </button>
-                    <button className="btn btn-danger" onClick={handleExportToPDF}>
-                        Export to PDF
-                    </button>
-                </div>
                 <table>
                     <thead>
                         <tr>
