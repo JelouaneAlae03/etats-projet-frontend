@@ -1,7 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import './OptionAffichage.css';
 import eye from '../../../Assets/images/eye.png';
 import eyeslash from '../../../Assets/images/eye-slash.png';
@@ -19,33 +16,55 @@ function useOutsideClick(ref, callback) {
     }, [ref, callback]);
 }
 
-const OptionAffichage = () => {
-    const dispatch = useDispatch();
-    const selectedFields = useSelector((state) => state.selectedFields);
+const OptionAffichage = ({ columns, onVisibilityChange }) => {
+    const [selectedFields, setSelectedFields] = useState({});
     const dropdownRef = useRef(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useOutsideClick(dropdownRef, () => setIsDropdownOpen(false));
 
-    const toggleAttributeVisibility = (f) => {
-        dispatch({type: 'CHANGE_SELECTED_FIELDS', payload: {key: f}});
-        console.log("target name", f);
-    }
+    useEffect(() => {
+        const initialVisibilityState = columns.reduce((acc, column, index) => {
+            acc[column] = index < 8;
+            return acc;
+        }, {});
+        setSelectedFields(initialVisibilityState);
+        if (onVisibilityChange) {
+            onVisibilityChange(initialVisibilityState);
+        }
+    }, [columns]);
 
-    const Masquertout = () => {
-        dispatch({type: 'FALSE_SELECTED_FIELDS'});
-    }
-
-    const Affichertout = () => {
-        dispatch({type: 'TRUE_SELECTED_FIELDS'});
-    }
-    const handlePreventDefault = (e) => {
-        e.preventDefault();
+    const toggleAttributeVisibility = (field) => {
+        setSelectedFields(prevState => {
+            const updatedFields = { ...prevState, [field]: !prevState[field] };
+            if (onVisibilityChange) {
+                onVisibilityChange(updatedFields);
+            }
+            return updatedFields;
+        });
     };
 
-    useEffect(()=> {
-        console.log("selected Fields Affichage: ", selectedFields);
-    }, []);
+    const hideAll = () => {
+        const updatedFields = columns.reduce((acc, column) => {
+            acc[column] = false;
+            return acc;
+        }, {});
+        setSelectedFields(updatedFields);
+        if (onVisibilityChange) {
+            onVisibilityChange(updatedFields);
+        }
+    };
+
+    const showAll = () => {
+        const updatedFields = columns.reduce((acc, column) => {
+            acc[column] = true;
+            return acc;
+        }, {});
+        setSelectedFields(updatedFields);
+        if (onVisibilityChange) {
+            onVisibilityChange(updatedFields);
+        }
+    };
 
     return (
         <div className='Option_DDM_Container' ref={dropdownRef}>
@@ -61,30 +80,26 @@ const OptionAffichage = () => {
                     <div className='default_view'>Default view</div>
                     <div className='options_header'>
                         <span>Colonnes présentées</span>
-                        <a href="#" onClick={(e) => { handlePreventDefault(e); Masquertout(); }}>Masquer Tout</a>
+                        <a href="#" onClick={(e) => { e.preventDefault(); hideAll(); }}>Masquer Tout</a>
                     </div>
                     <div className='main_options'>
-                        {Object.keys(selectedFields).map((field) => 
-                            selectedFields[field] ? (
-                                <button key={field} name={field} className='dropdown-item option_button' onClick={() => toggleAttributeVisibility(field)}>
-                                    <span>{field}</span><img src={eye} alt="eye" />
-                                </button>
-                            ) : null
-                        )}
+                        {columns.filter(field => selectedFields[field]).map((field) => (
+                            <button key={field} name={field} className='dropdown-item option_button' onClick={() => toggleAttributeVisibility(field)}>
+                                <span>{field}</span><img src={eye} alt="eye" />
+                            </button>
+                        ))}
                     </div>
                     <div className='options_HL'></div>
                     <div className='options_header'>
                         <span>Colonnes masquées</span>
-                        <a href="#" onClick={(e) => { handlePreventDefault(e); Affichertout(); }}>Afficher Tout</a>
+                        <a href="#" onClick={(e) => { e.preventDefault(); showAll(); }}>Afficher Tout</a>
                     </div>
                     <div className='main_options'>
-                        {Object.keys(selectedFields).map((field) => 
-                            !selectedFields[field] ? (
-                                <button key={field} name={field} className='dropdown-item option_button' onClick={() => toggleAttributeVisibility(field)}>
-                                    <span>{field}</span><img src={eyeslash} alt="eyeslash" />
-                                </button>
-                            ) : null
-                        )}
+                        {columns.filter(field => !selectedFields[field]).map((field) => (
+                            <button key={field} name={field} className='dropdown-item option_button' onClick={() => toggleAttributeVisibility(field)}>
+                                <span>{field}</span><img src={eyeslash} alt="eyeslash" />
+                            </button>
+                        ))}
                     </div>
                 </div>
             )}
