@@ -4,6 +4,10 @@
     height: 4rem;
     margin-left: 1rem;
 }
+.GC-logo:hover{
+  background-color: #6c757d;
+  border-radius: 10px;
+}
 .nv-bar{
     background-color: #001D3D;
 }
