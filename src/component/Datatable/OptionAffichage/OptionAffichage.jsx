@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useRef } from 'react';
 import './OptionAffichage.css';
 import eye from '../../../Assets/images/eye.png';
@@ -75,7 +77,7 @@ const OptionAffichage = ({ columns, onVisibilityChange }) => {
                 <i className="bi bi-three-dots-vertical icon"></i>
             </button>
             {isDropdownOpen && (
-                <div className='dropdown-menu show' style={{ position: 'absolute', left: '61%', top: '17%', zIndex: 2 }}>
+                <div className='dropdown-menu show'>
                     <h3 className='option_h2'>Options d'affichage</h3>
                     <div className='default_view'>Default view</div>
                     <div className='options_header'>

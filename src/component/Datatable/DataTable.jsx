@@ -18,6 +18,7 @@ export default function Datatable() {
     const filteredData = useSelector((state) => state.filteredData);
     const [sortColumn, setSortColumn] = useState(null);
     const [sortOrder, setSortOrder] = useState('asc');
+    
     const getColumns = (data) => {
         if (data.length > 0) {
             return Object.keys(data[0]);

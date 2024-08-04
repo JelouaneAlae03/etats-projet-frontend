@@ -41,7 +41,7 @@
 
 .container .box-container .boxe {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+  border-radius: 15px;
   background: #fff;
   text-align: center;
   padding: 30px 20px;
@@ -70,7 +70,7 @@
   background: #001d3d;
   color: #fff;
   font-size: 17px;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 8px 25px;
 }
 

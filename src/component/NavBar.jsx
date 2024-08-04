@@ -41,13 +41,15 @@ const handleExportToPDF = () => {
 
   return (
     <>
-       {location.pathname !== '/login' && (
-  <nav className="navbar navbar-light nv-bar">
-    <Link to='/'><img src={GCLogo} alt="Gecimmo logo" className='GC-logo'/></Link>
-    <div className="d-flex">
-      {location.pathname === '/' && (
-          <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
-      )}
+      {location.pathname !== '/login' && (
+        <nav className="navbar navbar-light nv-bar">
+          <Link to='/' className='gc-logo-container'>
+            <img src={GCLogo} alt="Gecimmo logo" className='GC-logo'/>
+          </Link>
+          <div className="d-flex">
+            {location.pathname === '/' && (
+                <input className="form-control mr-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>{handleSearch(e.target.value)}}/>
+            )}
 
       {location.pathname === '/datatable' && (
         <div className='dt-nav-container'>

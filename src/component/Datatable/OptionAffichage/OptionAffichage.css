@@ -71,5 +71,9 @@
 .dropdown-menu{
     background-color: white;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    left: 61%;
+    top: 17%;
+    z-index: 2;
 }
 
