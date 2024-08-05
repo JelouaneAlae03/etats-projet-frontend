@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React ,{useEffect, useState}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GCLogo from '../Assets/images/GC-full-logo.png';
+import GCLogo from '../Assets/images/site-gecimmo.png';
 import userLogo from '../Assets/images/user.png'
 import './NavBar.css';
 import { Link } from 'react-router-dom';

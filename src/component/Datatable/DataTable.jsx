@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import ReactPaginate from 'react-paginate'; 
-import OptionAffichage from '../Datatable/OptionAffichage/OptionAffichage'; 
+import ReactPaginate from 'react-paginate';
+import OptionAffichage from '../Datatable/OptionAffichage/OptionAffichage';
 
 import './Datatable.css';
 import './Pagination.css';
@@ -49,9 +48,9 @@ const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrde
           transform: 'translateY(-50%)',
           cursor: 'move',
           fontSize: '18px',
-          userSelect: 'none', 
+          userSelect: 'none',
         }}
-        ref={drag} 
+        ref={drag}
       >
         ⋮⋮
       </div>
@@ -60,7 +59,7 @@ const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrde
 };
 
 const DraggableCell = ({ value }) => (
-  <td >
+  <td>
     {value !== undefined ? value : '-'}
   </td>
 );
@@ -73,9 +72,12 @@ export default function Datatable() {
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage] = useState(10);
   const searchTerm = useSelector((state) => state.searchTerm);
-  const filteredData = useSelector((state) => state.filteredData);
+  const filteredData = useSelector((state) => state.filteredData) || [];
   const [sortColumn, setSortColumn] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
+  const [groupByColumn, setGroupByColumn] = useState(null);
+  const [groupedData, setGroupedData] = useState({ grouped: {}, groupTotals: {} });
+  const prixColumns = columns.filter(col => col.toLowerCase().includes('prix'));
 
   const getColumns = (data) => {
     if (data.length > 0) {
@@ -91,6 +93,34 @@ export default function Datatable() {
         value && value.toString().toLowerCase().includes(lowercasedTerm)
       )
     );
+  };
+
+  const groupData = (data, column) => {
+    return data.reduce((acc, item) => {
+      const key = item[column] || 'Others';
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(item);
+      return acc;
+    }, {});
+  };
+
+  const calculateGroupTotals = (data, column) => {
+    const totals = {};
+    data.forEach(item => {
+      const key = item[column] || 'Others';
+      if (!totals[key]) {
+        totals[key] = {};
+      }
+      prixColumns.forEach(prixCol => {
+        if (!totals[key][prixCol]) {
+          totals[key][prixCol] = 0;
+        }
+        totals[key][prixCol] += parseFloat(item[prixCol] || 0);
+      });
+    });
+    return totals;
   };
 
   useEffect(() => {
@@ -118,6 +148,16 @@ export default function Datatable() {
     }
   }, [sortColumn, sortOrder]);
 
+  useEffect(() => {
+    if (groupByColumn) {
+      const grouped = groupData(filteredData, groupByColumn);
+      const groupTotals = calculateGroupTotals(filteredData, groupByColumn);
+      setGroupedData({ grouped, groupTotals });
+    } else {
+      setGroupedData({ grouped: {}, groupTotals: {} });
+    }
+  }, [groupByColumn, filteredData]);
+
   const handleVisibilityChange = (updatedFields) => {
     const temp = Object.keys(updatedFields).filter(col => updatedFields[col]);
     dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: temp } });
@@ -137,6 +177,10 @@ export default function Datatable() {
     }
   };
 
+  const handleGroupBy = (event) => {
+    setGroupByColumn(event.target.value === 'None' ? null : event.target.value);
+  };
+
   const moveColumn = (fromIndex, toIndex) => {
     const reorderedColumns = [...visibleColumns];
     const [movedColumn] = reorderedColumns.splice(fromIndex, 1);
@@ -144,15 +188,30 @@ export default function Datatable() {
     dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: reorderedColumns } });
   };
 
-  const pageCount = Math.ceil(filteredData.length / itemsPerPage);
+  const pageCount = groupByColumn 
+    ? Math.ceil(Object.keys(groupedData.grouped).length / itemsPerPage) 
+    : Math.ceil(filteredData.length / itemsPerPage);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = filteredData.slice(startIndex, endIndex);
+  const currentData = groupByColumn 
+    ? Object.entries(groupedData.grouped).slice(startIndex, endIndex) 
+    : filteredData.slice(startIndex, endIndex);
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className='datatable'>
+        <div className="controls">
+          <label htmlFor="groupBy">Group by: </label>
+          <select id="groupBy" onChange={handleGroupBy}>
+            <option value="None">None</option>
+            {columns.map((column) => (
+              <option key={column} value={column}>
+                {column}
+              </option>
+            ))}
+          </select>
+        </div>
         <table>
           <thead>
             <tr>
@@ -173,15 +232,38 @@ export default function Datatable() {
             </tr>
           </thead>
           <tbody>
-            {currentData.map((item, index) => (
-              <tr key={index}>
-                {visibleColumns.map((col) => (
-                  <DraggableCell key={col} value={item[col]} />
-                ))}
-                <td></td>
-              </tr>
-              
-            ))}
+            {groupByColumn ? (
+              currentData.map(([groupKey, items], groupIndex) => (
+                <React.Fragment key={groupIndex}>
+                  <tr className="group-header" style={{ backgroundColor: '#f0f0f0' }}>
+                    <td colSpan={visibleColumns.length + 1}>
+                      {groupKey} - Totals: {prixColumns.map(prixCol => (
+                        <div key={prixCol}>
+                          {prixCol}: {groupedData.groupTotals[groupKey]?.[prixCol]?.toFixed(2) || 0}
+                        </div>
+                      ))}
+                    </td>
+                  </tr>
+                  {items.map((item, index) => (
+                    <tr key={index}>
+                      {visibleColumns.map((col) => (
+                        <DraggableCell key={col} value={item[col]} />
+                      ))}
+                      <td></td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              ))
+            ) : (
+              currentData.map((item, index) => (
+                <tr key={index}>
+                  {visibleColumns.map((col) => (
+                    <DraggableCell key={col} value={item[col]} />
+                  ))}
+                  <td></td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <div className='pagination-container'>
