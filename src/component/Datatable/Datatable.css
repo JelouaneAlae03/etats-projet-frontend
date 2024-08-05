@@ -129,3 +129,12 @@
     border-radius: 9px;
     border: 1px solid black;
   }
+
+
+
+  
+.header-group{
+  font-weight: bold !important;
+  font-size: 14px !important;
+  color: white;
+}

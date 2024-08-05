@@ -235,11 +235,11 @@ export default function Datatable() {
             {groupByColumn ? (
               currentData.map(([groupKey, items], groupIndex) => (
                 <React.Fragment key={groupIndex}>
-                  <tr className="group-header" style={{ backgroundColor: '#f0f0f0' }}>
+                  <tr className="group-header" style={{ backgroundColor: '#7792bc' }}>
                     <td colSpan={visibleColumns.length + 1}>
-                      {groupKey} - Totals: {prixColumns.map(prixCol => (
+                    <span className="header-group">{groupKey} - Totals:</span> {prixColumns.map(prixCol => (
                         <div key={prixCol}>
-                          {prixCol}: {groupedData.groupTotals[groupKey]?.[prixCol]?.toFixed(2) || 0}
+                          <span className="header-group">{prixCol}: {groupedData.groupTotals[groupKey]?.[prixCol]?.toFixed(2) || 0}</span>
                         </div>
                       ))}
                     </td>
