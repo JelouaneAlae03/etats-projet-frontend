@@ -79,11 +79,11 @@ export default function Consignations(){
 
                 <div className="form-floating">
                     
-                    <input type="text" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
+                    <input type="date" className="form-control" id="fEntre" onChange={(e) => handleInputChange(e)}/>
                     <label htmlFor="fEntre">Entre</label>
                 </div>
                 <div className="form-floating">
-                    <input type="text" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
+                    <input type="date" className="form-control" id="fEt" onChange={(e) => handleInputChange(e)} />
                     <label htmlFor="fEt">Et</label>
                 </div>
             </div>

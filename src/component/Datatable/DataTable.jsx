@@ -128,11 +128,15 @@ export default function Datatable() {
       const newColumns = getColumns(data);
       dispatch({ type: 'ADD_COLUMNS', payload: { data: newColumns } });
       dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: newColumns.slice(0, 8) } });
+    }
+  }, [data, dispatch]);
+
+  useEffect(() => {
+    if (data.length > 0) {
       const temp = filterData(data, searchTerm);
       dispatch({ type: 'ADD_FILTERED_DATA', payload: { value: temp } });
     }
-  }, [data, searchTerm]);
-
+  }, [searchTerm, data, dispatch]);
   useEffect(() => {
     if (sortColumn) {
       const sortedData = [...filteredData].sort((a, b) => {
@@ -182,11 +186,17 @@ export default function Datatable() {
   };
 
   const moveColumn = (fromIndex, toIndex) => {
-    const reorderedColumns = [...visibleColumns];
-    const [movedColumn] = reorderedColumns.splice(fromIndex, 1);
-    reorderedColumns.splice(toIndex, 0, movedColumn);
-    dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: reorderedColumns } });
+    const reorderedVisibleColumns = [...visibleColumns];
+    const [movedColumn] = reorderedVisibleColumns.splice(fromIndex, 1);
+    reorderedVisibleColumns.splice(toIndex, 0, movedColumn);
+  
+    dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: reorderedVisibleColumns } });
+  
+    const reorderedColumns = reorderedVisibleColumns.concat(columns.filter(col => !reorderedVisibleColumns.includes(col)));
+    dispatch({ type: 'ADD_COLUMNS', payload: { data: reorderedColumns } });
   };
+  
+  
 
   const pageCount = groupByColumn 
     ? Math.ceil(Object.keys(groupedData.grouped).length / itemsPerPage) 
@@ -202,7 +212,7 @@ export default function Datatable() {
     <DndProvider backend={HTML5Backend}>
       <div className='datatable'>
         <div className="controls">
-          <label htmlFor="groupBy">Group by: </label>
+          <label htmlFor="groupBy">Groupée par : </label>
           <select id="groupBy" onChange={handleGroupBy}>
             <option value="None">None</option>
             {columns.map((column) => (
