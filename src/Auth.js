@@ -7,9 +7,13 @@ export const login = async (username, password) => {
         const response = await axios.post(`${API_URL}/login`, { "Nom": username, "Mot_Passe" : password });
         if (response.data.success) {
             localStorage.setItem('user', JSON.stringify(response.data.user));
+            console.log(response.data)
             return response.data.user;
         } else {
+            console.log('else')
             throw new Error(response.data.message);
+            
+
         }
     } catch (error) {
         throw new Error(error.message);

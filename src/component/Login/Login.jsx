@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { login } from '../../Auth';
 import './Login.css'
 import GCLOGO from '../../Assets/images/site-gecimmo.png'
@@ -9,18 +9,21 @@ export const Login = ({onLogin}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
+    const [log,setLog] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const user = await login(username, password);
             onLogin(user); 
+            setLog(user)
         } catch (err) {
             setError(err.message);
         }
     };
-
+    useEffect(()=>{
+        console.log(log);
+    },[log])
   return (
     
         
