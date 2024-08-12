@@ -68,7 +68,8 @@ export default function Datatable() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data);
   const columns = useSelector((state) => state.columns);
-  const visibleColumns = useSelector((state) => state.visibleColumns);
+  const [visibleColumns, setVisibleColumns] = useState([]);
+  const [columnOrder, setColumnOrder] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage] = useState(10);
   const searchTerm = useSelector((state) => state.searchTerm);
@@ -77,7 +78,7 @@ export default function Datatable() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [groupByColumn, setGroupByColumn] = useState(null);
   const [groupedData, setGroupedData] = useState({ grouped: {}, groupTotals: {} });
-  const prixColumns = columns.filter(col => col.toLowerCase().includes('prix'));
+  const prixColumns = columns.filter(col => col?.toLowerCase().includes('prix'));
 
   const getColumns = (data) => {
     if (data.length > 0) {
@@ -127,7 +128,8 @@ export default function Datatable() {
     if (data.length > 0) {
       const newColumns = getColumns(data);
       dispatch({ type: 'ADD_COLUMNS', payload: { data: newColumns } });
-      dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: newColumns.slice(0, 8) } });
+      setColumnOrder(newColumns);
+      setVisibleColumns(newColumns.slice(0, 8));
     }
   }, [data, dispatch]);
 
@@ -137,6 +139,7 @@ export default function Datatable() {
       dispatch({ type: 'ADD_FILTERED_DATA', payload: { value: temp } });
     }
   }, [searchTerm, data, dispatch]);
+
   useEffect(() => {
     if (sortColumn) {
       const sortedData = [...filteredData].sort((a, b) => {
@@ -150,7 +153,7 @@ export default function Datatable() {
       });
       dispatch({ type: 'ADD_FILTERED_DATA', payload: { value: sortedData } });
     }
-  }, [sortColumn, sortOrder]);
+  }, [sortColumn, sortOrder, filteredData, dispatch]);
 
   useEffect(() => {
     if (groupByColumn) {
@@ -163,8 +166,8 @@ export default function Datatable() {
   }, [groupByColumn, filteredData]);
 
   const handleVisibilityChange = (updatedFields) => {
-    const temp = Object.keys(updatedFields).filter(col => updatedFields[col]);
-    dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: temp } });
+    const temp = columnOrder.filter(col => updatedFields[col]);
+    setVisibleColumns(temp);
   };
 
   const handlePageClick = (event) => {
@@ -186,17 +189,14 @@ export default function Datatable() {
   };
 
   const moveColumn = (fromIndex, toIndex) => {
-    const reorderedVisibleColumns = [...visibleColumns];
-    const [movedColumn] = reorderedVisibleColumns.splice(fromIndex, 1);
-    reorderedVisibleColumns.splice(toIndex, 0, movedColumn);
-  
-    dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: reorderedVisibleColumns } });
-  
-    const reorderedColumns = reorderedVisibleColumns.concat(columns.filter(col => !reorderedVisibleColumns.includes(col)));
-    dispatch({ type: 'ADD_COLUMNS', payload: { data: reorderedColumns } });
+    const reorderedColumns = [...columnOrder];
+    const [movedColumn] = reorderedColumns.splice(fromIndex, 1);
+    reorderedColumns.splice(toIndex, 0, movedColumn);
+
+    setColumnOrder(reorderedColumns);
+    const newVisibleColumns = reorderedColumns.filter(col => visibleColumns.includes(col));
+    setVisibleColumns(newVisibleColumns);
   };
-  
-  
 
   const pageCount = groupByColumn 
     ? Math.ceil(Object.keys(groupedData.grouped).length / itemsPerPage) 
@@ -247,7 +247,7 @@ export default function Datatable() {
                 <React.Fragment key={groupIndex}>
                   <tr className="group-header" style={{ backgroundColor: '#7792bc' }}>
                     <td colSpan={visibleColumns.length + 1}>
-                    <span className="header-group">{groupKey} - Totals:</span> {prixColumns.map(prixCol => (
+                      <span className="header-group">{groupKey} - Totals:</span> {prixColumns.map(prixCol => (
                         <div key={prixCol}>
                           <span className="header-group">{prixCol}: {groupedData.groupTotals[groupKey]?.[prixCol]?.toFixed(2) || 0}</span>
                         </div>
