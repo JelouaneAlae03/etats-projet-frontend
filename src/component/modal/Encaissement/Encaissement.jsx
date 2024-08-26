@@ -22,7 +22,9 @@ export default function Encaissement(){
 
     const getEncaissements = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/etats/encaissements');
+            const response = await axios.get('http://127.0.0.1:8000/api/etats/encaissements',{
+                withCredentials: true
+            });
             console.log("encaissement", response.data)
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'LOADING', payload: {value: false}});
@@ -43,7 +45,10 @@ export default function Encaissement(){
 
     const PostEncaissements = async (conditions) => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/etats/postencaissementsdata', {conditions});
+            const response = await axios.post('http://127.0.0.1:8000/api/etats/postencaissementsdata', {conditions},{
+                withCredentials: true
+
+            });
             console.log("data post encaiss: ", response.data);
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'EMPTY_SELECTED'});

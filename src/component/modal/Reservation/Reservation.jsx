@@ -12,7 +12,10 @@ export default function Reservation(){
 
     const getReservations = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations');
+            const response = await axios.get('http://127.0.0.1:8000/api/etats/reservations',{
+                withCredentials: true
+
+            });
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'LOADING', payload: {value: false}});
             const keys = response.data.reduce((keys, obj) => {
@@ -31,7 +34,9 @@ export default function Reservation(){
 
     const PostReservations = async (conditions) => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/etats/getreservationsdata', {conditions});
+            const response = await axios.post('http://127.0.0.1:8000/api/etats/getreservationsdata', {conditions},{
+                withCredentials: true
+            });
             console.log(response.data);
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'EMPTY_SELECTED'});

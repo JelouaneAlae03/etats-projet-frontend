@@ -1,0 +1,118 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  /* Header styles */
+  th {
+    background-color: white;
+    color: #001D3D;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  /* Row styles */
+  tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Cell styles */
+  td {
+    color: #333;
+  }
+  
+  
+  /* Adjustments for smaller screens */
+  @media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+      width: 100%;
+    }
+  
+    th, td {
+      text-align: right;
+    }
+  
+    th {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    tr {
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+    }
+  
+    td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+    }
+  
+    td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      padding-left: 15px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+  .SearchInput-Container{
+    margin: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .SearchInput {
+    border: 2px solid transparent;
+    width: 15em;
+    height: 2.5em;
+    padding-left: 0.8em;
+    outline: none;
+    overflow: hidden;
+    background-color: #F3F3F3;
+    border-radius: 10px;
+    transition: all 0.5s;
+
+  }
+  
+  .SearchInput:hover,
+  .SearchInput:focus {
+    border: 2px solid #4A9DEC;
+    box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+    background-color: white;
+  }
+
+  .pagination-container{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .pagination .active a{
+    background-color: #001D3D;
+  }
+  .pagination  a{
+    font-size: 14px;
+  }
+  
+  

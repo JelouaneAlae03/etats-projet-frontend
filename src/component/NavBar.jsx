@@ -13,6 +13,9 @@ import exportToExcel from './Exportation/Excel';
 import exportToPDF from './Exportation/Pdf';
 import { useDispatch, useSelector } from 'react-redux';
 import { Export } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 
 const NavBar = ({handleSearch}) => {
@@ -24,6 +27,18 @@ const NavBar = ({handleSearch}) => {
   const filteredData = useSelector((state) => state.filteredData);
   const columns = useSelector((state) => state.columns);
   const visibleColumns = useSelector((state) => state.visibleColumns);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+      try {
+          await axios.post('http://127.0.0.1:8000/api/logout', {}, { withCredentials: true });
+
+          navigate('/login');
+
+      } catch (error) {
+          console.error('Failed to logout:', error);
+      }
+  };
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -88,10 +103,10 @@ const handleExportToPDF = () => {
       </button>
       {isOpen && (
         <div className="custom-dropdown-menu">
-          <a className="custom-dropdown-item" href="#">Liste d'utilisateur</a>
-          <a className="custom-dropdown-item" href="#">Action</a>
+          <a className="custom-dropdown-item" href="/users">Liste d'utilisateur</a>
+          <a className="custom-dropdown-item" href="/configuration">Configuration</a>
           <div className="custom-dropdown-divider"></div>
-          <a className="custom-dropdown-item" href="#">Déconnexion</a>
+          <button onClick={handleLogout} className="custom-dropdown-item">Déconnexion</button>
         </div>
       )}
     </div>

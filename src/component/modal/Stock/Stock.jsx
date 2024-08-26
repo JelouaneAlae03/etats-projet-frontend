@@ -12,7 +12,9 @@ export default function Stock(){
 
     const getStock = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/etats/stock');
+            const response = await axios.get('http://127.0.0.1:8000/api/etats/stock',{
+                withCredentials: true
+            });
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
 
         } catch (error) {
@@ -22,7 +24,9 @@ export default function Stock(){
 
     const PostStock = async (conditions) => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/etats/poststockdata', {conditions});
+            const response = await axios.post('http://127.0.0.1:8000/api/etats/poststockdata', {conditions},{
+                withCredentials: true
+            });
             console.log(response.data);
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'EMPTY_SELECTED'});

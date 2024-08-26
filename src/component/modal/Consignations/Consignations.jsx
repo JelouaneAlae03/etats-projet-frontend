@@ -10,19 +10,22 @@ export default function Consignations(){
     const selectedOptions = useSelector((state) => state.selectedOptions);
     const data = useSelector((state) => state.data);
 
-    const getStock = async () => {
+    const getConsignations = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/etats/consignations');
+            const response = await axios.get('http://127.0.0.1:8000/api/etats/consignations', {
+                withCredentials: true
+            });
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
-
         } catch (error) {
             console.error("There was an error fetching the data!", error);
         }
     }
-
-    const PostStock = async (conditions) => {
+    
+    const PostConsignations = async (conditions) => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/etats/postConsignationsdata', {conditions});
+            const response = await axios.post('http://127.0.0.1:8000/api/etats/postConsignationsdata', {conditions}, {
+                withCredentials: true
+            });
             console.log(response.data);
             dispatch({type: 'ADD_DATA', payload: {data: response.data}});
             dispatch({type: 'EMPTY_SELECTED'});
@@ -30,15 +33,16 @@ export default function Consignations(){
             console.error("There was an error fetching the data!", error);
         }
     }
+    
 
     const handleApercu = () =>{
-        PostStock(selectedOptions);
+        PostConsignations(selectedOptions);
         dispatch({type: 'MODAL_SHOW', payload: {show: false}});
     }
 
     useEffect(()=>{
         dispatch({type: 'LOADING', payload: {value: true}});
-        getStock();
+        getConsignations();
         dispatch({type: 'LOADING', payload: {value: false}});
         dispatch({type: 'ADD_SELECTED', payload: {key: "fSelectEntre", value: "Date_Consignation"}});
         dispatch({type: 'ADD_SELECTED', payload: {key: "sSelectMontant", value: ""}});

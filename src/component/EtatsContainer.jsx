@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import EtatCard from './EtatCard';
 import './EtatCard.css';
 import './EtatsContainer.css';
@@ -14,12 +14,90 @@ import opportuniteimg from "../Assets/images/Modules/Opportunité.png";
 import suivireservationimg from "../Assets/images/Modules/suivireservation.png";
 import gestionimprevusimg from "../Assets/images/Modules/gestionImprevue.png";
 import postimg from "../Assets/images/Modules/postconcretisation.png";
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
 import Loading from './Loading';
+import axios from 'axios';
+import NavBar from './NavBar';
 
 
-const EtatsContainer = ({ filtredEtats }) => {
+const EtatsContainer = () => {
   const isLoading = useSelector((state)=>state.isLoading);
+  const dispatch = useDispatch()
+  const [groupedEtats, setGroupedEtats] = useState([]);
+  const [filtredEtats,setFiltredEtats] = useState([]);
+
+  const getEtats = async () => {
+    try {
+      dispatch({type: 'LOADING', payload: {value: true}});
+      
+      const response = await axios.get('http://127.0.0.1:8000/api/etats', {
+        withCredentials: true, 
+      });
+  
+      console.log("Response Data:", response.data); 
+      
+      const data = groupBy(response.data, 'Module');
+      console.log("Grouped Data:", data); 
+      
+      setGroupedEtats(data);
+      setFiltredEtats(data);
+      
+      dispatch({type: 'LOADING', payload: {value: false}});
+    } catch (error) {
+      console.error("Error Fetching Data:", error.message);
+      if (error.response) {
+        console.error("Response Status:", error.response.status);
+        console.error("Response Data:", error.response.data);
+        console.error("Response Headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("Request Data:", error.request);
+      } else {
+        console.error("Error Message:", error.message);
+      }
+    }
+  };
+
+const groupBy = (array, key) => {
+  return array.reduce((result, currentValue) => {
+     
+      if (currentValue[key] !== null) {
+          const groupKey = currentValue[key];
+
+          if (!result[groupKey]) {
+              result[groupKey] = [];
+          }
+
+          result[groupKey].push(currentValue);
+      }
+      return result;
+  }, {});
+};
+  const handleSearch = (search) => {
+    const newFilteredData = {};
+
+    if (search !== null) {
+      Object.keys(groupedEtats).forEach(key => {
+        if (Array.isArray(groupedEtats[key])) {
+          newFilteredData[key] = groupedEtats[key].filter(item =>
+            Object.values(item).some(value =>
+              typeof value === 'string' && value.toLowerCase().includes(search.toLowerCase())
+            )
+          );
+        } else {
+          newFilteredData[key] = groupedEtats[key];
+        }
+      });
+    } else {
+      setFiltredEtats(groupedEtats);
+    }
+
+    setFiltredEtats(newFilteredData);
+  };
+
+  useEffect(() => {
+    getEtats();
+  }, []);
+
   const renderimages = (module) => {
     switch (module) {
       case 'Pilotage':
@@ -53,6 +131,8 @@ const EtatsContainer = ({ filtredEtats }) => {
 
   return (
     <>
+          <NavBar handleSearch={handleSearch}/>
+
       {
         isLoading ?
           <Loading />

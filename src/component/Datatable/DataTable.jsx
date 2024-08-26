@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -35,12 +35,12 @@ const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrde
         position: 'relative',
       }}
       onClick={() => onSort(column)}
-      ref={node => drop(node)}
+      ref={(node) => drop(node)}
     >
       {column}
       {isSorted && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
       <div
-        className='drag-handle'
+        className="drag-handle"
         style={{
           position: 'absolute',
           right: '5px',
@@ -58,11 +58,7 @@ const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrde
   );
 };
 
-const DraggableCell = ({ value }) => (
-  <td>
-    {value !== undefined ? value : '-'}
-  </td>
-);
+const DraggableCell = ({ value }) => <td>{value !== undefined ? value : '-'}</td>;
 
 export default function Datatable() {
   const dispatch = useDispatch();
@@ -78,7 +74,7 @@ export default function Datatable() {
   const [sortOrder, setSortOrder] = useState('asc');
   const [groupByColumn, setGroupByColumn] = useState(null);
   const [groupedData, setGroupedData] = useState({ grouped: {}, groupTotals: {} });
-  const prixColumns = columns.filter(col => col?.toLowerCase().includes('prix'));
+  const prixColumns = columns.filter((col) => col?.toLowerCase().includes('prix'));
 
   const getColumns = (data) => {
     if (data.length > 0) {
@@ -89,8 +85,8 @@ export default function Datatable() {
 
   const filterData = (data, searchTerm) => {
     const lowercasedTerm = searchTerm.toLowerCase();
-    return data.filter(item =>
-      Object.values(item).some(value =>
+    return data.filter((item) =>
+      Object.values(item).some((value) =>
         value && value.toString().toLowerCase().includes(lowercasedTerm)
       )
     );
@@ -109,12 +105,12 @@ export default function Datatable() {
 
   const calculateGroupTotals = (data, column) => {
     const totals = {};
-    data.forEach(item => {
+    data.forEach((item) => {
       const key = item[column] || 'Others';
       if (!totals[key]) {
         totals[key] = {};
       }
-      prixColumns.forEach(prixCol => {
+      prixColumns.forEach((prixCol) => {
         if (!totals[key][prixCol]) {
           totals[key][prixCol] = 0;
         }
@@ -140,33 +136,35 @@ export default function Datatable() {
     }
   }, [searchTerm, data, dispatch]);
 
-  useEffect(() => {
-    if (sortColumn) {
-      const sortedData = [...filteredData].sort((a, b) => {
-        const aValue = a[sortColumn] || '';
-        const bValue = b[sortColumn] || '';
-        if (sortOrder === 'asc') {
-          return aValue > bValue ? 1 : (aValue < bValue ? -1 : 0);
-        } else {
-          return aValue < bValue ? 1 : (aValue > bValue ? -1 : 0);
-        }
-      });
-      dispatch({ type: 'ADD_FILTERED_DATA', payload: { value: sortedData } });
-    }
-  }, [sortColumn, sortOrder, filteredData, dispatch]);
+  // Memoized sorted data
+  const sortedData = useMemo(() => {
+    if (!sortColumn) return filteredData;
 
+    return [...filteredData].sort((a, b) => {
+      const aValue = a[sortColumn] || '';
+      const bValue = b[sortColumn] || '';
+
+      if (sortOrder === 'asc') {
+        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+      } else {
+        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+      }
+    });
+  }, [filteredData, sortColumn, sortOrder]);
+
+  // Calculate grouped data and group totals
   useEffect(() => {
     if (groupByColumn) {
-      const grouped = groupData(filteredData, groupByColumn);
-      const groupTotals = calculateGroupTotals(filteredData, groupByColumn);
+      const grouped = groupData(sortedData, groupByColumn);
+      const groupTotals = calculateGroupTotals(sortedData, groupByColumn);
       setGroupedData({ grouped, groupTotals });
     } else {
       setGroupedData({ grouped: {}, groupTotals: {} });
     }
-  }, [groupByColumn, filteredData]);
+  }, [groupByColumn, sortedData]);
 
   const handleVisibilityChange = (updatedFields) => {
-    const temp = columnOrder.filter(col => updatedFields[col]);
+    const temp = columnOrder.filter((col) => updatedFields[col]);
     setVisibleColumns(temp);
   };
 
@@ -194,23 +192,23 @@ export default function Datatable() {
     reorderedColumns.splice(toIndex, 0, movedColumn);
 
     setColumnOrder(reorderedColumns);
-    const newVisibleColumns = reorderedColumns.filter(col => visibleColumns.includes(col));
+    const newVisibleColumns = reorderedColumns.filter((col) => visibleColumns.includes(col));
     setVisibleColumns(newVisibleColumns);
   };
 
-  const pageCount = groupByColumn 
-    ? Math.ceil(Object.keys(groupedData.grouped).length / itemsPerPage) 
-    : Math.ceil(filteredData.length / itemsPerPage);
+  const pageCount = groupByColumn
+    ? Math.ceil(Object.keys(groupedData.grouped).length / itemsPerPage)
+    : Math.ceil(sortedData.length / itemsPerPage);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = groupByColumn 
-    ? Object.entries(groupedData.grouped).slice(startIndex, endIndex) 
-    : filteredData.slice(startIndex, endIndex);
+  const currentData = groupByColumn
+    ? Object.entries(groupedData.grouped).slice(startIndex, endIndex)
+    : sortedData.slice(startIndex, endIndex);
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className='datatable'>
+      <div className="datatable">
         <div className="controls">
           <label htmlFor="groupBy">Groupée par : </label>
           <select id="groupBy" onChange={handleGroupBy}>
@@ -247,9 +245,13 @@ export default function Datatable() {
                 <React.Fragment key={groupIndex}>
                   <tr className="group-header" style={{ backgroundColor: '#7792bc' }}>
                     <td colSpan={visibleColumns.length + 1}>
-                      <span className="header-group">{groupKey} - Totals:</span> {prixColumns.map(prixCol => (
+                      <span className="header-group">{groupKey} - Totals:</span>{' '}
+                      {prixColumns.map((prixCol) => (
                         <div key={prixCol}>
-                          <span className="header-group">{prixCol}: {groupedData.groupTotals[groupKey]?.[prixCol]?.toFixed(2) || 0}</span>
+                          <span className="header-group">
+                            {prixCol}:{' '}
+                            {groupedData.groupTotals[groupKey]?.[prixCol]?.toFixed(2) || 0}
+                          </span>
                         </div>
                       ))}
                     </td>
@@ -259,7 +261,6 @@ export default function Datatable() {
                       {visibleColumns.map((col) => (
                         <DraggableCell key={col} value={item[col]} />
                       ))}
-                      <td></td>
                     </tr>
                   ))}
                 </React.Fragment>
@@ -270,27 +271,23 @@ export default function Datatable() {
                   {visibleColumns.map((col) => (
                     <DraggableCell key={col} value={item[col]} />
                   ))}
-                  <td></td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
-        <div className='pagination-container'>
-          <ReactPaginate
-            previousLabel={'<'}
-            nextLabel={'>'}
-            breakLabel={'...'}
-            breakClassName={'break-me'}
-            pageCount={pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={2}
-            onPageChange={handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
-        </div>
+        <ReactPaginate
+          previousLabel={'←'}
+          nextLabel={'→'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
+        />
       </div>
     </DndProvider>
   );

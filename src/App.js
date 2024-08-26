@@ -11,94 +11,50 @@ import MainModal from './component/modal/MainModal';
 import { useDispatch } from 'react-redux';
 import Datatable from './component/Datatable/DataTable.jsx';
 import { Login } from './component/Login/Login.jsx';
+import { useLocation } from 'react-router-dom';
+import { UsersList } from './component/UsersList.jsx';
+import { UserDetails } from './component/UserDetails.jsx';
+import { Settings } from './component/Settings.jsx';
 
 
 
 function App() {
-  const dispatch = useDispatch()
-  const [groupedEtats, setGroupedEtats] = useState([]);
-  const [filtredEtats,setFiltredEtats] = useState([]);
+  const location = useLocation();
+  // if (checkDroits(listDroits,'dkfjsd')) {
 
-  const getEtats = async () => {
-    try {
-      dispatch({type: 'LOADING', payload: {value: true}});
-      const response = await axios.get('http://127.0.0.1:8000/api/etats');
-      const data = groupBy(response.data, 'Module');
-      console.log("etats", response.data);
-      setGroupedEtats(data);
-      setFiltredEtats(data);
-      dispatch({type: 'LOADING', payload: {value: false}});
-    } catch (error) {
-      console.error("There was an error fetching the data!", error);
-    }
-  }
+  // }
+  
+    return (
+      <>
+        <MainModal />
+        {location.pathname !== '/' && <NavBar />}
+        <Routes>
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route
+            path="/"
+            element={<EtatsContainer />}
+          />
+          <Route
+            path="/datatable"
+            element={<Datatable />}
+          />
+          <Route
+            path="/Users"
+            element={<UsersList />}
+          />
+          <Route path="/users/:id" element={<UserDetails/>} />
+          <Route path="/configuration" element={<Settings/>} />
 
-const groupBy = (array, key) => {
-  return array.reduce((result, currentValue) => {
-     
-      if (currentValue[key] !== null) {
-          const groupKey = currentValue[key];
+          
 
-          if (!result[groupKey]) {
-              result[groupKey] = [];
-          }
-
-          result[groupKey].push(currentValue);
-      }
-      return result;
-  }, {});
-};
-  const handleSearch = (search) => {
-    const newFilteredData = {};
-
-    if (search !== null) {
-      Object.keys(groupedEtats).forEach(key => {
-        if (Array.isArray(groupedEtats[key])) {
-          newFilteredData[key] = groupedEtats[key].filter(item =>
-            Object.values(item).some(value =>
-              typeof value === 'string' && value.toLowerCase().includes(search.toLowerCase())
-            )
-          );
-        } else {
-          newFilteredData[key] = groupedEtats[key];
-        }
-      });
-    } else {
-      setFiltredEtats(groupedEtats);
-    }
-
-    setFiltredEtats(newFilteredData);
+        </Routes>
+      </>
+    );
   };
 
-  useEffect(() => {
-    getEtats();
-  }, []);
 
-  return (
-    <Router>
-      <NavBar handleSearch={handleSearch}/>
-      <MainModal />
-      <Routes>
-      <Route
-          path="/login"
-          element={<Login />
-          }
-        />
-        <Route
-          path="/"
-          element={<EtatsContainer filtredEtats={filtredEtats} />
-          }
-        />
-        <Route
-          path="/datatable"
-          element={<Datatable />
-          }
-        />
-      </Routes>
-
-    </Router>
-
-  );
-}
 
 export default App;
