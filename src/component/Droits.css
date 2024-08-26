@@ -1,0 +1,19 @@
+.parent-droits{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+table{
+    border-radius: 12px;
+}
+.droitsHeader-container{
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.ajouter-droit>span{
+    padding-left: 3px;
+}
+.ajouter-droit{
+    display: flex;
+    align-items: center;
+}

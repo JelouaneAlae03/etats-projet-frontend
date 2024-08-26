@@ -1,12 +1,11 @@
 import React from 'react';
-import { FaUser, FaCog, FaLock, FaSignOutAlt , FaDatabase , FaUserShield } from 'react-icons/fa';
+import { FaUser, FaCog, FaSignOutAlt , FaDatabase , FaUserShield } from 'react-icons/fa';
 
 const Sidebar = ({activeMenuItem,setActiveMenuItem}) => {
 
   const menuItems = [
     { id: 'profile', name: 'Profile', icon: <FaUser /> },
     { id: 'account', name: 'Account Settings', icon: <FaCog /> },
-    { id: 'privacy', name: 'Privacy', icon: <FaLock /> },
     { id: 'database', name: 'Database Settings', icon: <FaDatabase /> },
     { id: 'roles', name: 'Roles & Rights', icon: <FaUserShield /> }, 
     { id: 'logout', name: 'Logout', icon: <FaSignOutAlt /> }

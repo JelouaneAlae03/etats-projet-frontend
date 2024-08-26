@@ -6,8 +6,8 @@ import ReactPaginate from 'react-paginate';
 import Loading from './Loading';
 
 export const UsersList = () => {
-    const [users, setUsers] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
     
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10; 
@@ -38,12 +38,15 @@ export const UsersList = () => {
             console.error(err);
         }
     }
+
     useEffect(()=>{
         GetUsersList();
     },[])
+
     useEffect(()=>{
         console.log(users);
     },[users])
+    
     if (users.length === 0) {
       return <Loading />;
 

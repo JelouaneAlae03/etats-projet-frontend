@@ -16,7 +16,7 @@ const DbConfig = () => {
     }
 }
     useEffect(()=>{
-        GetDbInfo();
+      GetDbInfo();
     },[])
 
   const handleInputChange = (e) => {
@@ -28,27 +28,28 @@ const DbConfig = () => {
     e.preventDefault();
     console.log('Updated Config:', config);
   };
+
   if (config.length === 0) {
     return <Loading />
   }
 
   return (
     <>        
-        <form onSubmit={handleSubmit} style={styles.form}>
-        {Object.keys(config).map((key) => (
-            <div key={key} style={styles.inputGroup}>
-            <label style={styles.label}>{key}</label>
-            <input
-                type="text"
-                name={key}
-                value={config[key]}
-                onChange={handleInputChange}
-                style={styles.input}
-            />
-            </div>
-        ))}
-        <button type="submit" style={styles.button}>Save Config</button>
-        </form>
+      <form onSubmit={handleSubmit} style={styles.form}>
+      {Object.keys(config).map((key) => (
+          <div key={key} style={styles.inputGroup}>
+          <label style={styles.label}>{key}</label>
+          <input
+              type="text"
+              name={key}
+              value={config[key]}
+              onChange={handleInputChange}
+              style={styles.input}
+          />
+          </div>
+      ))}
+      <button type="submit" style={styles.button}>Save Config</button>
+      </form>
     </>
     
   );
