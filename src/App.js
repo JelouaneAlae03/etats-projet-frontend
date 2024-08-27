@@ -13,7 +13,7 @@ import Datatable from './component/Datatable/DataTable.jsx';
 import { Login } from './component/Login/Login.jsx';
 import { useLocation } from 'react-router-dom';
 import { UsersList } from './component/UsersList.jsx';
-import { UserDetails } from './component/UserDetails.jsx';
+// import { UserDetails } from './component/UserDetails.jsx';
 import { Settings } from './component/Settings.jsx';
 
 
@@ -45,7 +45,7 @@ function App() {
             path="/Users"
             element={<UsersList />}
           />
-          <Route path="/users/:id" element={<UserDetails/>} />
+          {/* <Route path="/users/:id" element={<UserDetails/>} /> */}
           <Route path="/configuration" element={<Settings/>} />
 
           

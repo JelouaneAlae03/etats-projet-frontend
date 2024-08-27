@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Export } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LogoutF from './Functions/LogoutF'
 
 
 
@@ -29,14 +30,11 @@ const NavBar = ({handleSearch}) => {
   const visibleColumns = useSelector((state) => state.visibleColumns);
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-      try {
-          await axios.post('http://127.0.0.1:8000/api/logout', {}, { withCredentials: true });
-
-          navigate('/login');
-
-      } catch (error) {
-          console.error('Failed to logout:', error);
+  const handleLogout = async (e) => {
+      e.preventDefault();
+      const LogoutSuccess = await LogoutF();
+      if (LogoutSuccess) {
+          navigate('/login'); 
       }
   };
 

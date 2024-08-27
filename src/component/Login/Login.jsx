@@ -1,37 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './Login.css';
 import GCLOGO from '../../Assets/images/site-gecimmo.png';
 import { Key, User } from '@phosphor-icons/react';
-
+import LoginF from '../Functions/LoginF';
 export const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [log, setLog] = useState({});
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent form reload
-        try {
-            const response = await axios.post('http://127.0.0.1:8000/api/login', {
-                Nom: username,
-                Mot_Passe: password,
-            }, { withCredentials: true });
-            navigate('/');
-
-            const success = response.data;
-            setLog(success);
-        } catch (err) {
-            if (err.response && err.response.data && err.response.data.message) {
-                setError(err.response.data.message);
-            } else {
-                setError('An error occurred during login.');
-            }
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const loginSuccess = await LoginF(username, password, setError);
+        if (loginSuccess) {
+            navigate('/'); 
         }
     };
-
 
 
     return (
@@ -51,7 +36,7 @@ export const Login = ({ onLogin }) => {
                         <div className='p-container'>
                             <p>Authentication</p>
                         </div>
-                        <form className="form-login" onSubmit={handleSubmit}>
+                        <form className="form-login" onSubmit={handleLogin}>
                             <div className='input-containers'>
                                 <User size={32} color='#757575' />
                                 <input

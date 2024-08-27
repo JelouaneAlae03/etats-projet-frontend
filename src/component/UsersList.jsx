@@ -4,13 +4,45 @@ import { useState } from 'react';
 import './UsersList.css';
 import ReactPaginate from 'react-paginate';
 import Loading from './Loading';
+import LogoutF from './Functions/LogoutF';
+import LoginF from './Functions/LoginF';
+import { useNavigate } from 'react-router-dom';
 
 export const UsersList = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-    
+  const [userId,setUserId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10; 
+  const [error,setError] = useState("");
+  const navigate = useNavigate();
+  const itemsPerPage = 10;
+  
+  const HandleSwitch = async (e,username,password,setError) => {
+    e.preventDefault(); 
+
+    try {
+        const logoutSuccess = await LogoutF();
+        
+        if (logoutSuccess) {
+            const loginSuccess = await LoginF(username, password, setError);
+
+            if (loginSuccess) {
+                console.log('Login successful');
+                navigate('/');
+            } else {
+                setError('Login failed');
+            }
+        } else {
+            console.log('Logout failed');
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+};
+
+
+
+
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
@@ -32,7 +64,8 @@ export const UsersList = () => {
             const response = await axios.post('http://127.0.0.1:8000/api/users/list',{} , {
                 withCredentials: true
             });
-            setUsers(response.data);
+            setUsers(response.data.results);
+            setUserId(response.data.userID);
         }
         catch (err) {
             console.error(err);
@@ -46,6 +79,8 @@ export const UsersList = () => {
     useEffect(()=>{
         console.log(users);
     },[users])
+
+
     
     if (users.length === 0) {
       return <Loading />;
@@ -81,7 +116,11 @@ export const UsersList = () => {
                 <td>{user.Cle}</td>
                 <td>{user.Nom}</td>
                 <td>{user.Description}</td>
-                <td><a href={`/users/${user.Cle}`}>Plus details</a></td>
+                {userId !== user.Cle && <td><button className='btn btn-primary'
+                onClick={(e)=>{HandleSwitch(e,user.Nom,'password',setError)}}
+                >Switch to this user</button></td>}
+                {/* <td><a href={`/users/${user.Cle}`}>Plus details</a></td> */}
+
               </tr>
             ))
           ) : (
