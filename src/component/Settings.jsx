@@ -15,7 +15,7 @@ export const Settings = () => {
         </div>
         <div className="child-content">
             {activeMenuItem === 'database' && <DbConfig />}
-            {activeMenuItem === 'roles' && <Droits />}
+            {activeMenuItem === 'roles' && <Droits setActiveMenuItem={setActiveMenuItem}/>}
         </div>
     </div>
   )

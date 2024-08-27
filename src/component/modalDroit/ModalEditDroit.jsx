@@ -19,6 +19,7 @@ export default function ModalEditDroit({isShowEdit, setIsShowEdit, data, setData
               withCredentials: true,
             });
             setForm(response.data);
+
         } catch (err) {
           console.log(err);
         }
@@ -50,7 +51,7 @@ export default function ModalEditDroit({isShowEdit, setIsShowEdit, data, setData
             console.log(response.data);
             handleCloseModal(false);
         } catch (error) {
-            console.error("There was an error fetching the data!", error);
+            console.error(error);
         }
     }
     return(

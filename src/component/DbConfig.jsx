@@ -3,6 +3,7 @@ import axios from 'axios';
 import Loading from './Loading'
 const DbConfig = () => {
   const [config, setConfig] = useState([]);
+  const [newConfig, setNewConfig] = useState([]);
 
   const GetDbInfo = async () =>{
     try {
@@ -10,18 +11,34 @@ const DbConfig = () => {
             withCredentials: true
         })
         setConfig(response.data);
+
     }
     catch(err){
         console.log(err)
     }
 }
+const updateDbConfig = async () =>{
+  try {
+      const response = await axios.post('http://127.0.0.1:8000/api/configuration/update-database',{newConfig},{
+          withCredentials: true
+      })
+      window.location.reload();
+  }
+  catch(err){
+      console.log(err)
+  }
+}
     useEffect(()=>{
       GetDbInfo();
     },[])
+    useEffect(()=>{
+      console.log(newConfig)
+    },[newConfig])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setConfig({ ...config, [name]: value });
+    setNewConfig(config);
   };
 
   const handleSubmit = (e) => {
@@ -43,13 +60,23 @@ const DbConfig = () => {
               type="text"
               name={key}
               value={config[key]}
-              onChange={handleInputChange}
-              style={styles.input}
-          />
+              onChange={(e)=>{handleInputChange(e)}}
+              style={styles.input}          />
           </div>
       ))}
-      <button type="submit" style={styles.button}>Save Config</button>
-      </form>
+      <button
+        type="submit"
+        style={{
+          ...styles.button, // Apply existing styles
+          backgroundColor: newConfig.length === 0 ? 'grey' : '#007bff',
+          cursor: newConfig.length === 0 ? 'not-allowed' : 'pointer', // Optionally change the cursor when disabled
+        }}
+        disabled={newConfig.length === 0}
+        onClick={()=>{updateDbConfig()}}
+      >
+        Save Config
+      </button>      
+</form>
     </>
     
   );

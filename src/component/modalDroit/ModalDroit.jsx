@@ -38,8 +38,9 @@ export default function ModalDroit({isShow, setIsShow, nextCle}) {
             });
             console.log(response.data);
             setIsShow(false);
+            //window.location.reload();
         } catch (error) {
-            console.error("There was an error fetching the data!", error);
+            console.error(error);
         }
     }
     return(
@@ -89,7 +90,7 @@ export default function ModalDroit({isShow, setIsShow, nextCle}) {
                                         <label for="descriptif">Descriptif</label>
                                         <input type="text" className="form-control" id="descriptif" placeholder='Descriptif du droit' onChange={(e) => setDescriptif(e.target.value)} />
                                     </div>
-                                    <input type="submit" value="Ajouter" />
+                                    <input type="submit" value="Ajouter" className="btn btn-primary"/>
                                 </form>
                             </div>
                         }

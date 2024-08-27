@@ -6,13 +6,42 @@ import './Droits.css';
 import { Plus } from "@phosphor-icons/react";
 import ModalDroit from "./modalDroit/ModalDroit";
 import ModalEditDroit from "./modalDroit/ModalEditDroit";
+import ConfirmationModal from './ConfirmationModal'; 
 
-export default function Droits() {
+export default function Droits({setActiveMenuItem}) {
   const [droits, setDroits] = useState([]);
   const [isShow, setIsShow] = useState(false);
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-    const [dataEdit, setDataEdit] = useState({});
+  const [dataEdit, setDataEdit] = useState({});
+  const [dataDelete, setDataDelete] = useState({});
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleDelete = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/droits/delete",{dataDelete},
+        {
+          withCredentials: true,
+        });
+      setShowModal(false);
+      GetAllDroits();
+    } catch (err) {
+      console.log(err);
+    }
+    
+  };
+
+
   const GetAllDroits = async () => {
     try {
       const response = await axios.get(
@@ -62,7 +91,7 @@ export default function Droits() {
         <ModalDroit isShow={isShow} setIsShow={setIsShow} nextCle={parseInt(droits[droits.length - 1].Cle) + 1} />
         <input
           type="text"
-          placeholder="Rechercher un utilisateur..."
+          placeholder="Rechercher un droit..."
           className="SearchInput"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -87,9 +116,16 @@ export default function Droits() {
                 <td>{droit.Droit}</td>
                 <td>{droit.Cle_formulaire}</td>
                 <td>{droit.Descriptif}</td>
-                <td><button onClick={() => {
+                <td><button className="btn btn-warning" onClick={() => {
                     setDataEdit({"Cle": droit.Cle, "Droit": droit.Droit, "CleForm": droit.Cle_formulaire, "Descriptif" : droit.Descriptif});
-                    setIsShowEdit(true); }}>edit</button></td>
+                    setIsShowEdit(true); }}>Modifier</button>
+                    <button variant="danger" className="btn btn-danger m-2" 
+                    onClick={()=>{setDataDelete({"Cle": droit.Cle, "Droit": droit.Droit, "CleForm": droit.Cle_formulaire, "Descriptif" : droit.Descriptif});handleDelete()}}>
+                      Supprimer
+                    </button>
+                    
+                    </td>
+
               </tr>
             ))
           ) : (
@@ -112,6 +148,11 @@ export default function Droits() {
           activeClassName={"active"}
         />
       </div>
+      <ConfirmationModal 
+        show={showModal} 
+        handleClose={handleCloseModal} 
+        handleConfirm={handleConfirmDelete} 
+      />
       <ModalEditDroit isShowEdit={isShowEdit} setIsShowEdit={setIsShowEdit} data={dataEdit} setDataEdit={setDataEdit} />
     </div>
   );

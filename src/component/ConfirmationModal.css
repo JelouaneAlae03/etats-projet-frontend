@@ -1,0 +1,22 @@
+.custom-modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .modal-header .btn-close{
+    font-size: 18px;
+    padding-top: 6% !important;
+    
+  }
+  .custom-modal-body {
+    padding: 1.5rem; /* Adjust padding for the modal body */
+  }
+  
+  button.close {
+    position: relative;
+    top: 0;
+    right: 0;
+    display: block;
+    margin-left: auto; /* Align the close button to the right */
+  }
+  
