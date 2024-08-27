@@ -16,6 +16,7 @@ import { Export } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LogoutF from './Functions/LogoutF'
+import GetUserDetails from './Functions/GetUserDetails';
 
 
 
@@ -28,6 +29,9 @@ const NavBar = ({handleSearch}) => {
   const filteredData = useSelector((state) => state.filteredData);
   const columns = useSelector((state) => state.columns);
   const visibleColumns = useSelector((state) => state.visibleColumns);
+  const Name = localStorage.getItem('userName');
+
+
   const navigate = useNavigate();
 
   const handleLogout = async (e) => {
@@ -37,6 +41,9 @@ const NavBar = ({handleSearch}) => {
           navigate('/login'); 
       }
   };
+  const showAcountName = async () => {
+    const getdetails = GetUserDetails()
+  }
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -101,6 +108,8 @@ const handleExportToPDF = () => {
       </button>
       {isOpen && (
         <div className="custom-dropdown-menu">
+          <p className="accountName">{Name}</p>
+          <div className="custom-dropdown-divider"></div>
           <a className="custom-dropdown-item" href="/users">Liste d'utilisateur</a>
           <a className="custom-dropdown-item" href="/configuration">Configuration</a>
           <div className="custom-dropdown-divider"></div>

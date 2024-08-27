@@ -32,13 +32,16 @@ const updateDbConfig = async () =>{
       GetDbInfo();
     },[])
     useEffect(()=>{
+      setNewConfig(config);
+    },[config])
+    useEffect(()=>{
       console.log(newConfig)
     },[newConfig])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setConfig({ ...config, [name]: value });
-    setNewConfig(config);
+    
   };
 
   const handleSubmit = (e) => {
@@ -74,7 +77,7 @@ const updateDbConfig = async () =>{
         disabled={newConfig.length === 0}
         onClick={()=>{updateDbConfig()}}
       >
-        Save Config
+        Sauvegarder Configuration
       </button>      
 </form>
     </>

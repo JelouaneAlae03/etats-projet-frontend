@@ -123,6 +123,12 @@
 .datatable-controls{
   display: flex;
 }
-  
+.accountName{
+  font-size: 15px;
+  font-weight: 700;
+  color:#6c757d;
+  padding: 12px;
+  height: 20px;
+}
   
  
