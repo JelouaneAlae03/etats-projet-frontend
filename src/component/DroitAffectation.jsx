@@ -1,33 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 
 export default function DroitAffectation() {
   const navigate = useNavigate();
+  const { userId } = useParams();
   const [data, setData] = useState([]);
-  const getDroits = async () => {
+
+  const GetDroits = async () => {
+    const requestData = {
+      numUtilisateur: userId
+    }
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/affect",
-        { withCredentials: true } // Corrected typo here
-      );
-      const groupedData = response.data.reduce((acc, item) => {
-        if (!acc[item.Utilisateur_Nom]) {
-            acc[item.Utilisateur_Nom] = [];
-        }
-        acc[item.Utilisateur_Nom].push(item);
-        return acc;
-    }, {});
-    setData(groupedData);
+      const response = await axios.get('http://127.0.0.1:8000/api/affect', {
+        withCredentials: true
+    });
+      setData(response.data);
+      console.log('data', response.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getDroits();
+    GetDroits();
   }, []);
 
   
@@ -56,18 +54,7 @@ export default function DroitAffectation() {
             </tr>
         </thead>
         <tbody>
-            {data && Object.entries(data).map(([utilisateurNom, records], idx) => (
-                    records.map((record, index) => (
-                        <tr key={idx + '-' + index}>
-                            {/* Display the Utilisateur_Nom only on the first row */}
-                            {index === 0 && (
-                                <td rowSpan={records.length}>{utilisateurNom}</td>
-                            )}
-                            <td>{record.Droit_Descriptif}</td>
-                            <td>{record.Status}</td>
-                        </tr>
-                    ))
-                ))}
+            
         </tbody>
     </table>
     {/* <div className='pagination-container'>

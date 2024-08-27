@@ -122,7 +122,10 @@ export const UsersList = () => {
                 <td>{user.Description}</td>
                 {userId !== user.Cle && <td><button className='btn btn-primary'
                 onClick={(e)=>{HandleSwitch(e,user.Nom,'password',setError)}}
-                >Switch to this user</button></td>}
+                >Switch to this user</button>
+                <button className='btn btn-primary'
+                onClick={()=>{navigate(`/affect-droits/${user.Cle}`)}}
+                >Voir les roles</button></td>}
                 {/* <td><a href={`/users/${user.Cle}`}>Plus details</a></td> */}
 
               </tr>
