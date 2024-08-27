@@ -216,3 +216,6 @@
   background-color: transparent;
   font-size: 18px;
 }
+.notification{
+  border-radius: 10px !important;
+}

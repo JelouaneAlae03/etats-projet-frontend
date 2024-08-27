@@ -8,6 +8,7 @@ const Sidebar = ({activeMenuItem,setActiveMenuItem}) => {
     { id: 'account', name: 'Account Settings', icon: <FaCog /> },
     { id: 'database', name: 'Database Settings', icon: <FaDatabase /> },
     { id: 'roles', name: 'Roles & Rights', icon: <FaUserShield /> }, 
+    { id: 'affectation', name: 'Roles & Rights Affectation', icon: <FaUserShield /> },
     { id: 'logout', name: 'Logout', icon: <FaSignOutAlt /> }
   ];
 

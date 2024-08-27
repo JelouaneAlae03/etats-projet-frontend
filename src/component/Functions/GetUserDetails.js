@@ -9,7 +9,9 @@ const GetUserDetails = async (id,setUser) => {
         setUser(response.data);
         
     } catch (err) {
+        
         console.error('Error fetching user details:', err);
+        
     }
 };
 export default GetUserDetails;

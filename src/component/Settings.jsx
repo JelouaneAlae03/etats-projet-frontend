@@ -4,6 +4,7 @@ import Sidebar from './SideBar';
 import DbConfig from './DbConfig';
 import Droits from './Droits';
 import './Settings.css';
+import DroitAffectation from './DroitAffectation';
 
 export const Settings = () => {
     const [activeMenuItem, setActiveMenuItem] = useState('profile');
@@ -16,6 +17,7 @@ export const Settings = () => {
         <div className="child-content">
             {activeMenuItem === 'database' && <DbConfig />}
             {activeMenuItem === 'roles' && <Droits setActiveMenuItem={setActiveMenuItem}/>}
+            {activeMenuItem === 'affectation' && <DroitAffectation />}
         </div>
     </div>
   )

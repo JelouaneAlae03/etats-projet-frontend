@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Loading from './Loading'
+import Loading from './Loading';
+import { useNavigate } from 'react-router-dom';
+
 const DbConfig = () => {
   const [config, setConfig] = useState([]);
   const [newConfig, setNewConfig] = useState([]);
+  const navigate = useNavigate(); 
 
   const GetDbInfo = async () =>{
     try {
@@ -15,6 +18,9 @@ const DbConfig = () => {
     }
     catch(err){
         console.log(err)
+        if(err.response.data.message){
+          navigate("/login");
+        }
     }
 }
 const updateDbConfig = async () =>{
@@ -26,6 +32,9 @@ const updateDbConfig = async () =>{
   }
   catch(err){
       console.log(err)
+      if(err.response.data.message){
+        navigate("/login");
+      }
   }
 }
     useEffect(()=>{

@@ -64,11 +64,15 @@ export const UsersList = () => {
             const response = await axios.post('http://127.0.0.1:8000/api/users/list',{} , {
                 withCredentials: true
             });
+            console.log("results", response.data);
             setUsers(response.data.results);
             setUserId(response.data.userID);
         }
         catch (err) {
             console.error(err);
+            if(error.response.data.message){
+              navigate("/login");
+            }
         }
     }
 

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loading from './Loading';
-import './UserDetails.css'
+import './UserDetails.css';
+import { useNavigate } from 'react-router-dom';
+
 export const UserDetails = () => {
     const [user, setUser] = useState(null); // Use null to indicate no user data yet
     const { id } = useParams();
@@ -13,6 +15,8 @@ export const UserDetails = () => {
     const [desactiver,setDesactiver] = useState('');
     const [message,setMessage] = useState('');
     const [error,setError] = useState('');
+    const navigate = useNavigate();
+
     const GetUserDetails = async () => {
         try {
             const response = await axios.post(
@@ -24,6 +28,9 @@ export const UserDetails = () => {
             
         } catch (err) {
             console.error('Error fetching user details:', err);
+            if(error.response.data.message){
+                navigate("/login");
+              }
         }
     };
     const ChangeUserDetails = async () => {
@@ -45,7 +52,11 @@ export const UserDetails = () => {
           setMessage(response.data.message);
         } catch (error) {
           console.error('Error updating user:', error.response.data);
-          setError(error.response.data)
+          setError(error.response.data);
+          if(error.response.data.message){
+            navigate("/login");
+          }
+          
         }
       };
 

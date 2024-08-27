@@ -4,6 +4,9 @@ import './Login.css';
 import GCLOGO from '../../Assets/images/site-gecimmo.png';
 import { Key, User } from '@phosphor-icons/react';
 import LoginF from '../Functions/LoginF';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 export const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,11 +17,19 @@ export const Login = ({ onLogin }) => {
         e.preventDefault();
         const loginSuccess = await LoginF(username, password, setError);
         if (loginSuccess) {
-            navigate('/'); 
+            navigate('/', { state: { successMessage: 'Login successful!' } });
         }
     };
-
-
+    useEffect(() => {
+        if (error) {
+            NotificationManager.error(error, 'Erreur', 3000);
+        }
+        setError("");
+    }, [error]); // Trigger notification when error state changes
+    useEffect(()=>{
+        const hasNotificationBeenShown = localStorage.getItem('notificationShown');
+        console.log("local storage", hasNotificationBeenShown);
+    },[])
     return (
         <div className='login-top'>
             <div className="login-header">
@@ -63,10 +74,10 @@ export const Login = ({ onLogin }) => {
                                 </button>
                             </div>
                         </form>
-                        {error && <p className="error-message">{error}</p>}
                     </div>
                 </div>
             </div>
+            <NotificationContainer />
         </div>
     );
 };

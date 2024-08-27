@@ -7,6 +7,7 @@ import { Plus } from "@phosphor-icons/react";
 import ModalDroit from "./modalDroit/ModalDroit";
 import ModalEditDroit from "./modalDroit/ModalEditDroit";
 import ConfirmationModal from './ConfirmationModal'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function Droits({setActiveMenuItem}) {
   const [droits, setDroits] = useState([]);
@@ -15,6 +16,7 @@ export default function Droits({setActiveMenuItem}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [dataEdit, setDataEdit] = useState({});
   const [dataDelete, setDataDelete] = useState({});
+  const navigate = useNavigate(); 
 
   const [showModal, setShowModal] = useState(false);
 
@@ -37,6 +39,9 @@ export default function Droits({setActiveMenuItem}) {
       GetAllDroits();
     } catch (err) {
       console.log(err);
+      if(err.response.data.message){
+        navigate("/login");
+      }
     }
     
   };

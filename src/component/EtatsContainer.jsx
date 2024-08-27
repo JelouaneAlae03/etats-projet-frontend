@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React,{useState,useEffect} from 'react';
 import EtatCard from './EtatCard';
 import './EtatCard.css';
@@ -18,13 +19,21 @@ import { useSelector , useDispatch } from 'react-redux';
 import Loading from './Loading';
 import axios from 'axios';
 import NavBar from './NavBar';
-
+import { useLocation } from 'react-router-dom';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+import SuccessNotif from './Functions/SuccessNotif';
+import { useNavigate } from 'react-router-dom';
 
 const EtatsContainer = () => {
   const isLoading = useSelector((state)=>state.isLoading);
   const dispatch = useDispatch()
   const [groupedEtats, setGroupedEtats] = useState([]);
   const [filtredEtats,setFiltredEtats] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hasNotificationBeenShown = localStorage.getItem('notificationShown');
+  const [hasShownMessage, setHasShownMessage] = useState(false);
 
   const getEtats = async () => {
     try {
@@ -54,8 +63,17 @@ const EtatsContainer = () => {
       } else {
         console.error("Error Message:", error.message);
       }
+      if(error.response.data.message){
+        navigate("/login");
+      }
     }
   };
+  useEffect(() => {
+    if(hasNotificationBeenShown === 'false'){
+      localStorage.setItem('notificationShown', 'true');
+      NotificationManager.success(location.state?.successMessage, 'Success', 3000);
+    }
+  }, [hasNotificationBeenShown]);
 
 const groupBy = (array, key) => {
   return array.reduce((result, currentValue) => {
@@ -131,7 +149,9 @@ const groupBy = (array, key) => {
 
   return (
     <>
+    <NotificationContainer />
           <NavBar handleSearch={handleSearch}/>
+          
 
       {
         isLoading ?
