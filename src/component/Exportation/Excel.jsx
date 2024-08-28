@@ -12,20 +12,16 @@ const exportToExcel = (data = [], columns = [], visibleColumns = []) => {
         return;
     }
 
-    // Filter the columns based on visibility
-    const filteredColumns = columns.filter(col => visibleColumns.includes(col));
-
-    // Filter the data based on the visible columns
     const filteredData = data.map(item => {
         const filteredItem = {};
-        filteredColumns.forEach(col => {
+        visibleColumns.forEach(col => {
             filteredItem[col] = item[col];
         });
         return filteredItem;
     });
 
     // Create a worksheet from the filtered data
-    const worksheet = XLSX.utils.json_to_sheet(filteredData, { header: filteredColumns });
+    const worksheet = XLSX.utils.json_to_sheet(filteredData, { header: visibleColumns });
 
     // Create a new workbook
     const workbook = XLSX.utils.book_new();

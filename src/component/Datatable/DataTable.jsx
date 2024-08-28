@@ -13,7 +13,7 @@ const ItemTypes = {
 };
 
 const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrder }) => {
-  const [, drag] = useDrag({
+  const [, drag, preview] = useDrag({
     type: ItemTypes.COLUMN,
     item: { index },
   });
@@ -33,9 +33,12 @@ const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrde
       style={{
         padding: '8px',
         position: 'relative',
+        backgroundColor: '#343a40', 
       }}
       onClick={() => onSort(column)}
-      ref={(node) => drop(node)}
+      ref={(node) => {
+        drag(drop(node)); 
+      }}
     >
       {column}
       {isSorted && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
@@ -46,7 +49,7 @@ const DraggableHeader = ({ column, index, moveColumn, onSort, isSorted, sortOrde
           right: '5px',
           top: '50%',
           transform: 'translateY(-50%)',
-          cursor: 'move',
+          cursor: 'grab',
           fontSize: '18px',
           userSelect: 'none',
         }}
@@ -64,7 +67,7 @@ export default function Datatable() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data);
   const columns = useSelector((state) => state.columns);
-  const [visibleColumns, setVisibleColumns] = useState([]);
+  const visibleColumns = useSelector((state) => state.visibleColumns);
   const [columnOrder, setColumnOrder] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage] = useState(10);
@@ -125,7 +128,9 @@ export default function Datatable() {
       const newColumns = getColumns(data);
       dispatch({ type: 'ADD_COLUMNS', payload: { data: newColumns } });
       setColumnOrder(newColumns);
-      setVisibleColumns(newColumns.slice(0, 8));
+      dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: newColumns.slice(0, 8) } });
+
+      
     }
   }, [data, dispatch]);
 
@@ -136,7 +141,6 @@ export default function Datatable() {
     }
   }, [searchTerm, data, dispatch]);
 
-  // Memoized sorted data
   const sortedData = useMemo(() => {
     if (!sortColumn) return filteredData;
 
@@ -152,7 +156,6 @@ export default function Datatable() {
     });
   }, [filteredData, sortColumn, sortOrder]);
 
-  // Calculate grouped data and group totals
   useEffect(() => {
     if (groupByColumn) {
       const grouped = groupData(sortedData, groupByColumn);
@@ -165,7 +168,7 @@ export default function Datatable() {
 
   const handleVisibilityChange = (updatedFields) => {
     const temp = columnOrder.filter((col) => updatedFields[col]);
-    setVisibleColumns(temp);
+    dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: temp } });
   };
 
   const handlePageClick = (event) => {
@@ -190,10 +193,12 @@ export default function Datatable() {
     const reorderedColumns = [...columnOrder];
     const [movedColumn] = reorderedColumns.splice(fromIndex, 1);
     reorderedColumns.splice(toIndex, 0, movedColumn);
-
+  
     setColumnOrder(reorderedColumns);
+  
     const newVisibleColumns = reorderedColumns.filter((col) => visibleColumns.includes(col));
-    setVisibleColumns(newVisibleColumns);
+    
+    dispatch({ type: 'ADD_VISIBLE_COLUMNS', payload: { data: newVisibleColumns } });
   };
 
   const pageCount = groupByColumn
@@ -205,6 +210,13 @@ export default function Datatable() {
   const currentData = groupByColumn
     ? Object.entries(groupedData.grouped).slice(startIndex, endIndex)
     : sortedData.slice(startIndex, endIndex);
+
+    useEffect(()=>{
+      console.log(filteredData)
+    },[filterData])
+    useEffect(()=>{
+      console.log('visibleDT'+visibleColumns)
+    },[visibleColumns])
 
   return (
     <DndProvider backend={HTML5Backend}>

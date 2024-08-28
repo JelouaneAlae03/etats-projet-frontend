@@ -86,6 +86,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
             return{...state, columns: action.payload.data};
         case 'ADD_VISIBLE_COLUMNS':
             return{...state, visibleColumns: action.payload.data};
+        case 'ADD_GROUPBY_COLUMNS':
+            return{...state, groupbyColumns: action.payload.data};
         default:
             return state;
     }

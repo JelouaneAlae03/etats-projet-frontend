@@ -1,6 +1,4 @@
-/* eslint-disable default-case */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React ,{useEffect, useState}from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GCLogo from '../Assets/images/site-gecimmo.png';
@@ -30,6 +28,12 @@ const NavBar = ({handleSearch}) => {
   const columns = useSelector((state) => state.columns);
   const visibleColumns = useSelector((state) => state.visibleColumns);
   const Name = localStorage.getItem('userName');
+  useEffect(()=>{
+    console.log(filteredData)
+  },[filteredData])
+  useEffect(()=>{
+    console.log('visible'+visibleColumns)
+  },[visibleColumns])
 
 
   const navigate = useNavigate();
@@ -87,9 +91,9 @@ const handleExportToPDF = () => {
                     </button>
                     {issOpen && (
                       <div className="custom-dropdown-menu2">
-                        <a className="custom-dropdown-item" onClick={handleExportToExcel}>Export to Excel</a>
+                        <a className="custom-dropdown-item" onClick={()=>{handleExportToExcel()}}>Export to Excel</a>
                         <div className="custom-dropdown-divider"></div>
-                        <a className="custom-dropdown-item" onClick={handleExportToPDF}>Export to PDF</a>
+                        <a className="custom-dropdown-item" onClick={()=>{handleExportToPDF()}}>Export to PDF</a>
                       </div>
                     )}
                 </div>

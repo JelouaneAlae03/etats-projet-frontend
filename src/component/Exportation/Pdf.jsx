@@ -12,16 +12,15 @@ const exportToPDF = (filteredData, columns, visibleColumns) => {
         return;
     }
 
-    const filteredColumns = columns.filter(col => visibleColumns.includes(col));
 
     const tableData = filteredData.map(item =>
-        filteredColumns.map(col => item[col] !== undefined ? item[col] : '-')
+        visibleColumns.map(col => item[col] !== undefined ? item[col] : '-')
     );
 
     const doc = new jsPDF();
 
     doc.autoTable({
-        head: [filteredColumns],
+        head: [visibleColumns],
         body: tableData,
         margin: { top: 10 },
         styles: { fontSize: 8 },
