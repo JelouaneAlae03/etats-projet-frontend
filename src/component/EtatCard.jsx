@@ -11,7 +11,7 @@ const EtatCard = ({etat, key}) => {
   }
   
   return (
-    <div className="boxe" key={key}>
+    <div className="boxe" key={etat.code}>
       <img src={Rapportimg} alt="rapport" className='rapport-imagesa'/>
       <h3>{etat.Nom_Etat}</h3>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, commodi?</p>

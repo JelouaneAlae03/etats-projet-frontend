@@ -13,9 +13,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Export } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LogoutF from './Functions/LogoutF'
+import LogoutF from './Functions/LogoutF';
 import GetUserDetails from './Functions/GetUserDetails';
-
+import DroitsCheck from './Functions/DroitsCheck';
+import GetUserDroits from './Functions/GetUserDroits';
 
 
 const NavBar = ({handleSearch}) => {
@@ -28,6 +29,10 @@ const NavBar = ({handleSearch}) => {
   const columns = useSelector((state) => state.columns);
   const visibleColumns = useSelector((state) => state.visibleColumns);
   const Name = localStorage.getItem('userName');
+  const userDescription = localStorage.getItem('Description');
+  useEffect(()=>{
+    console.log("droits check", )
+  },[])
   useEffect(()=>{
     console.log(filteredData)
   },[filteredData])
@@ -113,9 +118,16 @@ const handleExportToPDF = () => {
       {isOpen && (
         <div className="custom-dropdown-menu">
           <p className="accountName">{Name}</p>
-          <div className="custom-dropdown-divider"></div>
-          <a className="custom-dropdown-item" href="/users">Liste d'utilisateur</a>
-          <a className="custom-dropdown-item" href="/configuration">Configuration</a>
+          
+          {DroitsCheck(userDescription, null, null, "true") ?
+            <>
+              <div className="custom-dropdown-divider"></div>
+              <a className="custom-dropdown-item" href="/users">Liste d'utilisateur</a>
+              <a className="custom-dropdown-item" href="/configuration">Configuration</a>
+            </>
+          :
+          <></>}
+          
           <div className="custom-dropdown-divider"></div>
           <button onClick={handleLogout} className="custom-dropdown-item">Déconnexion</button>
         </div>

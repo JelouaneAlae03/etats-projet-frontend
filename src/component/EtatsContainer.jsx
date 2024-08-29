@@ -23,17 +23,27 @@ import { useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import SuccessNotif from './Functions/SuccessNotif';
+import GetUserDroits from './Functions/GetUserDroits';
+import DroitsCheck from './Functions/DroitsCheck';
+
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const EtatsContainer = () => {
   const isLoading = useSelector((state)=>state.isLoading);
   const dispatch = useDispatch()
   const [groupedEtats, setGroupedEtats] = useState([]);
+  const [userDroits, setUserDroits] = useState([]);
   const [filtredEtats,setFiltredEtats] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const hasNotificationBeenShown = localStorage.getItem('notificationShown');
   const [hasShownMessage, setHasShownMessage] = useState(false);
+  const userID = localStorage.getItem('userId');
+  const userDescription = localStorage.getItem('Description');
+  
+  
+
 
   const getEtats = async () => {
     try {
@@ -111,11 +121,23 @@ const groupBy = (array, key) => {
 
     setFiltredEtats(newFilteredData);
   };
-
+  const datafromGetUserDroits = async () => {
+    const response = GetUserDroits(userID, setUserDroits);
+    return response;
+  }
   useEffect(() => {
+    const droits = datafromGetUserDroits();
+    console.log("user Id", userID);
+    if (droits === "Token Error"){
+      navigate("/login");
+    }
+    console.log("Description, droits", userDescription, userDroits);
     getEtats();
   }, []);
-
+  useEffect(() => {
+    // alert("the user" + JSON.stringify(userDroits))
+  }, [userDroits])
+  
   const renderimages = (module) => {
     switch (module) {
       case 'Pilotage':
@@ -149,8 +171,8 @@ const groupBy = (array, key) => {
 
   return (
     <>
-    <NotificationContainer />
-          <NavBar handleSearch={handleSearch}/>
+      <NotificationContainer />
+      <NavBar handleSearch={handleSearch}/>
           
 
       {
@@ -158,26 +180,84 @@ const groupBy = (array, key) => {
           <Loading />
           :
           <div>
-          {Object.keys(filtredEtats).map((Module) => {
-            const etatsArray = filtredEtats[Module];
-            if (etatsArray.length === 0) return null; 
-    
-            return (
-              <div key={Module} className='container'>
-                <div className='d-flex'>
-                  {renderimages(Module)}
-                  <h2 className='h2-moduleName'>{Module}</h2>
-                </div>
-    
-                <div className="box-container">
-                  {etatsArray.map((etat) => (
-                    <EtatCard key={etat.id} etat={etat} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+            {Object.keys(filtredEtats).map((Module) => {
+              const etatsArray = filtredEtats[Module];
+              if (etatsArray.length === 0) return null; 
+              if(Module === "Stock" ){
+                return (
+                  <>
+                    {DroitsCheck(userDescription, userDroits, ["0", "1", "20"], "null")?
+                      <div key={Module} className='container'>
+                        <div className='d-flex'>
+                          {renderimages(Module)}
+                          <h2 className='h2-moduleName'>{Module}</h2>
+                        </div>
+            
+                        <div className="box-container">
+                          {etatsArray.map((etat) => (
+                            <EtatCard key={etat.id} etat={etat} />
+                          ))}
+                        </div>
+                      </div>
+                    :
+                      null
+                    }
+                  </>
+                )
+              }
+              else if(Module === "Encaissement"){
+                console.log("entered", DroitsCheck(userDescription, userDroits, ["0", "3", "29", "31"], "null"))
+                if(DroitsCheck(userDescription, userDroits, ["0", "3", "29", "31"], "null")){
+                  return (
+                    <div key={Module} className='container'>
+                      <div className='d-flex'>
+                        {renderimages(Module)}
+                        <h2 className='h2-moduleName'>{Module}</h2>
+                      </div>
+                      <div className="box-container">
+                      {etatsArray.map((etat) => {
+                        let shouldRender = false;
+
+                        if (etat.Nom_Etat === "Etat des encaissements" && DroitsCheck(userDescription, userDroits, ["0", "3", "31"], "null")) {
+                          shouldRender = true;
+                        }
+
+                        if (etat.Nom_Etat === "Etat des consignations" && DroitsCheck(userDescription, userDroits, ["0", "29"], "null")) {
+                          shouldRender = true;
+                        }
+
+                        return shouldRender ? <EtatCard key={etat.id} etat={etat} /> : null;
+                      })}
+                      </div>
+                    </div>
+                  )
+                }
+              }
+              else if(Module === "Réservation"){
+                return (
+                  <>
+                    {DroitsCheck(userDescription, userDroits, ["0", "2", "25"], "null")?
+                      <div key={Module} className='container'>
+                        <div className='d-flex'>
+                          {renderimages(Module)}
+                          <h2 className='h2-moduleName'>{Module}</h2>
+                        </div>
+                        <div className="box-container">
+                          {etatsArray.map((etat) => (
+                            <EtatCard key={etat.id} etat={etat} />
+                          ))}
+                        </div>
+                      </div>
+                    :
+                      null
+                    }
+                  </>
+                )
+                
+              }
+              return null
+            })}
+          </div>
       }
     </>
   );

@@ -8,10 +8,14 @@ import axios from 'axios';
             Nom: username,
             Mot_Passe: password,
         }, { withCredentials: true });
-        const { userName } = response.data;
+        const { userName, userId, Description} = response.data;
 
         // Store the userName in localStorage
+
+        console.log("from login", response.data);
         localStorage.setItem('userName', userName);
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('Description', Description);
 
         return true;
 
