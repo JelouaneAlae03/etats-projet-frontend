@@ -1,134 +1,208 @@
-.navbar{
+/* Navbar styling for larger screens */
+.navbar {
   z-index: 10;
 }
-.GC-logo{
+
+.GC-logo {
   padding: 0.5rem;
   width: 10rem;
   height: 4rem;
   margin-left: 1rem;
 }
-.GC-logo:hover{
+
+.GC-logo:hover {
   background-color: #6c757d;
   border-radius: 10px;
 }
-.nv-bar{
-    background-color: #001D3D;
-    
+
+.nv-bar {
+  background-color: #001D3D;
 }
-.h1-Etats{
-    color: white;
-    
-  }
-.user-btn{
-    background-color:   transparent;
+
+.h1-Etats {
+  color: white;
 }
-.user-logo{
-    margin-left: 1rem;
-    margin-right: 1rem;
-    width: 2.5rem;
-    height: 2.5rem;
+
+.user-btn {
+  background-color: transparent;
 }
-/* drop down menu  */
+
+.user-logo {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
 
 .custom-btn-group {
-    position: relative;
-    display: inline-block;
-    
-  }
-  
-  .custom-dropdown-toggle {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  .custom-dropdown-toggle2 {
-    font-family: "Lexend", sans-serif;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  
-  .custom-dropdown-image {
-    width: 30px; 
-    height: 30px; 
-    object-fit: cover; 
-  }
-  
+  position: relative;
+  display: inline-block;
+}
 
-  .custom-dropdown-menu {
-    display: block;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    border-radius: 10px;
-    z-index: 2;
-    top: 110%; 
-    right: 30%; 
-    border: solid 1px #e5e5e5;
-  }
-  .custom-dropdown-menu2{
-    display: block;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    border-radius: 10px;
-    z-index: 2;
-    top: 95%; 
-    right: 8%;
-    border: solid 1px #e5e5e5;
-  }
-  
-  .custom-dropdown-item {
-    color: #6c757d;
-    width: 100%;
-    background-color: white;
-    padding: 5px 16px;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    text-decoration: none;
-    display: flex;
-    font-size: 12px;
-    cursor: pointer;
-    
-  }
-  
-  .custom-dropdown-item:hover {
-    background-color: #ddd;
-  }
-  
-  .custom-dropdown-divider {
-    height: 1px;
-    background-color: #e5e5e5;
-    margin: 8px 0;
-  }
-  
-.dt-nav-container{
+.custom-dropdown-toggle,
+.custom-dropdown-toggle2 {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.custom-dropdown-toggle2 {
+  font-family: "Lexend", sans-serif;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.custom-dropdown-image {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.custom-dropdown-menu,
+.custom-dropdown-menu2 {
+  display: block;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 2;
+  border: solid 1px #e5e5e5;
+}
+
+.custom-dropdown-menu {
+  top: 110%;
+  right: 30%;
+}
+
+.custom-dropdown-menu2 {
+  top: 95%;
+  right: 8%;
+}
+
+.custom-dropdown-item {
+  color: #6c757d;
+  width: 100%;
+  background-color: white;
+  padding: 5px 16px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  display: flex;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.custom-dropdown-item:hover {
+  background-color: #ddd;
+}
+
+.custom-dropdown-divider {
+  height: 1px;
+  background-color: #e5e5e5;
+  margin: 8px 0;
+}
+
+.dt-nav-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.dt-nav-container>input{
+
+.dt-nav-container > input {
   margin-right: 10px;
   margin-bottom: 0px !important;
 }
-.datatable-controls{
+
+.datatable-controls {
   display: flex;
 }
-.accountName{
+
+.accountName {
   font-size: 15px;
   font-weight: 700;
-  color:#6c757d;
+  color: #6c757d;
   padding: 12px;
   height: 20px;
 }
-  
- 
+
+
+@media (max-width: 767px) {
+  .GC-logo {
+    width: 7rem;
+    height: 3rem;
+    margin-left: 0.5rem;
+  }
+
+  .user-logo {
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .nv-bar {
+    padding: 0.5rem;
+  }
+
+  .custom-dropdown-menu,
+  .custom-dropdown-menu2 {
+    right: 0; /* Align dropdown menu to the right edge */
+    min-width: 100px; /* Reduce the width of the dropdown menu */
+  }
+
+  .dt-nav-container {
+    flex-direction: column; /* Stack search input and buttons vertically */
+  }
+
+  .input-navbar {
+    width: 100%; 
+    padding: 0.25rem; 
+    font-size: 0.5rem; 
+  }
+
+  .datatable-controls {
+    flex-direction: column;
+  }
+
+  .custom-dropdown-toggle2 {
+    font-size: 14px;
+  }
+
+  .custom-dropdown-item {
+    font-size: 10px;
+  }
+
+  .accountName {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .GC-logo {
+    width: 8rem;
+    height: 3.5rem;
+  }
+
+  .user-logo {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .custom-dropdown-menu,
+  .custom-dropdown-menu2 {
+    right: 10%; 
+  }
+
+  .dt-nav-container {
+    flex-direction: row;
+  }
+
+  .datatable-controls {
+    flex-direction: row;
+  }
+}

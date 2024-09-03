@@ -1,12 +1,12 @@
 
 const DroitsCheck = (userDesc, arrayDroitsUser, arrayDroitsTask, x) => {
     if(x === 'true'){
-        if(userDesc.toLowerCase() === "administrateur"){
+        if(userDesc && userDesc.toLowerCase() === "administrateur"){
             return true;
         }
         return false;
     }
-    if(userDesc.toLowerCase() === "administrateur"){
+    if(userDesc && userDesc.toLowerCase() === "administrateur"){
         return true;
     }
     const found = arrayDroitsUser.reduce((acc, item) => {

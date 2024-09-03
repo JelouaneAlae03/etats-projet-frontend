@@ -90,7 +90,7 @@ export default function ModalDroit({isShow, setIsShow, nextCle}) {
                                         <label for="descriptif">Descriptif</label>
                                         <input type="text" className="form-control" id="descriptif" placeholder='Descriptif du droit' onChange={(e) => setDescriptif(e.target.value)} />
                                     </div>
-                                    <input type="submit" value="Ajouter" className="btn btn-primary"/>
+                                    <input type="submit" value="Ajouter" className="btn btn-primary m-2"/>
                                 </form>
                             </div>
                         }

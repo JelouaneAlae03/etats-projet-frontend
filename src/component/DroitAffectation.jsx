@@ -118,7 +118,7 @@ export default function DroitAffectation() {
 
   return (
     <>
-      <h2>Nom d'utilisateur : {data && data.length > 0 && data[0].Nom_Utilisateur}</h2>
+      {data.length > 0 && <h2>Nom d'utilisateur : {data && data.length > 0 && data[0].Nom_Utilisateur}</h2>}
       <div className='SearchInput-Container'>
       <button className='btn btn-primary mx-3' onClick={handleSwitchModal}>+ Ajouter Droits</button>
 
@@ -133,7 +133,7 @@ export default function DroitAffectation() {
           isShow={isShow} 
           setIsShow={setIsShow} 
           fltrRights={fltrRights} 
-          Code_Utilisateur={data && data.length > 0 && data[0].Code_Utilisateur}
+          Code_Utilisateur={id && id}
         />
       </div>
 

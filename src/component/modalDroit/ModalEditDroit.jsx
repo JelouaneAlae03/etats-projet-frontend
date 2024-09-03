@@ -109,7 +109,7 @@ export default function ModalEditDroit({isShowEdit, setIsShowEdit, data, setData
                                         <label for="descriptif">Descriptif</label>
                                         <input type="text" className="form-control" id="descriptif" placeholder='Descriptif du droit' defaultValue={data.Descriptif} onChange={(e) => setDescriptif(e.target.value)} />
                                     </div>
-                                    <input type="submit" value="Edit" />
+                                    <input type="submit" value="Edit" className="btn btn-warning m-2"/>
                                 </form>
                             </div>
                         }

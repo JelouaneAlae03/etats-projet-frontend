@@ -85,7 +85,7 @@ const handleExportToPDF = () => {
             <input
               type="text"
               placeholder="Search..."
-              className='form-control mb-3'
+              className='form-control mb-3 input-navbar'
               value={searchTerm}
               onChange={(e) => dispatch({type: 'CHANGE_SEARCH_TERM', payload: {value: e.target.value}})}
             />
