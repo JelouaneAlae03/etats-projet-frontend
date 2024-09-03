@@ -16,7 +16,7 @@ import { UsersList } from './component/UsersList.jsx';
 // import { UserDetails } from './component/UserDetails.jsx';
 import { Settings } from './component/Settings.jsx';
 import DroitAffectation from './component/DroitAffectation';
-
+import Error from './component/Error.jsx';
 
 
 function App() {
@@ -53,6 +53,7 @@ function App() {
             path="/affect-droits/:id"
             element={<DroitAffectation />}
           />
+          <Route path="*" element={<Error/>} />
 
           
 
