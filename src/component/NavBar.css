@@ -1,4 +1,3 @@
-/* Navbar styling for larger screens */
 .navbar {
   z-index: 10;
 }
@@ -151,12 +150,12 @@
 
   .custom-dropdown-menu,
   .custom-dropdown-menu2 {
-    right: 0; /* Align dropdown menu to the right edge */
-    min-width: 100px; /* Reduce the width of the dropdown menu */
+    right: 0;
+    min-width: 100px; 
   }
 
   .dt-nav-container {
-    flex-direction: column; /* Stack search input and buttons vertically */
+    flex-direction: column; 
   }
 
   .input-navbar {
